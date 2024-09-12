@@ -25,4 +25,20 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user = token.user as typeof session.user;
+      return session;
+    },
+  },
 });
