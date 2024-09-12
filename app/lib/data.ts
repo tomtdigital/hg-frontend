@@ -1,10 +1,20 @@
+"use server";
+
 import { auth } from "@/auth";
-import { cache } from "react";
 
 // TODO: remove this after testing suspense
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// export async function getNextSession(){
+// let session = {};
+// if (typeof window == undefined) {
+
+// } else {
+
+// }
+// }
 
 //  Used only on server actions/components
 export async function getUser() {
@@ -24,7 +34,7 @@ export async function getBackendToken() {
     const token = !!session?.user?.token;
     return token;
   } catch (error) {
-    throw new Error("Unable to retrieve user");
+    throw new Error("Unable to retrieve token");
   }
 }
 

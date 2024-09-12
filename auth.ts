@@ -8,7 +8,7 @@ export const { auth, signIn, signOut } = NextAuth({
     Credentials({
       async authorize(credentials) {
         const body = JSON.stringify(credentials);
-        const user = await fetch("http://localhost:5000/api/users/login", {
+        const user = await fetch(`${process.env.BACKEND_URL}/users/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
