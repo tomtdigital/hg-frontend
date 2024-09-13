@@ -12,9 +12,10 @@ import { useActionState } from "react";
 import { loginUser } from "@/app/lib/actions";
 
 export default function LoginForm() {
+  const initialState: string = "";
   const [errorMessage, formAction, isPending] = useActionState(
     loginUser,
-    undefined
+    initialState
   );
 
   return (

@@ -14,7 +14,10 @@ import { registerUser } from "@/app/lib/actions";
 
 export default function RegisterForm() {
   const initialState: string = "";
-  const [state, formAction] = useActionState(registerUser, initialState);
+  const [state, formAction, isPending] = useActionState(
+    registerUser,
+    initialState
+  );
 
   return (
     <form action={formAction} className="space-y-3">
@@ -82,7 +85,7 @@ export default function RegisterForm() {
             </div>
           </div>
         </div>
-        <Button className="mt-4 w-full">
+        <Button className="mt-4 w-full" aria-disabled={isPending}>
           Register <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div

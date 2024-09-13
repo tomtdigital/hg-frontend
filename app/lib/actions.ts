@@ -3,16 +3,20 @@
 
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
 // Authenticate
 export async function loginUser(
-  prevState: string | undefined,
+  prevState: string,
   formData: FormData
-) {
+): Promise<string> {
+  let err = false;
   try {
     await signIn("credentials", formData);
+    return prevState;
   } catch (error) {
     if (error instanceof AuthError) {
+      err = true;
       switch (error.type) {
         case "CredentialsSignin":
           return "Invalid credentials.";
@@ -21,11 +25,18 @@ export async function loginUser(
       }
     }
     throw error;
+  } finally {
+    if (err === false) {
+      redirect("/games");
+    }
   }
 }
 
 // TODO add validation checks
-export async function registerUser(prevState: string, formData: FormData) {
+export async function registerUser(
+  prevState: string,
+  formData: FormData
+): Promise<string> {
   try {
     const body = JSON.stringify({
       name: formData.get("name"),
@@ -49,18 +60,5 @@ export async function registerUser(prevState: string, formData: FormData) {
     return "Failed to create user";
   }
 
-  try {
-    await signIn("credentials", formData);
-    return prevState;
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return "Invalid credentials.";
-        default:
-          return "Something went wrong.";
-      }
-    }
-    throw error;
-  }
+  return await loginUser(prevState, formData);
 }
