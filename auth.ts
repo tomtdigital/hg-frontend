@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { authConfig } from "./auth.config";
+// import { authConfig } from "./auth.config";
 
 export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+  // ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -29,6 +29,9 @@ export const { auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -39,6 +42,29 @@ export const { auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       session.user = token.user as typeof session.user;
       return session;
+    },
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const isOnHome = nextUrl.pathname === "/";
+      const isOnLogin = nextUrl.pathname.startsWith("/login");
+      // Basic redirect for login if anywhere but homepage and not logged in
+      if (!isLoggedIn && !isOnHome) {
+        return false;
+        // Redirect to games if signed in and on home/login
+      } else if ((isOnLogin || isOnHome) && isLoggedIn) {
+        return Response.redirect(new URL("/games", nextUrl));
+      }
+      const isMember = auth?.user?.member;
+      const isOnMembers = nextUrl.pathname.endsWith("/members");
+      if (isOnMembers) {
+        if (isMember) {
+          return true;
+        } else {
+          return Response.redirect(new URL("/sign-up", nextUrl));
+        }
+      }
+
+      return true;
     },
   },
 });

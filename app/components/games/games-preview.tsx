@@ -6,7 +6,7 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { Session } from "next-auth";
 import Link from "next/link";
 
-export default async function Games() {
+export default async function GamesPreview() {
   const user: Fetched<Session["user"]> = await getUser();
   const member: Fetched<boolean> = user?.member;
   const gamePreviews: Fetched<GamePreviews> = await fetchGamePreview();
@@ -35,7 +35,14 @@ export default async function Games() {
       )}
       {paidGames && paidGames?.length > 0 ? (
         <>
-          <p>Member Games</p>
+          <p>
+            Member Games{" "}
+            {member && (
+              <Link href="/games/members" className="text-purple-400">
+                (see all)
+              </Link>
+            )}
+          </p>
           {paidGames.map((game: Game) =>
             member ? (
               <Link
@@ -63,7 +70,6 @@ export default async function Games() {
           <p>No member games detected</p>
         </>
       )}
-      <p>Games component</p>
     </>
   );
 }

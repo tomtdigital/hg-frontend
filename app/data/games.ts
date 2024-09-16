@@ -1,22 +1,28 @@
 "use server";
 
+import { getUser } from "./user";
+
 // TODO: remove this after testing suspense
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function fetchGames(
-  member: boolean = false
-): Promise<Fetched<Game[]>> {
-  try {
-    const freeGames = await fetch(
-      `${process.env.BACKEND_URL}/games?member=${member}`
-    ).then((res) => {
-      return res.json();
-    });
-    return freeGames;
-  } catch (error) {
-    throw new Error("Unable to retrieve games");
+export async function fetchMemberGames(): Promise<Fetched<Game[]>> {
+  const user = await getUser();
+  const member: Fetched<boolean> = user?.member;
+  if (member) {
+    try {
+      const freeGames = await fetch(
+        `${process.env.BACKEND_URL}/games?member=true`
+      ).then((res) => {
+        return res.json();
+      });
+      return freeGames;
+    } catch (error) {
+      throw new Error("Unable to retrieve games");
+    }
+  } else {
+    throw new Error("Incorrect permissions");
   }
 }
 
