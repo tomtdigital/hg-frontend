@@ -9,7 +9,7 @@ import {
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "@/app/ui/button";
 import { useActionState } from "react";
-import { loginUser } from "@/app/lib/actions";
+import { loginUser } from "@/app/actions/user-actions";
 
 export default function LoginForm() {
   const initialState: string = "";

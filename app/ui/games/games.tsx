@@ -1,18 +1,27 @@
 "use server";
 
-import { fetchGames } from "@/app/lib/data";
+import { GamePreviews, fetchGamePreview } from "@/app/data/games";
+import { getUser } from "@/app/data/user";
+import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { Session } from "next-auth";
 import Link from "next/link";
 
 export default async function Games() {
-  const games: Game[] = await fetchGames();
+  const user: Fetched<Session["user"]> = await getUser();
+  const member: Fetched<boolean> = user?.member;
+  const gamePreviews: Fetched<GamePreviews> = await fetchGamePreview();
+  const freeGames: Fetched<Game[]> = gamePreviews?.freeGames;
+  const paidGames: Fetched<Game[]> = gamePreviews?.paidGames;
+
   return (
     <>
-      {games?.length > 0 ? (
+      {freeGames && freeGames?.length > 0 ? (
         <>
-          {games.map((game: Game) => (
+          <p>Free Games</p>
+          {freeGames.map((game: Game) => (
             <Link
               key={game._id}
-              className="m-1 bg-yellow-500 text-black block"
+              className="m-1 bg-yellow-500 text-black block w-full"
               href={`/game/${game._id}`}
             >
               <p>{game.publishDate}</p>
@@ -21,7 +30,37 @@ export default async function Games() {
         </>
       ) : (
         <>
-          <p>No games detected</p>
+          <p>No free games detected</p>
+        </>
+      )}
+      {paidGames && paidGames?.length > 0 ? (
+        <>
+          <p>Member Games</p>
+          {paidGames.map((game: Game) =>
+            member ? (
+              <Link
+                key={game._id}
+                className="m-1 bg-purple-500 text-black block w-full"
+                href={`/game/${game._id}`}
+              >
+                <span className="flex justify-between">
+                  <p className="block">{game.publishDate}</p>
+                </span>
+              </Link>
+            ) : (
+              <span
+                key={game._id}
+                className="m-1 bg-gray-500 text-black flex justify-between w-full"
+              >
+                <p className="block">{game.publishDate}</p>
+                <LockClosedIcon className="block w-5 max-w-4" />
+              </span>
+            )
+          )}
+        </>
+      ) : (
+        <>
+          <p>No member games detected</p>
         </>
       )}
       <p>Games component</p>
