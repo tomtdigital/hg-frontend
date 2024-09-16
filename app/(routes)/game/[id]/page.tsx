@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Games from "../../ui/games/games";
+import Games from "@/app/components/games/games";
 
 export default function GamePage({ params }: { params: { id: string } }) {
   const { id } = params;
