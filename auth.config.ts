@@ -30,14 +30,14 @@ export const middlewareAuthConfig = {
         return Response.redirect(new URL("/games", nextUrl));
       }
 
-      // Redirect to a sign up page for non-members on protected routes
-      const isMember = auth?.user?.member;
-      const isOnMembers = nextUrl.pathname.endsWith("/members");
-      if (isOnMembers) {
-        if (isMember) {
+      // Redirect to a sign up page for non-premium members on protected routes
+      const isPremiumMember = auth?.user?.premium;
+      const isOnPremium = nextUrl.pathname.endsWith("/premium");
+      if (isOnPremium) {
+        if (isPremiumMember) {
           return true;
         } else {
-          return Response.redirect(new URL("/premium", nextUrl));
+          return Response.redirect(new URL("/upgrade", nextUrl));
         }
       }
 

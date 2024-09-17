@@ -1,5 +1,5 @@
 import RegisterForm from "@/app/components/login/register-form";
-import { lusitana } from "@/app/components/fonts";
+import { lusitana } from "@/app/fonts";
 import Link from "next/link";
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
             <h1 className="text-[2em] mb-3">Welcome to Hannagrams</h1>
             <p>
               This is a long introduction so you understand what the game is
-              about, how to sign up, and what the membership look like.
+              about, how to sign up, and what the premium membership look like.
             </p>
           </div>
           <div className="md:w-[50%] px-[1em] py-[1.5em] md:px-[2.5em]">

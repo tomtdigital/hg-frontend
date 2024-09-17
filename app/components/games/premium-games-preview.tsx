@@ -1,24 +1,19 @@
 "use server";
 
-import {
-  GamePreviews,
-  fetchGamePreview,
-  fetchMemberGames,
-} from "@/app/data/games";
-import { getUser } from "@/app/data/user";
-import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { fetchPremiumGames } from "@/app/api/data/games";
+import { getUser } from "@/app/api/data/user";
 import { Session } from "next-auth";
 import Link from "next/link";
 
-export default async function MemberGamesPreview() {
+export default async function PremiumGamesPreview() {
   const user: Fetched<Session["user"]> = await getUser();
-  const games: Fetched<Game[]> = await fetchMemberGames();
+  const games: Fetched<Game[]> = await fetchPremiumGames();
 
   return (
     <>
       {games && games?.length > 0 ? (
         <>
-          <p>Member Games</p>
+          <p>Premium Games</p>
           {games.map((game: Game) => (
             <Link
               key={game._id}

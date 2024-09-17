@@ -7,7 +7,7 @@ declare module "next-auth" {
       name: string;
       email: string;
       token: string;
-      member: boolean;
+      premium: boolean;
     };
   }
 
@@ -17,7 +17,7 @@ declare module "next-auth" {
       name: string;
       email: string;
       token: string;
-      member: boolean;
+      premium: boolean;
     };
   }
 }

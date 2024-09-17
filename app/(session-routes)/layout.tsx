@@ -1,6 +1,5 @@
 import Logout from "@/app/components/footer/logout";
 import "@/app/globals.css";
-import { signOut } from "@/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

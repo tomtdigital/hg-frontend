@@ -1,6 +1,6 @@
 "use client";
 
-import { lusitana } from "@/app/components/fonts";
+import { lusitana } from "@/app/fonts";
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -9,7 +9,7 @@ import {
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "@/app/components/button";
 import { useActionState } from "react";
-import { loginUser } from "@/app/actions/user-actions";
+import { loginUser } from "@/app/api/actions/user-actions";
 
 export default function LoginForm() {
   const initialState: string = "";

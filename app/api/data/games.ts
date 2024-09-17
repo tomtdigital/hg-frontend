@@ -7,13 +7,13 @@ function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function fetchMemberGames(): Promise<Fetched<Game[]>> {
+export async function fetchPremiumGames(): Promise<Fetched<Game[]>> {
   const user = await getUser();
-  const member: Fetched<boolean> = user?.member;
-  if (member) {
+  const premiumMember: Fetched<boolean> = user?.premium;
+  if (premiumMember) {
     try {
       const freeGames = await fetch(
-        `${process.env.BACKEND_URL}/games?member=true`
+        `${process.env.BACKEND_URL}/games?premium=true`
       ).then((res) => {
         return res.json();
       });
@@ -28,26 +28,28 @@ export async function fetchMemberGames(): Promise<Fetched<Game[]>> {
 
 export type GamePreviews = {
   freeGames: Fetched<Game[]>;
-  paidGames: Fetched<Game[]>;
+  premiumGames: Fetched<Game[]>;
 };
 
 export async function fetchGamePreview(): Promise<Fetched<GamePreviews>> {
   try {
     const games = await Promise.all([
-      fetch(`${process.env.BACKEND_URL}/games?member=false&limit=3`).then(
+      fetch(`${process.env.BACKEND_URL}/games?premium=false&limit=3`).then(
         (res) => {
           return res.json();
         }
       ),
-      fetch(`${process.env.BACKEND_URL}/games?member=true&limit=3`).then(
+      fetch(`${process.env.BACKEND_URL}/games?premium=true&limit=3`).then(
         (res) => {
           return res.json();
         }
       ),
-    ]).then(([freeGames, paidGames]: [Fetched<Game[]>, Fetched<Game[]>]) => ({
-      freeGames,
-      paidGames,
-    }));
+    ]).then(
+      ([freeGames, premiumGames]: [Fetched<Game[]>, Fetched<Game[]>]) => ({
+        freeGames,
+        premiumGames,
+      })
+    );
 
     return games;
   } catch (error) {}

@@ -1,12 +1,12 @@
 export const dynamic = "force-dynamic";
 
 import { Suspense } from "react";
-import MemberGamesPreview from "@/app/components/games/member-games-preview";
+import PremiumGamesPreview from "@/app/components/games/premium-games-preview";
 
 export default async function GamePage() {
   return (
     <Suspense fallback={<p>Loading</p>}>
-      <MemberGamesPreview />
+      <PremiumGamesPreview />
     </Suspense>
   );
 }

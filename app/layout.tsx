@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/app/globals.css";
-import { lusitana } from "@/app/components/fonts";
+import { lusitana } from "@/app/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
