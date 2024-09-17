@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export default async function GamesPreview() {
   const user: Fetched<Session["user"]> = await getUser();
-  const premiumMember: Fetched<boolean> = !user?.premium;
+  const premiumMember: Fetched<boolean> = user?.premium;
   const gamePreviews: Fetched<GamePreviews> = await fetchGamePreview();
   const freeGames: Fetched<Game[]> = gamePreviews?.freeGames;
   const premiumGames: Fetched<Game[]> = gamePreviews?.premiumGames;
