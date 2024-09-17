@@ -1,5 +1,5 @@
-import Link, { LinkProps } from "next/link";
-import { HTMLProps, FC, ReactNode } from "react";
+import Link from "next/link";
+import { FC, ReactNode } from "react";
 import { cn } from "../utils/classname";
 
 type PreviewLinkProps = {

@@ -1,12 +1,9 @@
 "use server";
 
 import { fetchPremiumGames } from "@/app/api/data/games";
-import { getUser } from "@/app/api/data/user";
-import { Session } from "next-auth";
 import Link from "next/link";
 
 export default async function PremiumGamesPreview() {
-  const user: Fetched<Session["user"]> = await getUser();
   const games: Fetched<Game[]> = await fetchPremiumGames();
 
   return (

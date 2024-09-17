@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { cn } from "../utils/classname";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

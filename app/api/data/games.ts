@@ -3,6 +3,7 @@
 import { getUser } from "./user";
 
 // TODO: remove this after testing suspense
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
