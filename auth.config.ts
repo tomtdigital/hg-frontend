@@ -37,7 +37,7 @@ export const middlewareAuthConfig = {
         if (isMember) {
           return true;
         } else {
-          return Response.redirect(new URL("/sign-up", nextUrl));
+          return Response.redirect(new URL("/premium", nextUrl));
         }
       }
 
