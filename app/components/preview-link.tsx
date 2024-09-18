@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FC, ReactNode } from "react";
-import { cn } from "../utils/classname";
+import { cn } from "@/app/utils/classname";
 
 type PreviewLinkProps = {
   href: string;

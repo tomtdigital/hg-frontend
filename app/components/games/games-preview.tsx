@@ -7,6 +7,7 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { Session } from "next-auth";
 import Link from "next/link";
+import { formatDate } from "@/app/utils/format-date";
 
 export default async function GamesPreview() {
   const user: Fetched<Session["user"]> = await getCachedUser();
@@ -14,13 +15,6 @@ export default async function GamesPreview() {
   const gamePreviews: Fetched<GamePreviews> = await fetchGamePreview();
   const freeGames: Fetched<Game[]> = gamePreviews?.freeGames;
   const premiumGames: Fetched<Game[]> = gamePreviews?.premiumGames;
-  const convertDate = (date: string) => {
-    const initial = new Date(date);
-    const day = initial.getDate();
-    const month = initial.getDate();
-    const year = initial.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   return (
     <div className="text-center">
@@ -29,7 +23,7 @@ export default async function GamesPreview() {
           <p>Free</p>
           <div className="w-full flex items-center">
             {freeGames.map((game: Game) => {
-              const date = convertDate(game.publishDate);
+              const date = formatDate(game.publishDate);
               return (
                 <PreviewLink key={game._id} href={`/game/${game._id}`}>
                   {date}
@@ -51,7 +45,7 @@ export default async function GamesPreview() {
           </span>
           <div className="w-full flex items-center">
             {premiumGames.map((game: Game) => {
-              const date = convertDate(game.publishDate);
+              const date = formatDate(game.publishDate);
               return premiumMember ? (
                 <PreviewLink
                   key={game._id}
