@@ -1,9 +1,11 @@
 "use server";
 
 import { auth } from "@/auth";
+import { Session } from "next-auth";
+import { cache } from "react";
 
 //  Used only on server actions/components
-export async function getUser() {
+export async function getUser(): Promise<Fetched<Session["user"]>> {
   try {
     const session = await auth();
     const user = session?.user;
@@ -12,3 +14,5 @@ export async function getUser() {
     throw new Error("Unable to retrieve user");
   }
 }
+
+export const getCachedUser: typeof getUser = cache(async () => await getUser());

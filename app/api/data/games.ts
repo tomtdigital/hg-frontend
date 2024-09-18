@@ -1,6 +1,7 @@
 "use server";
 
-import { getUser } from "./user";
+import { Session } from "next-auth";
+import { getCachedUser } from "./user";
 
 // TODO: remove this after testing suspense
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -9,7 +10,7 @@ function delay(ms: number) {
 }
 
 export async function fetchPremiumGames(): Promise<Fetched<Game[]>> {
-  const user = await getUser();
+  const user: Fetched<Session["user"]> = await getCachedUser();
   const premiumMember: Fetched<boolean> = user?.premium;
   if (premiumMember) {
     try {
