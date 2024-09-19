@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import { getCachedUser } from "./user";
 import { redirect } from "next/navigation";
 
-export async function fetchPremiumGames(): Promise<Fetched<Game[]>> {
+export async function fetchPremiumGames(): Promise<Fetched<GamePreview[]>> {
   const user: Fetched<Session["user"]> = await getCachedUser();
   if (!user) redirect("/login");
   const premiumMember: Fetched<boolean> = user?.premium;
@@ -28,8 +28,8 @@ export async function fetchPremiumGames(): Promise<Fetched<Game[]>> {
 }
 
 export type GamePreviews = {
-  freeGames: Fetched<Game[]>;
-  premiumGames: Fetched<Game[]>;
+  freeGames: Fetched<GamePreview[]>;
+  premiumGames: Fetched<GamePreview[]>;
 };
 
 export async function fetchGamePreview(): Promise<Fetched<GamePreviews>> {
@@ -50,7 +50,10 @@ export async function fetchGamePreview(): Promise<Fetched<GamePreviews>> {
         return res.json();
       }),
     ]).then(
-      ([freeGames, premiumGames]: [Fetched<Game[]>, Fetched<Game[]>]) => ({
+      ([freeGames, premiumGames]: [
+        Fetched<GamePreview[]>,
+        Fetched<GamePreview[]>
+      ]) => ({
         freeGames,
         premiumGames,
       })

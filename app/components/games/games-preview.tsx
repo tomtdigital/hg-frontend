@@ -13,8 +13,8 @@ export default async function GamesPreview() {
   const user: Fetched<Session["user"]> = await getCachedUser();
   const premiumMember: Fetched<boolean> = user?.premium;
   const gamePreviews: Fetched<GamePreviews> = await fetchGamePreview();
-  const freeGames: Fetched<Game[]> = gamePreviews?.freeGames;
-  const premiumGames: Fetched<Game[]> = gamePreviews?.premiumGames;
+  const freeGames: Fetched<GamePreview[]> = gamePreviews?.freeGames;
+  const premiumGames: Fetched<GamePreview[]> = gamePreviews?.premiumGames;
 
   return (
     <div className="text-center">
@@ -22,7 +22,7 @@ export default async function GamesPreview() {
         <>
           <p>Free</p>
           <div className="w-full flex items-center">
-            {freeGames.map((game: Game) => {
+            {freeGames.map((game: GamePreview) => {
               const date = formatDate(game.publishDate);
               return (
                 <PreviewLink key={game._id} href={`/game/${game._id}`}>
@@ -44,7 +44,7 @@ export default async function GamesPreview() {
             {!premiumMember && <LockClosedIcon className="block w-5 max-w-4" />}
           </span>
           <div className="w-full flex items-center">
-            {premiumGames.map((game: Game) => {
+            {premiumGames.map((game: GamePreview) => {
               const date = formatDate(game.publishDate);
               return premiumMember ? (
                 <PreviewLink

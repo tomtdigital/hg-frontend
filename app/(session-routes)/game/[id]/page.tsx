@@ -1,5 +1,9 @@
-export default function GamePage({ params }: { params: { id: string } }) {
+import { fetchGame } from "@/app/api/data/game";
+
+export default async function GamePage({ params }: { params: { id: string } }) {
   const { id } = params;
+  const game = await fetchGame(id);
+  console.log(game);
 
   return (
     <main className="flex items-center justify-center md:h-screen">
