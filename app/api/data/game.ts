@@ -22,7 +22,8 @@ export async function fetchGame(id: string): Promise<Fetched<Game> | object> {
     throw new Error("Unable to retrieve game");
   } finally {
     switch (statusCode) {
-      case 400 || 500:
+      case 400:
+      case 500:
         throw new Error("Unable to retrieve game");
       case 403:
         redirect("/upgrade");
