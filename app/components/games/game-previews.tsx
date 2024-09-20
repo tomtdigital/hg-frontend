@@ -1,6 +1,6 @@
 "use server";
 
-import { GamePreviews, fetchGamePreview } from "@/app/api/data/games";
+import { GamePreviews, fetchGamePreviews } from "@/app/api/data/games";
 import { getCachedUser } from "@/app/api/data/user";
 import { PreviewLink } from "@/app/components/preview-link";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
@@ -8,11 +8,13 @@ import clsx from "clsx";
 import { Session } from "next-auth";
 import Link from "next/link";
 import { formatDate } from "@/app/utils/format-date";
+import { redirect } from "next/navigation";
 
 export default async function GamesPreview() {
   const user: Fetched<Session["user"]> = await getCachedUser();
-  const premiumMember: Fetched<boolean> = user?.premium;
-  const gamePreviews: Fetched<GamePreviews> = await fetchGamePreview();
+  if (!user) redirect("/login");
+  const premiumMember: boolean = user.premium;
+  const gamePreviews: Fetched<GamePreviews> = await fetchGamePreviews();
   const freeGames: Fetched<GamePreview[]> = gamePreviews?.freeGames;
   const premiumGames: Fetched<GamePreview[]> = gamePreviews?.premiumGames;
 

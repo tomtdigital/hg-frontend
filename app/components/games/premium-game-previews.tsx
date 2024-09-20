@@ -1,10 +1,12 @@
 "use server";
 
-import { fetchPremiumGames } from "@/app/api/data/games";
+import { fetchPremiumGamePreviews } from "@/app/api/data/games";
 import Link from "next/link";
+import { PreviewLink } from "@/app/components/preview-link";
+import { formatDate } from "@/app/utils/format-date";
 
-export default async function PremiumGamesPreview() {
-  const games: Fetched<Game[]> = await fetchPremiumGames();
+export default async function PremiumGamePreviews() {
+  const games: Fetched<Game[]> = await fetchPremiumGamePreviews();
 
   return (
     <>
@@ -12,13 +14,13 @@ export default async function PremiumGamesPreview() {
         <>
           <p>Premium Games</p>
           {games.map((game: Game) => (
-            <Link
+            <PreviewLink
               key={game._id}
-              className="m-1 bg-purple-500 text-black block w-full"
+              className="m-1 bg-purple-500 hover:bg-purple-600"
               href={`/game/${game._id}`}
             >
-              <p>{game.publishDate}</p>
-            </Link>
+              <p>{formatDate(game.publishDate)}</p>
+            </PreviewLink>
           ))}
         </>
       ) : (

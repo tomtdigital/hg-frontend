@@ -32,7 +32,9 @@ export const middlewareAuthConfig = {
 
       // Redirect to a sign up page for non-premium members on protected routes
       const isPremiumMember = auth?.user?.premium;
-      const isOnPremium = nextUrl.pathname.endsWith("/premium");
+      const isOnPremium =
+        nextUrl.pathname.includes("/premium/") ||
+        nextUrl.pathname.endsWith("/premium");
       if (isOnPremium) {
         if (isPremiumMember) {
           return true;

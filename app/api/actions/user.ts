@@ -37,27 +37,27 @@ export async function registerUser(
   prevState: string,
   formData: FormData
 ): Promise<string> {
+  const message = "Failed to create user";
   try {
     const body = JSON.stringify({
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
     });
-    const user = await fetch(`${process.env.BACKEND_URL}/users`, {
+    const res = await fetch(`${process.env.BACKEND_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body,
-    }).then((res) => {
-      return res.json();
     });
 
-    if (user.messages) {
-      throw new Error(user.messages);
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message ?? message);
     }
-  } catch (error) {
-    return "Failed to create user";
+  } catch (error: unknown) {
+    return error instanceof Error ? error.message : message;
   }
 
   return await loginUser(prevState, formData);

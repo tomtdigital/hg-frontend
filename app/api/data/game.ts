@@ -5,26 +5,27 @@ import { redirect } from "next/navigation";
 import { getCachedUser } from "./user";
 
 export async function fetchGame(id: string): Promise<Fetched<Game> | object> {
+  let statusCode;
+  const message = "Unable to rerieve game";
   const user: Fetched<Session["user"]> = await getCachedUser();
   if (!user) redirect("/login");
-  let statusCode;
 
   try {
     const res = await fetch(`${process.env.BACKEND_URL}/games/${id}`, {
       headers: { authorization: `Bearer ${user?.token}` },
     });
-    statusCode = await res.status;
-    const game = await res.json();
-    if (!game.message) {
-      return game;
+
+    if (!res.ok) {
+      statusCode = await res.status;
+      const error = await res.json();
+      throw new Error(error.message ?? message);
     }
-  } catch (error) {
-    throw new Error("Unable to retrieve game");
+
+    return await res.json();
+  } catch (error: unknown) {
+    throw new Error(error instanceof Error ? error.message : message);
   } finally {
     switch (statusCode) {
-      case 400:
-      case 500:
-        throw new Error("Unable to retrieve game");
       case 403:
         redirect("/upgrade");
       case 404:
