@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { formatDate } from "@/app/utils/format-date";
 import { redirect } from "next/navigation";
-import { fetchSessionPreviews } from "@/app/api/data/game-session-client";
+import { fetchSessionPreviews } from "@/app/api/data/game-session-server";
 import { getCompletionStatus } from "@/app/utils/get-completion-status";
 
 export default async function GamesPreview() {

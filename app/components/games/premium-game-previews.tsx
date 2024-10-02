@@ -5,7 +5,7 @@ import Link from "next/link";
 import { PreviewLink } from "@/app/components/preview-link";
 import { formatDate } from "@/app/utils/format-date";
 import { getCompletionStatus } from "@/app/utils/get-completion-status";
-import { fetchSessionPreviews } from "@/app/api/data/game-session-client";
+import { fetchSessionPreviews } from "@/app/api/data/game-session-server";
 
 export default async function PremiumGamePreviews() {
   const games: Fetched<GamePreview[]> = await fetchPremiumGamePreviews();
