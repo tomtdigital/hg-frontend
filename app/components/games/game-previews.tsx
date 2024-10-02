@@ -9,6 +9,8 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { formatDate } from "@/app/utils/format-date";
 import { redirect } from "next/navigation";
+import { fetchSessionPreviews } from "@/app/api/data/game-session-client";
+import { getCompletionStatus } from "@/app/utils/get-completion-status";
 
 export default async function GamesPreview() {
   const user: Fetched<Session["user"]> = await getCachedUser();
@@ -17,19 +19,26 @@ export default async function GamesPreview() {
   const gamePreviews: Fetched<GamePreviews> = await fetchGamePreviews();
   const freeGames: Fetched<GamePreview[]> = gamePreviews?.freeGames;
   const premiumGames: Fetched<GamePreview[]> = gamePreviews?.premiumGames;
+  const sessionPreviews: Fetched<GameSessionPreview[]> =
+    await fetchSessionPreviews();
 
   return (
     <div className="text-center">
       {freeGames && freeGames?.length > 0 ? (
         <>
           <p>Free</p>
-          <div className="w-full flex items-center">
+          <div className="w-full flex items-top">
             {freeGames.map((game: GamePreview) => {
               const date = formatDate(game.publishDate);
+              const complete: boolean = getCompletionStatus(
+                game,
+                sessionPreviews
+              );
               return (
-                <PreviewLink key={game._id} href={`/game/${game._id}`}>
-                  {date}
-                </PreviewLink>
+                <div key={game._id}>
+                  <PreviewLink href={`/game/${game._id}`}>{date}</PreviewLink>
+                  <span className="block">{complete && "Complete"}</span>
+                </div>
               );
             })}
           </div>
@@ -45,17 +54,24 @@ export default async function GamesPreview() {
             <p className={clsx({ "block mr-3": !premiumMember })}>Premium</p>
             {!premiumMember && <LockClosedIcon className="block w-5 max-w-4" />}
           </span>
-          <div className="w-full flex items-center">
+          <div className="w-full flex items-top">
             {premiumGames.map((game: GamePreview) => {
               const date = formatDate(game.publishDate);
+              const complete: boolean = getCompletionStatus(
+                game,
+                sessionPreviews
+              );
               return premiumMember ? (
-                <PreviewLink
-                  key={game._id}
-                  className="bg-purple-500 hover:bg-purple-600"
-                  href={`/game/${game._id}`}
-                >
-                  {date}
-                </PreviewLink>
+                <div key={game._id}>
+                  <PreviewLink
+                    key={game._id}
+                    className="bg-purple-500 hover:bg-purple-600"
+                    href={`/game/${game._id}`}
+                  >
+                    {date}
+                  </PreviewLink>
+                  <span className="block">{complete && "Complete"}</span>
+                </div>
               ) : (
                 <span
                   key={game._id}

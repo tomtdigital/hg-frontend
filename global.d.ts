@@ -7,65 +7,61 @@ type GamePreview = {
   publishDate: string;
 };
 
-// TODO: update type
+type GridData = [
+  {
+    anagram: string;
+    word: string;
+    clue: string;
+    details?: {
+      pronoun?: boolean;
+      wordCount?: string;
+    };
+  }
+];
+
+type GameGrid = [
+  {
+    grid: string;
+    data: GridData;
+  }
+];
+
 type Game = {
   _id: string;
+  _v: number;
+  main: GameGrid;
+  solution: string;
   publishDate: string;
+  createdAt: string;
+  updatedAt: string;
+  premium: true;
 };
 
-// const DataSchema = [
-//   {
-//     _id: false,
-//     anagram: {
-//       type: String,
-//       required: [true, "Please add a text value for anagram"],
-//     },
-//     word: {
-//       type: String,
-//       required: [true, "Please add a text value for word"],
-//     },
-//     clue: {
-//       type: String,
-//       required: [true, "Please add a text value for clue"],
-//     },
-//     details: {
-//       pronoun: { type: Boolean },
-//       wordCount: { type: String },
-//     },
-//   },
-// ];
+type CompletedGrid = {
+  cell: number;
+  guess: string;
+  answer: string;
+};
 
-// const MainSchema = [
-//   {
-//     _id: false,
-//     grid: {
-//       type: String,
-//       required: [true, "Please add a text value for grid"],
-//     },
-//     data: {
-//       type: DataSchema,
-//       validate: (v) => Array.isArray(v) && v.length > 0,
-//     },
-//   },
-// ];
+type GameSessionPreview = {
+  _id: string; // id
+  game: string; // id
+  gameData: {
+    gameComplete: boolean;
+  };
+};
 
-// const gameSchema = mongoose.Schema(
-//   {
-//     main: {
-//       type: MainSchema,
-//       validate: (v) => Array.isArray(v) && v.length > 0,
-//     },
-//     solution: {
-//       type: String,
-//       required: [true, "Please add a text value for solution"],
-//     },
-//     premium: {
-//       type: Boolean,
-//       required: [true, "Please confirm membership status"],
-//     },
-//     publishDate: { type: Date, required: [true, "Please add a publishDate"] },
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
+type GameSession = {
+  _id: string; // id
+  game: string; // id
+  gameData: {
+    stage: number;
+    cluesRevealed: string[];
+    score: number;
+    lastCompletedGrid: CompletedGrid[];
+    finishedGrids: CompletedGrid[];
+    solutionGuess: string;
+    correctSolution: boolean;
+    gameComplete: boolean;
+  };
+};

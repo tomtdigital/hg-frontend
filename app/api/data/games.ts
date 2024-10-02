@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import { getCachedUser } from "./user";
 import { redirect } from "next/navigation";
 
-type FetchedPreview = Fetched<GamePreview[]>;
+export type FetchedPreview = Fetched<GamePreview[]>;
 
 export type GamePreviews = {
   freeGames: Fetched<GamePreview[]>;
