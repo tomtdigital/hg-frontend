@@ -4,32 +4,6 @@ import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { getCachedUser } from "./user";
 
-// Create Game component (client) for game page
-// Initialising game session - only done on Game component in isolated useEffect
-
-// let sessionData
-// Obtain user token via client component methods (getSession?)
-// Check local storage for localSession
-// Check DB for dbSession
-// If no local storage, but DB session, sessionData = dbSession. Save sessionData to local storage and update redux
-// If local storage, sessionData = localSession. PUT sessionData to DB and update redux
-
-// If neither, sessionData  = {
-//   game: id,
-//   gameData: {
-//     stage: 0,
-//     cluesRevealed: [],
-//     score: 0,
-//     lastCompletedGrid: [],
-//     finishedGrids: [],
-//     solutionGuess: "",
-//     correctSolution: false,
-//     gameComplete: false,
-//   },
-// };
-
-// Save sessionData to localStorage, POST to DB and update redux
-
 export async function fetchSessionPreviews(): Promise<
   Fetched<GameSessionPreview[]>
 > {
