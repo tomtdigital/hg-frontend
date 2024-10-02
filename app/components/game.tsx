@@ -6,5 +6,9 @@ type GameProps = {
 
 export const Game: FC<GameProps> = ({ game }) => {
   console.log(game);
-  return <div>Game Component</div>;
+  return (
+    <>
+      <div>Game Component</div>
+    </>
+  );
 };
