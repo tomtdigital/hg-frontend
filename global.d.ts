@@ -43,14 +43,6 @@ type CompletedGrid = {
   answer: string;
 };
 
-type GameSessionPreview = {
-  _id: string; // id
-  game: string; // id
-  gameData: {
-    gameComplete: boolean;
-  };
-};
-
 type GameSession = {
   _id: string; // id
   game: string; // id
@@ -62,6 +54,14 @@ type GameSession = {
     finishedGrids: CompletedGrid[];
     solutionGuess: string;
     correctSolution: boolean;
+    gameComplete: boolean;
+  };
+};
+
+type GameSessionPreview = {
+  _id: string; // id
+  game: string; // id
+  gameData: {
     gameComplete: boolean;
   };
 };

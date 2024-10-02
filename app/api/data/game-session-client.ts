@@ -1,6 +1,6 @@
-// Create Game component (client) for game page
 // Initialising game session - only done on Game component in isolated useEffect
 
+//  to do this, create...
 // let sessionData
 // Obtain user token via client component methods (getSession?)
 // Check local storage for localSession

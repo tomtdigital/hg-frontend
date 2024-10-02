@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { getCachedUser } from "./user";
 
-export async function fetchGame(id: string): Promise<Fetched<Game> | object> {
+export async function fetchGame(id: string): Promise<Fetched<Game>> {
   let statusCode;
   const message = "Unable to rerieve game";
   const user: Fetched<Session["user"]> = await getCachedUser();
