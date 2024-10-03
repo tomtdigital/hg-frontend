@@ -1,14 +1,12 @@
 "use client";
 
-import { JWT } from "next-auth";
 import { FC, useEffect, useState } from "react";
 
 type GameProps = {
   game: Fetched<Game>;
-  user: Fetched<JWT["user"]>;
 };
 
-export const Game: FC<GameProps> = ({ game, user }) => {
+export const Game: FC<GameProps> = ({ game }) => {
   const [session, setSession] = useState({
     game: game?._id,
     gameData: {
@@ -28,99 +26,58 @@ export const Game: FC<GameProps> = ({ game, user }) => {
     async function retrieveSession() {
       // First check for a session in local storage
       let localSession;
-      const backupErrorMessages = {
-        get: "Unable to get session",
-        post: "Unable to create session",
-        put: "Unable to update session",
-      };
+      const maskedError = "something went wrong";
       const localSessionString = localStorage.getItem(storageKey);
       if (localSessionString) localSession = JSON.parse(localSessionString);
-
+      // Next get or create a session in the DB;
       try {
-        // Next check the DB for a session
-        const getRes = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/game-sessions/${session.game}`,
-          {
-            headers: { authorization: `Bearer ${user?.token}` },
-          }
-        );
+        const getRes = await fetch(`/api/user-session`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // ...using localStorage or the default
+          body: localSessionString ?? JSON.stringify(session),
+        });
 
         if (!getRes.ok) {
-          const status = await getRes.status;
-          // If there isn't a DB session found...
-          if (status === 404) {
-            // ...create one...
-            try {
-              const createRes = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/game-sessions`,
-                {
-                  method: "POST",
-                  headers: {
-                    authorization: `Bearer ${user?.token}`,
-                    "Content-Type": "application/json",
-                  },
-                  // ...using localStorage or the default
-                  body: localSessionString ?? JSON.stringify(session),
-                }
-              );
-              // Handle error for the create
-              if (!createRes.ok) {
-                const error = await createRes.json();
-                throw new Error(error.message ?? backupErrorMessages.post);
-              }
-            } catch (error: unknown) {
-              throw new Error(
-                error instanceof Error
-                  ? error.message
-                  : backupErrorMessages.post
-              );
-            }
-          } else {
-            // If error with GET aside from 404, throw it
-            throw new Error(backupErrorMessages.get);
-          }
-          // If a session is found
-        } else {
-          const dbSession = await getRes.json();
-          // if local storage, update db with that, save useState session as localStorage
-          if (localSession) {
-            setSession(localSession);
+          throw new Error(maskedError);
+        }
 
-            try {
-              const updateRes = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/game-sessions/${session.game}`,
-                {
-                  method: "PUT",
-                  headers: {
-                    authorization: `Bearer ${user?.token}`,
-                    "Content-Type": "application/json",
-                  },
-                  // ...using localStorage or the default
-                  body: localSessionString,
-                }
-              );
-              // Mask backend error
-              if (!updateRes.ok) {
-                throw new Error(backupErrorMessages.put);
-              }
-            } catch (error: unknown) {
-              throw new Error(backupErrorMessages.put);
+        const dbSession = await getRes.json();
+        // if local storage, save useState session as localStorage...
+        if (localSession) {
+          setSession(localSession);
+          // then update the DB session with this in case of offline activity
+          try {
+            const updateRes = await fetch(`/api/user-session`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              // ...using localStorage
+              body: localSessionString,
+            });
+            // Mask backend error
+            if (!updateRes.ok) {
+              throw new Error(maskedError);
             }
-          } else {
-            //Transform db response, save it to localStorage and...
-            const data = {
-              ...session,
-              gameData: dbSession.gameData ?? session.gameData,
-            };
-            localStorage.setItem(storageKey, JSON.stringify(data));
-            // ...update useState session with this
-            setSession(data);
+          } catch (error: unknown) {
+            throw new Error(maskedError);
           }
+        } else {
+          // If no local session, transform the DB session...
+          const data = {
+            ...session,
+            gameData: dbSession.gameData ?? session.gameData,
+          };
+          // ...save it to localStorage and...
+          localStorage.setItem(storageKey, JSON.stringify(data));
+          // ...update useState session with this
+          setSession(data);
         }
       } catch (error: unknown) {
-        throw new Error(
-          error instanceof Error ? error.message : "session retrieval error"
-        );
+        throw new Error(error instanceof Error ? error.message : maskedError);
       }
     }
 
