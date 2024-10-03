@@ -1,7 +1,7 @@
 "use server";
 
-import { GamePreviews, fetchGamePreviews } from "@/app/api/data/games";
-import { getCachedUser } from "@/app/api/data/user";
+import { GamePreviews, fetchGamePreviews } from "@/app/api/data/server/games";
+import { getCachedUser } from "@/app/api/data/server/user";
 import { PreviewLink } from "@/app/components/preview-link";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { formatDate } from "@/app/utils/format-date";
 import { redirect } from "next/navigation";
-import { fetchSessionPreviews } from "@/app/api/data/game-session-server";
+import { fetchSessionPreviews } from "@/app/api/data/server/game-session";
 import { getCompletionStatus } from "@/app/utils/get-completion-status";
 
 export default async function GamesPreview() {

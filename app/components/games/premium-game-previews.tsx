@@ -1,11 +1,11 @@
 "use server";
 
-import { fetchPremiumGamePreviews } from "@/app/api/data/games";
+import { fetchPremiumGamePreviews } from "@/app/api/data/server/games";
 import Link from "next/link";
 import { PreviewLink } from "@/app/components/preview-link";
 import { formatDate } from "@/app/utils/format-date";
 import { getCompletionStatus } from "@/app/utils/get-completion-status";
-import { fetchSessionPreviews } from "@/app/api/data/game-session-server";
+import { fetchSessionPreviews } from "@/app/api/data/server/game-session";
 
 export default async function PremiumGamePreviews() {
   const games: Fetched<GamePreview[]> = await fetchPremiumGamePreviews();
