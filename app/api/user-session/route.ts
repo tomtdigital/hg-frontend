@@ -38,7 +38,7 @@ export async function POST(request: Request): Promise<NextResponse> {
                 authorization: `Bearer ${user?.token}`,
                 "Content-Type": "application/json",
               },
-              body: reqBody,
+              body: JSON.stringify(reqBody),
             }
           );
           // Handle error for the create
@@ -86,7 +86,7 @@ export async function PUT(request: Request): Promise<NextResponse> {
           "Content-Type": "application/json",
         },
         // ...using localStorage
-        body: reqBody,
+        body: JSON.stringify(reqBody),
       }
     );
     // Handle update error

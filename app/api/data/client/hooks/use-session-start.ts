@@ -1,16 +1,8 @@
-"use client";
+import { useEffect, useState } from "react";
 
-import { FC, useEffect, useState } from "react";
-
-type GameProps = {
-  game: Fetched<Game>;
-};
-
-export const Game: FC<GameProps> = ({ game }) => {
-  // const session = useSessionStart(game?._id);
-  // console.log(session);
-  const newSession: RequireOnly<GameSession, "game" | "gameData"> = {
-    game: game?._id || "",
+export const useSessionStart = (gameId: string) => {
+  const [session, setSession] = useState({
+    game: gameId,
     gameData: {
       stage: 0,
       cluesRevealed: [],
@@ -21,12 +13,8 @@ export const Game: FC<GameProps> = ({ game }) => {
       correctSolution: false,
       gameComplete: false,
     },
-  };
-  const [initialised, setInitialised] = useState(false);
-  const [session, setSession] = useState(newSession);
+  });
   const storageKey = `hg-${session.game ? session.game + "-" : "-"}session`;
-
-  // TODO: move to hook if appropriate
 
   useEffect(() => {
     async function retrieveSession() {
@@ -50,7 +38,7 @@ export const Game: FC<GameProps> = ({ game }) => {
           throw new Error(maskedError);
         }
 
-        const dbSession: Fetched<GameSession> = await getRes.json();
+        const dbSession = await getRes.json();
         // if local storage, save useState session as localStorage...
         if (localSession) {
           setSession(localSession);
@@ -75,7 +63,7 @@ export const Game: FC<GameProps> = ({ game }) => {
           // If no local session, transform the DB session...
           const data = {
             ...session,
-            gameData: dbSession?.gameData ?? session.gameData,
+            gameData: dbSession.gameData ?? session.gameData,
           };
           // ...save it to localStorage and...
           localStorage.setItem(storageKey, JSON.stringify(data));
@@ -83,27 +71,11 @@ export const Game: FC<GameProps> = ({ game }) => {
           setSession(data);
         }
       } catch (error: unknown) {
-        throw new Error(maskedError);
+        throw new Error(error instanceof Error ? error.message : maskedError);
       }
     }
-    if (!initialised) retrieveSession();
-    setInitialised(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    retrieveSession();
   }, []);
-
-  // Initialize the store with the product information
-  // const store = useAppStore()
-  // const initialized = useRef(false)
-  // if (!initialized.current) {
-  //   store.dispatch(initialiseSession(product))
-  //   initialized.current = true
-  // }
-  // const name = useAppSelector(state => state.product.name)
-  // const dispatch = useAppDispatch()
-
-  return (
-    <>
-      <div>Game Component</div>
-    </>
-  );
+  return session;
 };
