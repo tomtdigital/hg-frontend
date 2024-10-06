@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "@/app/redux/slices/user-slice";
+import gameSessionReducer from "@/app/redux/slices/game-session-slice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userReducer,
+      gameSession: gameSessionReducer,
     },
   });
 };

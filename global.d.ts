@@ -65,3 +65,5 @@ type GameSessionPreview = {
     gameComplete: boolean;
   };
 };
+
+type StoredGameSession = RequireOnly<GameSession, "game" | "gameData">;

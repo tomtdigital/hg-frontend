@@ -1,17 +1,25 @@
 "use client";
 
 import { FC, ReactNode, useEffect, useState } from "react";
+import { useAppDispatch, useAppStore } from "../redux/hooks";
+import {
+  setGameSession,
+  updateSessionStorage,
+} from "../redux/slices/game-session-slice";
 
 type GameWrapperProps = {
   gameId: string;
   children: ReactNode;
 };
 
+// TODO: confirm why executing twice
+// TODO: setup monorepo
 export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
+  // Prevent repeated initialisations
   const [storageInitialised, setStorageInitialised] = useState(false);
-  const [session, setSession] = useState<
-    RequireOnly<GameSession, "game" | "gameData">
-  >({
+  const [reduxInitialised, setReduxInitialised] = useState(false);
+  // Store default session in component state
+  const [session, setSession] = useState<StoredGameSession>({
     game: gameId,
     gameData: {
       stage: 0,
@@ -24,23 +32,23 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
       gameComplete: false,
     },
   });
+  // Used as localStorage identifier
+  const storageKey = `hg-${session.game ? session.game + "-" : "-"}session`;
+  // Initialise the store with the default session
+  const store = useAppStore();
+  const dispatch = useAppDispatch();
+  if (!reduxInitialised) {
+    store.dispatch(setGameSession(session));
+    // TODO: set game basics e.g. active word etc.
+    setReduxInitialised(true);
+  }
 
-  // Initialize the store with the product information
-  // const store = useAppStore()
-  // const initialized = useRef(false)
-  // if (!initialized.current) {
-  //   store.dispatch(initialiseSession(product))
-  //   initialized.current = true
-  // }
-  // const name = useAppSelector(state => state.product.name)
-  // const dispatch = useAppDispatch()
-
+  // Initialise the local, database and redux storage sync for a game sesison
   useEffect(() => {
     async function initialiseStorage() {
       // First check for a session in local storage
       let localSession;
       const maskedError = "something went wrong";
-      const storageKey = `hg-${session.game ? session.game + "-" : "-"}session`;
       const localSessionString = localStorage.getItem(storageKey);
       if (localSessionString) localSession = JSON.parse(localSessionString);
       // Next get or create a session in the DB;
@@ -99,5 +107,34 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <>{children}</>;
+  useEffect(() => {
+    dispatch(setGameSession(session));
+  }, [dispatch, session]);
+
+  function handleUpdateCompletion(): void {
+    const { game, gameData } = store.getState().gameSession?.session;
+    const newState = {
+      game,
+      gameData: { ...gameData, gameComplete: !gameData.gameComplete },
+    };
+    dispatch(
+      updateSessionStorage({
+        localStorageKey: storageKey,
+        session: newState,
+        updateDb: true,
+      })
+    );
+  }
+
+  return (
+    <>
+      <button
+        className="bg-yellow-400 text-black"
+        onClick={handleUpdateCompletion}
+      >
+        Update Completion
+      </button>
+      {children}
+    </>
+  );
 };
