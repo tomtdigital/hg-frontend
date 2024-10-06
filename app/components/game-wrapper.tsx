@@ -1,16 +1,18 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 
-type GameProps = {
-  game: Fetched<Game>;
+type GameWrapperProps = {
+  gameId: string;
+  children: ReactNode;
 };
 
-export const Game: FC<GameProps> = ({ game }) => {
-  // const session = useSessionStart(game?._id);
-  // console.log(session);
-  const newSession: RequireOnly<GameSession, "game" | "gameData"> = {
-    game: game?._id || "",
+export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
+  const [storageInitialised, setStorageInitialised] = useState(false);
+  const [session, setSession] = useState<
+    RequireOnly<GameSession, "game" | "gameData">
+  >({
+    game: gameId,
     gameData: {
       stage: 0,
       cluesRevealed: [],
@@ -21,18 +23,24 @@ export const Game: FC<GameProps> = ({ game }) => {
       correctSolution: false,
       gameComplete: false,
     },
-  };
-  const [initialised, setInitialised] = useState(false);
-  const [session, setSession] = useState(newSession);
-  const storageKey = `hg-${session.game ? session.game + "-" : "-"}session`;
+  });
 
-  // TODO: move to hook if appropriate
+  // Initialize the store with the product information
+  // const store = useAppStore()
+  // const initialized = useRef(false)
+  // if (!initialized.current) {
+  //   store.dispatch(initialiseSession(product))
+  //   initialized.current = true
+  // }
+  // const name = useAppSelector(state => state.product.name)
+  // const dispatch = useAppDispatch()
 
   useEffect(() => {
-    async function retrieveSession() {
+    async function initialiseStorage() {
       // First check for a session in local storage
       let localSession;
       const maskedError = "something went wrong";
+      const storageKey = `hg-${session.game ? session.game + "-" : "-"}session`;
       const localSessionString = localStorage.getItem(storageKey);
       if (localSessionString) localSession = JSON.parse(localSessionString);
       // Next get or create a session in the DB;
@@ -86,24 +94,10 @@ export const Game: FC<GameProps> = ({ game }) => {
         throw new Error(maskedError);
       }
     }
-    if (!initialised) retrieveSession();
-    setInitialised(true);
+    if (!storageInitialised) initialiseStorage();
+    setStorageInitialised(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Initialize the store with the product information
-  // const store = useAppStore()
-  // const initialized = useRef(false)
-  // if (!initialized.current) {
-  //   store.dispatch(initialiseSession(product))
-  //   initialized.current = true
-  // }
-  // const name = useAppSelector(state => state.product.name)
-  // const dispatch = useAppDispatch()
-
-  return (
-    <>
-      <div>Game Component</div>
-    </>
-  );
+  return <>{children}</>;
 };

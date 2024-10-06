@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { fetchGame } from "@/app/api/data/server/game";
 import { getCachedUser } from "@/app/api/data/server/user";
-import { Game } from "@/app/components/game";
+import { GameWrapper } from "@/app/components/game-wrapper";
 import StoreProvider from "@/app/store-provider";
 import { Session } from "next-auth";
 import { redirect } from "next/navigation";
@@ -17,7 +17,11 @@ export default async function GamePage({ params }: { params: { id: string } }) {
     <main className="flex items-center justify-center md:h-screen">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
         <StoreProvider user={user}>
-          <Game game={game} />
+          {game && (
+            <GameWrapper gameId={game._id}>
+              <p>Game Component</p>
+            </GameWrapper>
+          )}
         </StoreProvider>
       </div>
     </main>
