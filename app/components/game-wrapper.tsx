@@ -1,6 +1,7 @@
 "use client";
+/* eslint-disable react-hooks/exhaustive-deps */
 
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppStore } from "../redux/hooks";
 import {
   setGameSession,
@@ -12,12 +13,12 @@ type GameWrapperProps = {
   children: ReactNode;
 };
 
-// TODO: confirm why executing twice
 // TODO: setup monorepo
 export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
   // Prevent repeated initialisations
-  const [storageInitialised, setStorageInitialised] = useState(false);
-  const [reduxInitialised, setReduxInitialised] = useState(false);
+  const storageInitialised = useRef(false);
+  const reduxInitialised = useRef(false);
+
   // Store default session in component state
   const [session, setSession] = useState<StoredGameSession>({
     game: gameId,
@@ -37,14 +38,19 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
   // Initialise the store with the default session
   const store = useAppStore();
   const dispatch = useAppDispatch();
-  if (!reduxInitialised) {
+
+  useEffect(() => {
+    if (reduxInitialised.current) return;
+    reduxInitialised.current = true;
     store.dispatch(setGameSession(session));
     // TODO: set game basics e.g. active word etc.
-    setReduxInitialised(true);
-  }
+  }, []);
 
   // Initialise the local, database and redux storage sync for a game sesison
   useEffect(() => {
+    if (storageInitialised.current) return;
+    storageInitialised.current = true;
+
     async function initialiseStorage() {
       // First check for a session in local storage
       let localSession;
@@ -102,9 +108,7 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
         throw new Error(maskedError);
       }
     }
-    if (!storageInitialised) initialiseStorage();
-    setStorageInitialised(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    initialiseStorage();
   }, []);
 
   useEffect(() => {
