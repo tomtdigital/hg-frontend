@@ -31,7 +31,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         // ...create one with the data supplied
         try {
           const createRes = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/game-sessions`,
+            `${process.env.BACKEND_URL}/game-sessions`,
             {
               method: "POST",
               headers: {
