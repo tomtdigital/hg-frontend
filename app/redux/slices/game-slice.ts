@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export type Key = {
+  letter: string;
+};
+
 export type GameState = {
   tabIndex: number;
   totalStages: number;
-  keyPressed: string;
+  keyPressed: Key;
   advanceModalVisible: boolean;
   victoryModalVisible: boolean;
   activeWord: Word;
@@ -12,7 +16,7 @@ export type GameState = {
 const initialState: GameState = {
   tabIndex: 0,
   totalStages: 0,
-  keyPressed: '',
+  keyPressed: {} as Key,
   advanceModalVisible: false,
   victoryModalVisible: false,
   activeWord: {} as Word,
@@ -28,7 +32,7 @@ const gameSlice = createSlice({
     setTotalStages(state, action: PayloadAction<number>) {
       state.totalStages = action.payload;
     },
-    setKeyPressed(state, action: PayloadAction<string>) {
+    setKeyPressed(state, action: PayloadAction<Key>) {
       state.keyPressed = action.payload;
     },
     setAdvanceModalVisible(state, action: PayloadAction<boolean>) {
