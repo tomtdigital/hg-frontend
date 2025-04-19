@@ -97,7 +97,6 @@ export async function PUT(request: Request): Promise<NextResponse> {
     }
     const updatedSession: GameSession = await updateRes.json();
     revalidatePath('/game');
-    revalidatePath(`/game/${updatedSession.game}`);
     // return updated response
     return NextResponse.json(updatedSession);
   } catch (error: unknown) {

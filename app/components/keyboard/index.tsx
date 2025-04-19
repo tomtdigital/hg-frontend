@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
-import { GameState, setKeyPressed } from '@/app/redux/slices/game-slice';
+import { setKeyPressed } from '@/app/redux/slices/game-slice';
 import { useEffect } from 'react';
 
 type KeyboardProps = {
@@ -33,7 +33,6 @@ const Keyboard = ({ active }: KeyboardProps) => {
     return () => {
       window.removeEventListener('keydown', handleKeyboardUse);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -56,7 +55,7 @@ const Keyboard = ({ active }: KeyboardProps) => {
                     event.preventDefault();
                     if (!gameComplete && active) {
                       //   object forces re-render
-                      setKeyPressed({ letter: char });
+                      dispatch(setKeyPressed({ letter: char }));
                     }
                   }}
                 >

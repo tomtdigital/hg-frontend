@@ -2,7 +2,6 @@
 
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { GameState, setTabIndex } from '@/app/redux/slices/game-slice';
-import { shuffleArray } from '@/app/utils/shuffle-array';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Keyboard from '../keyboard';
 import Clue from './clue';
@@ -13,9 +12,10 @@ import Solution from './solution';
 type GameProps = {
   grids: GameGrid;
   solution: string;
+  praise: string[];
 };
 
-export default function Game({ grids, solution }: GameProps) {
+export default function Game({ grids, solution, praise }: GameProps) {
   const dispatch = useAppDispatch();
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
@@ -30,14 +30,6 @@ export default function Game({ grids, solution }: GameProps) {
   });
   const totalLetters = allWords.join('').length;
   const maxScore = totalLetters * 3;
-  const praise = shuffleArray([
-    'Nice nice nice!!!',
-    'Fucking galaxy brain!!!',
-    'Loving that big brain energy!',
-    "You're so fucking smart!!!",
-    "All the Tom's go wild!!!",
-    'Absolute scenes!!!',
-  ]);
 
   return (
     <PageWrapper>

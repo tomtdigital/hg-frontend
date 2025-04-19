@@ -1,5 +1,4 @@
 'use client';
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import { useParams } from 'next/navigation';
 import { FC, ReactNode, useEffect, useRef } from 'react';
@@ -7,14 +6,18 @@ import { useAppDispatch, useAppStore } from '../redux/hooks';
 import { setGameSession } from '../redux/slices/game-session-slice';
 import { getDefaultGameSession } from '../utils/get-default-game-session';
 import { getStorageKey } from '../utils/get-storage-key';
-import { resetGameState } from '../redux/slices/game-slice';
+import { GameState, resetGameState } from '../redux/slices/game-slice';
 
 type GameWrapperProps = {
+  totalStages: number;
   children: ReactNode;
 };
 
 // TODO: setup monorepo
-export const GameWrapper: FC<GameWrapperProps> = ({ children }) => {
+export const GameWrapper: FC<GameWrapperProps> = ({
+  children,
+  totalStages,
+}) => {
   // Prevent repeated initialisations
   const { id } = useParams();
   const gameId = id as string;
@@ -25,14 +28,13 @@ export const GameWrapper: FC<GameWrapperProps> = ({ children }) => {
   // Used as localStorage identifier
   const storageKey = getStorageKey(gameId);
   // Initialise the store with the default session
-  const store = useAppStore();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (reduxInitialised.current) return;
     reduxInitialised.current = true;
-    store.dispatch(resetGameState({ totalStages: 4 }));
-    store.dispatch(setGameSession(defaultSession));
+    dispatch(resetGameState({ totalStages }));
+    dispatch(setGameSession(defaultSession));
     // TODO: set game basics e.g. active word etc.
   }, []);
 

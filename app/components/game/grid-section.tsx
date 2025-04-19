@@ -73,7 +73,10 @@ export function GridSection({
         updateDb: true,
         gameData: {
           score: total,
-          finishedGrids: [...finishedGrids, lastCompletedGrid],
+          finishedGrids:
+            finishedGrids.length < round + 1
+              ? [...finishedGrids, lastCompletedGrid]
+              : finishedGrids,
           lastCompletedGrid,
           gameComplete,
           stage: gameComplete ? stage + 1 : stage,

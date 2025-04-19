@@ -27,7 +27,7 @@ export default function Grid({ type, active, round, data }: GridProps) {
         },
       })
     );
-    setAdvanceModalVisible(true);
+    dispatch(setAdvanceModalVisible(true));
   };
 
   switch (type) {

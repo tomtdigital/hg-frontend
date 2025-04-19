@@ -39,9 +39,7 @@ const VGridNine = ({ data, round, active, onComplete }: GridProps) => {
   const { keyPressed } = storeGame;
   const { finishedGrids } = storeSession.gameData;
 
-  const [grid, setGrid] = useState<FullGrid>(
-    finishedGrids[round]?.length > 0 ? finishedGrids[round] : baseGrid
-  );
+  const [grid, setGrid] = useState<FullGrid>(baseGrid);
   const wordCells: number[][] = baseGrid.map((word: GridCells) =>
     word.map((letter: GridCell) => letter.cell)
   );
@@ -87,6 +85,10 @@ const VGridNine = ({ data, round, active, onComplete }: GridProps) => {
     const wordCellStrings = wordCells.map((cellSet) => JSON.stringify(cellSet));
     return wordCellStrings.indexOf(toggledWordString);
   };
+
+  useEffect(() => {
+    if (finishedGrids[round]?.length > 0) setGrid(finishedGrids[round]);
+  }, [finishedGrids]);
 
   useEffect(() => {
     dispatch(setActiveWord(data[0]));
