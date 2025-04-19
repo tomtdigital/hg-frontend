@@ -1,25 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Session } from "next-auth";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Session } from 'next-auth';
 
 type UserState = {
-  credentials: Session["user"];
+  credentials: Session['user'];
 };
 
 const initialState: UserState = {
   credentials: {
-    id: "",
-    name: "",
-    email: "",
-    token: "",
+    id: '',
+    name: '',
+    email: '',
+    token: '',
     premium: false,
   },
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
-    setUser(state, action) {
+    setUser(state, action: PayloadAction<Session['user']>) {
       state.credentials = action.payload;
     },
     clearUser(state) {

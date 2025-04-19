@@ -1,15 +1,26 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
+import { getStorageKey } from '@/app/utils/get-storage-key';
 
 type GameStorageData = {
   updateDb: boolean;
-  session: StoredGameSession;
-  localStorageKey: string;
+  gameData: StoredSessionData;
 };
 
-export const updateSessionStorage = createAsyncThunk(
-  'gameSession/updateStorage',
+export const updateSessionDataStorage = createAsyncThunk(
+  'gameSession/updateSessionDataStorage',
   // Update the Database Session
-  async (payload: GameStorageData, _) => {
+  async (payload: GameStorageData, thunkAPI) => {
+    const store = thunkAPI.getState() as RootState;
+    const session = store.gameSession.session as StoredGameSession;
+    const body = {
+      game: session.game,
+      gameData: {
+        ...session.gameData,
+        ...payload.gameData,
+      },
+    };
+    // Update the database if required
     if (payload.updateDb) {
       try {
         await fetch(`/api/user-session`, {
@@ -17,24 +28,20 @@ export const updateSessionStorage = createAsyncThunk(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(payload.session),
+          body: JSON.stringify(body),
         });
       } catch (error: unknown) {
         console.error("Couldn't update user session");
       }
     }
     // Update localstorage
-    localStorage.setItem(
-      payload.localStorageKey,
-      JSON.stringify(payload.session)
-    );
+    localStorage.setItem(getStorageKey(session.game), JSON.stringify(body));
     // Pass session to reducer
-    console.log('Session updated', payload.session);
-    return payload.session;
+    return body;
   }
 );
 
-const initialState: RequireOnly<GameStorageData, 'session'> = {
+const initialState: { session: StoredGameSession } = {
   session: {
     game: '',
     gameData: {
@@ -62,7 +69,7 @@ const gameSessionSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(updateSessionStorage.fulfilled, (state, action) => {
+    builder.addCase(updateSessionDataStorage.fulfilled, (state, action) => {
       state.session = action.payload;
     });
   },

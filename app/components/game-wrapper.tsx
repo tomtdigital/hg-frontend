@@ -7,6 +7,7 @@ import { useAppDispatch, useAppStore } from '../redux/hooks';
 import { setGameSession } from '../redux/slices/game-session-slice';
 import { getDefaultGameSession } from '../utils/get-default-game-session';
 import { getStorageKey } from '../utils/get-storage-key';
+import { resetGameState } from '../redux/slices/game-slice';
 
 type GameWrapperProps = {
   children: ReactNode;
@@ -30,6 +31,7 @@ export const GameWrapper: FC<GameWrapperProps> = ({ children }) => {
   useEffect(() => {
     if (reduxInitialised.current) return;
     reduxInitialised.current = true;
+    store.dispatch(resetGameState({ totalStages: 4 }));
     store.dispatch(setGameSession(defaultSession));
     // TODO: set game basics e.g. active word etc.
   }, []);

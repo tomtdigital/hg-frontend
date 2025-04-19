@@ -7,23 +7,23 @@ type GamePreview = {
   publishDate: string;
 };
 
-type GridData = [
-  {
-    anagram: string;
-    word: string;
-    clue: string;
-    details?: {
-      pronoun?: boolean;
-      wordCount?: string;
-    };
-  }
-];
+type Word = {
+  anagram: string;
+  word: string;
+  clue: string;
+  details?: {
+    pronoun?: boolean;
+    wordCount?: string;
+  };
+};
+
+type GridData = Word[];
 
 type GameGrid = [
   {
     grid: string;
     data: GridData;
-  }
+  },
 ];
 
 type Game = {
@@ -66,4 +66,6 @@ type GameSessionPreview = {
   };
 };
 
-type StoredGameSession = RequireOnly<GameSession, "game" | "gameData">;
+type StoredGameSession = RequireOnly<GameSession, 'game' | 'gameData'>;
+
+type StoredSessionData = Partial<GameSession['gameData']>;
