@@ -1,18 +1,19 @@
-import { Session } from "next-auth";
-import { redirect } from "next/navigation";
-import { getCachedUser } from "../data/server/user";
-import { NextResponse } from "next/server";
+import { Session } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { getCachedUser } from '../data/server/user';
+import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 const backupErrorMessages = {
-  get: "Unable to get session",
-  post: "Unable to create session",
-  put: "Unable to update session",
+  get: 'Unable to get session',
+  post: 'Unable to create session',
+  put: 'Unable to update session',
 };
 
 // Get or create a session on the database
 export async function POST(request: Request): Promise<NextResponse> {
-  const user: Fetched<Session["user"]> = await getCachedUser();
-  if (!user) redirect("/login");
+  const user: Fetched<Session['user']> = await getCachedUser();
+  if (!user) redirect('/login');
   const reqBody = await request.json();
 
   try {
@@ -33,10 +34,10 @@ export async function POST(request: Request): Promise<NextResponse> {
           const createRes = await fetch(
             `${process.env.BACKEND_URL}/game-sessions`,
             {
-              method: "POST",
+              method: 'POST',
               headers: {
                 authorization: `Bearer ${user?.token}`,
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify(reqBody),
             }
@@ -72,18 +73,18 @@ export async function POST(request: Request): Promise<NextResponse> {
 // Update the database session
 export async function PUT(request: Request): Promise<NextResponse> {
   //   Check credentials
-  const user: Fetched<Session["user"]> = await getCachedUser();
-  if (!user) redirect("/login");
+  const user: Fetched<Session['user']> = await getCachedUser();
+  if (!user) redirect('/login');
   const reqBody = await request.json();
   //   Update the DB Session
   try {
     const updateRes = await fetch(
       `${process.env.BACKEND_URL}/game-sessions/${reqBody.game}`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
           authorization: `Bearer ${user?.token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         // ...using localStorage
         body: JSON.stringify(reqBody),
@@ -94,8 +95,9 @@ export async function PUT(request: Request): Promise<NextResponse> {
       const error = await updateRes.json();
       throw new Error(error.message ?? backupErrorMessages.put);
     }
-
-    const updatedSession = await updateRes.json();
+    const updatedSession: GameSession = await updateRes.json();
+    revalidatePath('/game');
+    revalidatePath(`/game/${updatedSession.game}`);
     // return updated response
     return NextResponse.json(updatedSession);
   } catch (error: unknown) {

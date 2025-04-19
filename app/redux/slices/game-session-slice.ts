@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 type GameStorageData = {
   updateDb: boolean;
@@ -7,15 +7,15 @@ type GameStorageData = {
 };
 
 export const updateSessionStorage = createAsyncThunk(
-  "gameSession/updateStorage",
+  'gameSession/updateStorage',
   // Update the Database Session
   async (payload: GameStorageData, _) => {
     if (payload.updateDb) {
       try {
         await fetch(`/api/user-session`, {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload.session),
         });
@@ -29,20 +29,21 @@ export const updateSessionStorage = createAsyncThunk(
       JSON.stringify(payload.session)
     );
     // Pass session to reducer
+    console.log('Session updated', payload.session);
     return payload.session;
   }
 );
 
-const initialState: RequireOnly<GameStorageData, "session"> = {
+const initialState: RequireOnly<GameStorageData, 'session'> = {
   session: {
-    game: "",
+    game: '',
     gameData: {
       stage: 0,
       cluesRevealed: [],
       score: 0,
       lastCompletedGrid: [],
       finishedGrids: [],
-      solutionGuess: "",
+      solutionGuess: '',
       correctSolution: false,
       gameComplete: false,
     },
@@ -50,7 +51,7 @@ const initialState: RequireOnly<GameStorageData, "session"> = {
 };
 
 const gameSessionSlice = createSlice({
-  name: "gameSession",
+  name: 'gameSession',
   initialState,
   reducers: {
     setGameSession(state, action: PayloadAction<StoredGameSession>) {

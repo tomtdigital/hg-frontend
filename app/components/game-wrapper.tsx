@@ -1,40 +1,28 @@
-"use client";
+'use client';
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppStore } from "../redux/hooks";
-import {
-  setGameSession,
-  updateSessionStorage,
-} from "../redux/slices/game-session-slice";
+import { useParams } from 'next/navigation';
+import { FC, ReactNode, useEffect, useRef } from 'react';
+import { useAppDispatch, useAppStore } from '../redux/hooks';
+import { setGameSession } from '../redux/slices/game-session-slice';
+import { getDefaultGameSession } from '../utils/get-default-game-session';
+import { getStorageKey } from '../utils/get-storage-key';
 
 type GameWrapperProps = {
-  gameId: string;
   children: ReactNode;
 };
 
 // TODO: setup monorepo
-export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
+export const GameWrapper: FC<GameWrapperProps> = ({ children }) => {
   // Prevent repeated initialisations
+  const { id } = useParams();
+  const gameId = id as string;
   const storageInitialised = useRef(false);
   const reduxInitialised = useRef(false);
+  const defaultSession = getDefaultGameSession(gameId);
 
-  // Store default session in component state
-  const [session, setSession] = useState<StoredGameSession>({
-    game: gameId,
-    gameData: {
-      stage: 0,
-      cluesRevealed: [],
-      score: 0,
-      lastCompletedGrid: [],
-      finishedGrids: [],
-      solutionGuess: "",
-      correctSolution: false,
-      gameComplete: false,
-    },
-  });
   // Used as localStorage identifier
-  const storageKey = `hg-${session.game ? session.game + "-" : "-"}session`;
+  const storageKey = getStorageKey(gameId);
   // Initialise the store with the default session
   const store = useAppStore();
   const dispatch = useAppDispatch();
@@ -42,7 +30,7 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
   useEffect(() => {
     if (reduxInitialised.current) return;
     reduxInitialised.current = true;
-    store.dispatch(setGameSession(session));
+    store.dispatch(setGameSession(defaultSession));
     // TODO: set game basics e.g. active word etc.
   }, []);
 
@@ -54,18 +42,18 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
     async function initialiseStorage() {
       // First check for a session in local storage
       let localSession;
-      const maskedError = "something went wrong";
+      const maskedError = 'something went wrong';
       const localSessionString = localStorage.getItem(storageKey);
       if (localSessionString) localSession = JSON.parse(localSessionString);
       // Next get or create a session in the DB;
       try {
         const getRes = await fetch(`/api/user-session`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           // ...using localStorage or the default
-          body: localSessionString ?? JSON.stringify(session),
+          body: localSessionString ?? JSON.stringify(defaultSession),
         });
 
         if (!getRes.ok) {
@@ -75,13 +63,13 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
         const dbSession: Fetched<GameSession> = await getRes.json();
         // if local storage, save useState session as localStorage...
         if (localSession) {
-          setSession(localSession);
           // then update the DB session with this in case of offline activity
           try {
+            dispatch(setGameSession(localSession));
             const updateRes = await fetch(`/api/user-session`, {
-              method: "PUT",
+              method: 'PUT',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               // ...using localStorage
               body: localSessionString,
@@ -96,13 +84,13 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
         } else {
           // If no local session, transform the DB session...
           const data = {
-            ...session,
-            gameData: dbSession?.gameData ?? session.gameData,
+            ...defaultSession,
+            gameData: dbSession?.gameData ?? defaultSession.gameData,
           };
           // ...save it to localStorage and...
           localStorage.setItem(storageKey, JSON.stringify(data));
-          // ...update useState session with this
-          setSession(data);
+          // ...save it to the redux store
+          dispatch(setGameSession(data));
         }
       } catch (error: unknown) {
         throw new Error(maskedError);
@@ -111,34 +99,5 @@ export const GameWrapper: FC<GameWrapperProps> = ({ gameId, children }) => {
     initialiseStorage();
   }, []);
 
-  useEffect(() => {
-    dispatch(setGameSession(session));
-  }, [dispatch, session]);
-
-  function handleUpdateCompletion(): void {
-    const { game, gameData } = store.getState().gameSession?.session;
-    const newState = {
-      game,
-      gameData: { ...gameData, gameComplete: !gameData.gameComplete },
-    };
-    dispatch(
-      updateSessionStorage({
-        localStorageKey: storageKey,
-        session: newState,
-        updateDb: true,
-      })
-    );
-  }
-
-  return (
-    <>
-      <button
-        className="bg-yellow-400 text-black"
-        onClick={handleUpdateCompletion}
-      >
-        Update Completion
-      </button>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
