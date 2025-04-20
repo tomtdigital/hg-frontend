@@ -1,7 +1,11 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
-import { GameState, setTabIndex } from '@/app/redux/slices/game-slice';
+import {
+  GameState,
+  setActiveWord,
+  setTabIndex,
+} from '@/app/redux/slices/game-slice';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Keyboard from '../keyboard';
 import Clue from './clue';
@@ -34,7 +38,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
   return (
     <PageWrapper>
       <>
-        <div className='bg-yellow h-6 text-center'>
+        <div className='h-6 bg-yellow text-center'>
           <h1 className='text-header5'>Hannagrams!</h1>
         </div>
         <Tabs
@@ -100,10 +104,10 @@ export default function Game({ grids, solution, praise }: GameProps) {
                   praise={praise}
                   maxScore={maxScore}
                 />
-                <div className='bg-blue mt-[3em] h-[70px]'>
+                <div className='mt-[3em] h-[70px] bg-blue'>
                   <Clue active={active} />
                 </div>
-                <div className='grid h-[calc(40vh-60px-70px-3em)] grid-cols-1 grid-rows-3'>
+                <div className='grid grid-cols-1 grid-rows-3'>
                   <Keyboard active={active} />
                 </div>
               </TabPanel>

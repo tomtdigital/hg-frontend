@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { FC, ReactNode, useEffect, useRef } from 'react';
-import { useAppDispatch, useAppStore } from '../redux/hooks';
+import { useAppDispatch, useAppSelector, useAppStore } from '../redux/hooks';
 import { setGameSession } from '../redux/slices/game-session-slice';
 import { getDefaultGameSession } from '../utils/get-default-game-session';
 import { getStorageKey } from '../utils/get-storage-key';
@@ -24,18 +24,14 @@ export const GameWrapper: FC<GameWrapperProps> = ({
   const storageInitialised = useRef(false);
   const reduxInitialised = useRef(false);
   const defaultSession = getDefaultGameSession(gameId);
-
   // Used as localStorage identifier
-  const storageKey = getStorageKey(gameId);
+  const gameSessionKey = getStorageKey(gameId);
   // Initialise the store with the default session
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (reduxInitialised.current) return;
     reduxInitialised.current = true;
-    dispatch(resetGameState({ totalStages }));
-    dispatch(setGameSession(defaultSession));
-    // TODO: set game basics e.g. active word etc.
   }, []);
 
   // Initialise the local, database and redux storage sync for a game sesison
@@ -44,12 +40,23 @@ export const GameWrapper: FC<GameWrapperProps> = ({
     storageInitialised.current = true;
 
     async function initialiseStorage() {
-      // First check for a session in local storage
+      // First check for sessions in local storage
       let localSession;
       const maskedError = 'something went wrong';
-      const localSessionString = localStorage.getItem(storageKey);
+      // Deal with the game state
+      const rawStoreGame = localStorage.getItem('hg-game');
+      if (rawStoreGame) {
+        const localGame = JSON.parse(rawStoreGame);
+        if (localGame.id === gameId) {
+          dispatch(resetGameState(localGame));
+        } else {
+          dispatch(resetGameState({ totalStages, id: gameId }));
+        }
+      }
+      // Deal with the game session state
+      const localSessionString = localStorage.getItem(gameSessionKey);
       if (localSessionString) localSession = JSON.parse(localSessionString);
-      // Next get or create a session in the DB;
+      // Next get or create a game session in the DB;
       try {
         const getRes = await fetch(`/api/user-session`, {
           method: 'POST',
@@ -92,7 +99,7 @@ export const GameWrapper: FC<GameWrapperProps> = ({
             gameData: dbSession?.gameData ?? defaultSession.gameData,
           };
           // ...save it to localStorage and...
-          localStorage.setItem(storageKey, JSON.stringify(data));
+          localStorage.setItem(gameSessionKey, JSON.stringify(data));
           // ...save it to the redux store
           dispatch(setGameSession(data));
         }

@@ -94,10 +94,6 @@ const OGridFive = ({ data, round, active, onComplete }: GridProps) => {
   }, [finishedGrids]);
 
   useEffect(() => {
-    dispatch(setActiveWord(data[0]));
-  }, []);
-
-  useEffect(() => {
     const wordLocation = getWordLocation();
     dispatch(setActiveWord(data[wordLocation]));
   }, [toggledWord]);

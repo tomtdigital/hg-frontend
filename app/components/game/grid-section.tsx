@@ -79,7 +79,7 @@ export function GridSection({
               : finishedGrids,
           lastCompletedGrid,
           gameComplete,
-          stage: gameComplete ? stage + 1 : stage,
+          stage: gameComplete ? stage : stage + 1,
         },
       })
     );

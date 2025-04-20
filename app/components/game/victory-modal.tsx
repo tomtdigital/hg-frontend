@@ -58,6 +58,10 @@ const VictoryModal = ({
         See how close you can get to the maximum score of {maxScore} with the
         remaining grids!
       </p>
+      <p>
+        Until you complete all of the grids, the game will be marked as
+        incomplete.
+      </p>
       <button
         className='bg-yellow'
         onClick={() => {

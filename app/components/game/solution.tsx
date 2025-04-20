@@ -46,6 +46,12 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
           setToggledCell(toggledCell - 1);
           newSolutionGuess = partOne + ' ' + partTwo;
         }
+        dispatch(
+          updateSessionDataStorage({
+            gameData: { solutionGuess: newSolutionGuess },
+            updateDb: false,
+          })
+        );
       } else {
         if (toggledCell === 0) {
           newSolutionGuess =
@@ -91,6 +97,13 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
             updateDb: true,
           })
         );
+      } else {
+        dispatch(
+          updateSessionDataStorage({
+            gameData: { correctSolution: true },
+            updateDb: true,
+          })
+        );
       }
       dispatch(setVictoryModalVisible(true));
     }
@@ -99,7 +112,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
   return (
     <>
       <div className='h-[calc(60vh-104px)]'>
-        <h1 className='text-header1 text-center'>{`${
+        <h1 className='text-center text-header1'>{`${
           correctSolution ? '' : 'Enter '
         } Solution`}</h1>
         {!correctSolution && (

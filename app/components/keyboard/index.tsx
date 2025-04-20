@@ -50,7 +50,7 @@ const Keyboard = ({ active }: KeyboardProps) => {
                 //  Individual Buttons
                 <div
                   key={char}
-                  className={`bg-midGrey mb-[0.2em] mr-[0.2em] flex cursor-pointer items-center justify-center rounded-[0.2em] text-center font-bold text-white`}
+                  className={`mb-[0.2em] mr-[0.2em] flex cursor-pointer items-center justify-center rounded-[0.2em] bg-midGrey text-center font-bold text-white`}
                   onClick={(event) => {
                     event.preventDefault();
                     if (!gameComplete && active) {
