@@ -24,13 +24,15 @@ const initialState: GameState = {
   activeWord: {} as Word,
 };
 
+export const localGameKey = 'hg-game';
+
 function gameStateToLocalStorage(
   state: GameState,
   updatedState: Partial<GameState>
 ) {
   if (updatedState)
     localStorage.setItem(
-      'hg-game',
+      localGameKey,
       JSON.stringify({
         ...state,
         ...updatedState,

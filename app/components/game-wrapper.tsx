@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector, useAppStore } from '../redux/hooks';
 import { setGameSession } from '../redux/slices/game-session-slice';
 import { getDefaultGameSession } from '../utils/get-default-game-session';
 import { getStorageKey } from '../utils/get-storage-key';
-import { GameState, resetGameState } from '../redux/slices/game-slice';
+import {
+  GameState,
+  localGameKey,
+  resetGameState,
+} from '../redux/slices/game-slice';
 
 type GameWrapperProps = {
   totalStages: number;
@@ -44,14 +48,13 @@ export const GameWrapper: FC<GameWrapperProps> = ({
       let localSession;
       const maskedError = 'something went wrong';
       // Deal with the game state
-      const rawStoreGame = localStorage.getItem('hg-game');
-      if (rawStoreGame) {
-        const localGame = JSON.parse(rawStoreGame);
-        if (localGame.id === gameId) {
-          dispatch(resetGameState(localGame));
-        } else {
-          dispatch(resetGameState({ totalStages, id: gameId }));
-        }
+      const rawStoreGame = localStorage.getItem(localGameKey);
+      let localGame = {} as GameState;
+      if (rawStoreGame) localGame = JSON.parse(rawStoreGame);
+      if (localGame && localGame?.id === gameId) {
+        dispatch(resetGameState(localGame));
+      } else {
+        dispatch(resetGameState({ totalStages, id: gameId }));
       }
       // Deal with the game session state
       const localSessionString = localStorage.getItem(gameSessionKey);
