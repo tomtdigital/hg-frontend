@@ -38,28 +38,25 @@ export default function Game({ grids, solution, praise }: GameProps) {
   return (
     <PageWrapper>
       <>
-        <div className='h-6 bg-yellow text-center'>
-          <h1 className='text-header5 text-black'>Hannagrams!</h1>
-        </div>
         <Tabs
           selectedIndex={tabIndex}
           onSelect={(value) => {
             dispatch(setTabIndex(value));
           }}
         >
-          <div>
+          <div className='mt-[1em]'>
             <div className='text-center'>
-              <p>Score- {score}</p>
+              <p className='text-[1.5em]'>Score- {score}</p>
             </div>
           </div>
           <div className='flex justify-center'>
-            <TabList className='mb-5 mt-1 flex'>
+            <TabList className='mb-[2em] mt-1 flex'>
               {grids.map((game, index) => {
                 let unlocked = index === 0;
                 if (index > 0) unlocked = stage >= index;
-                let tabColors = 'border-lightGrey bg-lightGrey';
+                let tabColors = 'border-midGrey bg-midGrey';
                 if (unlocked) {
-                  tabColors = 'border-yellow bg-yellow';
+                  tabColors = 'border-lightGrey bg-lightGrey';
                 }
                 if (stage > index) {
                   tabColors = 'border-green bg-green';
@@ -94,7 +91,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
                     : 'border-purple bg-purple text-white'
                 } cursor-pointer`}
               >
-                {gameComplete ? '✔️' : '🧩'}
+                {gameComplete ? '✔️' : '💭'}
               </Tab>
             </TabList>
           </div>
@@ -112,10 +109,10 @@ export default function Game({ grids, solution, praise }: GameProps) {
                   praise={praise}
                   maxScore={maxScore}
                 />
-                <div className='mt-[3em] h-[70px] bg-blue'>
+                <div className='mt-[3em] h-[100px]'>
                   <Clue active={active} />
                 </div>
-                <div className='grid h-[calc(42vh-60px-70px-3em)] grid-cols-1 grid-rows-3'>
+                <div className='grid h-[calc(48vh-60px-100px-3em)] grid-cols-1 grid-rows-3'>
                   <Keyboard active={active} />
                 </div>
               </TabPanel>
@@ -127,7 +124,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
               active={!gameComplete}
               maxScore={maxScore}
             />
-            <div className='grid h-[calc(42vh-60px-70px-3em)] grid-cols-1 grid-rows-3'>
+            <div className='grid h-[calc(48vh-60px-100px-3em)] grid-cols-1 grid-rows-3'>
               <Keyboard active={!gameComplete} />
             </div>
           </TabPanel>

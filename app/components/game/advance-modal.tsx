@@ -28,7 +28,7 @@ const AdvanceModal = ({
     ))}
     <div className='mt-4 flex justify-center'>
       <button
-        className='rounded bg-yellow px-6 py-3 text-lg text-black'
+        className='rounded bg-purple px-6 py-3 text-lg text-white'
         onClick={handleAdvance}
       >
         Advance

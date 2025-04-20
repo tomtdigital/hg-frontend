@@ -8,8 +8,8 @@ const SevenGridBase = ({
   handleClick,
 }: BaseGridProps) => {
   return (
-    <div className='flex h-[calc(58vh-104px)] justify-center'>
-      <div className='grid w-[calc(55vh-104px-12%)] grid-cols-5 grid-rows-7'>
+    <div className='flex h-[calc(51vh-104px)] justify-center'>
+      <div className='grid w-[calc(50vh-104px-12%)] grid-cols-5 grid-rows-7'>
         {[...Array(35)].map((_, index) => {
           const { backgroundColor, textColor, value } = formatCell(
             index,

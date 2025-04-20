@@ -8,8 +8,8 @@ const NineGridBase = ({
   handleClick,
 }: BaseGridProps) => {
   return (
-    <div className='flex h-[calc(58vh-104px)] justify-center'>
-      <div className='grid w-[calc(58vh-104px-12%)] grid-cols-7 grid-rows-9'>
+    <div className='flex h-[calc(51vh-104px)] justify-center'>
+      <div className='grid w-[calc(51vh-104px-12%)] grid-cols-7 grid-rows-9'>
         {[...Array(63)].map((_, index) => {
           const { backgroundColor, textColor, value } = formatCell(
             index,

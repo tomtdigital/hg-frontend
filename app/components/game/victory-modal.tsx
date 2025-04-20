@@ -43,7 +43,7 @@ const VictoryModal = ({
         </p>
       )}
       <button
-        className='mx-auto mt-4 block rounded bg-yellow px-6 py-3 text-lg text-black'
+        className='mx-auto mt-4 block rounded bg-purple px-6 py-3 text-lg text-white'
         onClick={() => {
           dispatch(setVictoryModalVisible(false));
         }}
@@ -69,7 +69,7 @@ const VictoryModal = ({
         incomplete.
       </p>
       <button
-        className='mx-auto mt-4 block rounded bg-yellow px-6 py-3 text-lg text-black'
+        className='mx-auto mt-4 block rounded bg-purple px-6 py-3 text-lg text-white'
         onClick={() => {
           dispatch(setVictoryModalVisible(false));
         }}

@@ -8,8 +8,8 @@ const FiveGridBase = ({
   handleClick,
 }: BaseGridProps) => {
   return (
-    <div className='flex h-[calc(58vh-104px)] justify-center'>
-      <div className='grid w-[calc(58vh-104px-12%)] grid-cols-4 grid-rows-5'>
+    <div className='flex h-[calc(51vh-104px)] justify-center'>
+      <div className='grid w-[calc(51vh-104px-12%)] grid-cols-4 grid-rows-5'>
         {[...Array(20)].map((_, index) => {
           const { backgroundColor, textColor, value } = formatCell(
             index,

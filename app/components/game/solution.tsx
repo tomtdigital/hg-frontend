@@ -115,7 +115,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
 
   return (
     <>
-      <div className='h-[calc(59vh)]'>
+      <div className='h-[calc(54vh)]'>
         <h1 className='text-center text-header1'>{`${
           correctSolution ? '' : 'Enter '
         } Solution`}</h1>
@@ -130,7 +130,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
         <div className='flex justify-center p-4'>
           <div className={`grid w-[100%] grid-cols-${word.length}`}>
             {[...Array(word.length)].map((_, index) => {
-              const background = index === toggledCell ? 'purple' : 'yellow';
+              const background = index === toggledCell ? 'darkGrey' : 'white';
               const color = index === toggledCell ? 'white' : 'black';
               return (
                 <div
