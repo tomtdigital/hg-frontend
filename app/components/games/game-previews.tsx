@@ -36,12 +36,17 @@ export default async function GamesPreview() {
               );
               return (
                 <div key={game._id} className='mb-4'>
-                  <PreviewLink href={`/game/${game._id}`} className='mb-3'>
+                  <PreviewLink
+                    href={`/game/${game._id}`}
+                    className={`${complete ? 'mb-3' : ''}`}
+                  >
                     {date}
                   </PreviewLink>
-                  <span className='mt-1 rounded-full bg-green p-2 text-[0.75em]'>
-                    {complete && '✔️'}
-                  </span>
+                  {complete && (
+                    <span className='mt-1 rounded-full bg-green p-2 text-[0.75em]'>
+                      {'✔️'}
+                    </span>
+                  )}
                 </div>
               );
             })}
@@ -81,12 +86,16 @@ export default async function GamesPreview() {
                 <div key={game._id} className='mb-4'>
                   <PreviewLink
                     key={game._id}
-                    className='bg-purple text-white hover:bg-darkPurple'
+                    className={`bg-purple text-white hover:bg-darkPurple ${complete ? 'mb-3' : ''}`}
                     href={`/game/${game._id}`}
                   >
                     {date}
                   </PreviewLink>
-                  <span className='block'>{complete && 'Complete'}</span>
+                  {complete && (
+                    <span className='mt-1 rounded-full bg-green p-2 text-[0.75em]'>
+                      {'✔️'}
+                    </span>
+                  )}{' '}
                 </div>
               ) : (
                 <span
