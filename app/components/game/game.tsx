@@ -39,7 +39,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
     <PageWrapper>
       <>
         <div className='h-6 bg-yellow text-center'>
-          <h1 className='text-header5'>Hannagrams!</h1>
+          <h1 className='text-header5 text-black'>Hannagrams!</h1>
         </div>
         <Tabs
           selectedIndex={tabIndex}
@@ -68,25 +68,33 @@ export default function Game({ grids, solution, praise }: GameProps) {
                 return (
                   <Tab
                     key={game.grid + 'tab'}
-                    className={`ml-1 mr-1 flex h-8 w-8 items-center justify-center rounded-[50%] border-2 border-solid ${tabColors} font-medium text-white ${
+                    className={`ml-1 mr-1 flex h-8 w-8 items-center justify-center rounded-[50%] border-2 border-solid ${tabColors} font-medium text-black ${
                       unlocked ? 'cursor-pointer' : ''
                     }`}
                     disabled={!unlocked}
                   >
                     <span className='block'>
-                      {unlocked ? index + 1 : <>&#128274;</>}
+                      {unlocked ? (
+                        stage > index ? (
+                          '✔️'
+                        ) : (
+                          index + 1
+                        )
+                      ) : (
+                        <>&#128274;</>
+                      )}
                     </span>
                   </Tab>
                 );
               })}
               <Tab
-                className={`ml-1 mr-1 flex h-8 w-8 items-center justify-center rounded-[50%] border-2 border-solid font-medium text-white ${
+                className={`ml-1 mr-1 flex h-8 w-8 items-center justify-center rounded-[50%] border-2 border-solid font-medium ${
                   gameComplete
-                    ? 'border-green bg-green'
-                    : 'border-purple bg-purple'
+                    ? 'border-green bg-green text-black'
+                    : 'border-purple bg-purple text-white'
                 } cursor-pointer`}
               >
-                7
+                {gameComplete ? '✔️' : '🧩'}
               </Tab>
             </TabList>
           </div>
@@ -107,7 +115,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
                 <div className='mt-[3em] h-[70px] bg-blue'>
                   <Clue active={active} />
                 </div>
-                <div className='grid grid-cols-1 grid-rows-3'>
+                <div className='grid h-[calc(42vh-60px-70px-3em)] grid-cols-1 grid-rows-3'>
                   <Keyboard active={active} />
                 </div>
               </TabPanel>
@@ -119,7 +127,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
               active={!gameComplete}
               maxScore={maxScore}
             />
-            <div className='grid h-[calc(40vh-60px-70px-3em)] grid-cols-1 grid-rows-3'>
+            <div className='grid h-[calc(42vh-60px-70px-3em)] grid-cols-1 grid-rows-3'>
               <Keyboard active={!gameComplete} />
             </div>
           </TabPanel>

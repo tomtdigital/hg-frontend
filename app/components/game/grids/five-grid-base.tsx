@@ -8,8 +8,8 @@ const FiveGridBase = ({
   handleClick,
 }: BaseGridProps) => {
   return (
-    <div className='flex h-[calc(60vh-104px)] justify-center'>
-      <div className='grid w-[calc(60vh-104px-12%)] grid-cols-4 grid-rows-5'>
+    <div className='flex h-[calc(58vh-104px)] justify-center'>
+      <div className='grid w-[calc(58vh-104px-12%)] grid-cols-4 grid-rows-5'>
         {[...Array(20)].map((_, index) => {
           const { backgroundColor, textColor, value } = formatCell(
             index,
@@ -24,12 +24,14 @@ const FiveGridBase = ({
               key={`cell ${index}`}
               className={`flex cursor-pointer items-center justify-center ${backgroundColor} ${
                 activeCells.includes(index)
-                  ? 'border-darkGrey border-[0.5px] border-solid'
+                  ? 'border-[0.5px] border-solid border-darkGrey'
                   : ''
               }`}
               onClick={() => handleClick(index)}
             >
-              <div className={`${textColor}`}>{value}</div>
+              <div className={`${textColor} device:text-[2.5em] text-[1.5em]`}>
+                {value}
+              </div>
             </div>
           );
         })}

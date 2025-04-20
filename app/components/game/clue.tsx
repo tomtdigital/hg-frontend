@@ -26,7 +26,7 @@ const Clue = ({ active }: ClueProps) => {
   };
 
   return (
-    <div className='text-center'>
+    <div className='text-center text-black'>
       <p className='text-[1.5em]'>{`${activeWord.anagram} ${
         activeWord.details?.pronoun ? '(p)' : ''
       } ${

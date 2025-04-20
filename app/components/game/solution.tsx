@@ -115,7 +115,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
 
   return (
     <>
-      <div className='h-[calc(60vh-104px)]'>
+      <div className='h-[calc(59vh)]'>
         <h1 className='text-center text-header1'>{`${
           correctSolution ? '' : 'Enter '
         } Solution`}</h1>
@@ -138,7 +138,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
                   onClick={() => {
                     setToggledCell(index);
                   }}
-                  className={`cursor-pointer border-solid border-black bg-${background} flex min-h-[2em] items-center justify-center border-[1px]`}
+                  className={`cursor-pointer border-solid border-black bg-${background} flex min-h-[3.5em] items-center justify-center border-[1px]`}
                 >
                   <div className={`text-${color}`}>{solutionGuess[index]}</div>
                 </div>

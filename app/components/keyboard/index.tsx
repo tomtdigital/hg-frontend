@@ -1,12 +1,14 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { setKeyPressed } from '@/app/redux/slices/game-slice';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type KeyboardProps = {
   active: boolean;
 };
 
 const Keyboard = ({ active }: KeyboardProps) => {
+  const [activeKey, setActiveKey] = useState<string>('');
+  const isKeyPressedRef = useRef(false); // Use useRef to persist the value
   const rows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
@@ -18,28 +20,28 @@ const Keyboard = ({ active }: KeyboardProps) => {
     (state) => state.gameSession?.session.gameData.gameComplete
   );
 
-  // TEMP
   useEffect(() => {
-    let isKeyPressed = false;
-
     const handleKeyboardUse = ({ key }: { key: string }): void => {
-      if (isKeyPressed) return;
-      isKeyPressed = true;
+      if (isKeyPressedRef.current) return;
+      isKeyPressedRef.current = true;
 
       if (
         /^[a-zA-Z]+$/.test(key) &&
         (key.length === 1 || key === 'Backspace')
       ) {
+        const formattedKey = key === 'Backspace' ? 'DEL' : key.toUpperCase();
+        setActiveKey(formattedKey);
         dispatch(
           setKeyPressed({
-            letter: key === 'Backspace' ? 'DEL' : key.toUpperCase(),
+            letter: formattedKey,
           })
         );
       }
     };
 
     const handleKeyUp = () => {
-      isKeyPressed = false;
+      isKeyPressedRef.current = false;
+      setTimeout(() => setActiveKey(''), 20);
     };
 
     window.addEventListener('keydown', handleKeyboardUse);
@@ -65,13 +67,35 @@ const Keyboard = ({ active }: KeyboardProps) => {
                 //  Individual Buttons
                 <div
                   key={char}
-                  className={`mb-[0.2em] mr-[0.2em] flex cursor-pointer items-center justify-center rounded-[0.2em] bg-midGrey text-center font-bold text-white`}
+                  className={`mb-[0.2em] mr-[0.2em] flex cursor-pointer items-center justify-center rounded-[0.2em] bg-midGrey text-center font-bold text-white ${
+                    activeKey === char ? 'bg-darkGrey' : ''
+                  }`}
                   onClick={(event) => {
                     event.preventDefault();
                     if (!gameComplete && active) {
-                      //   object forces re-render
                       dispatch(setKeyPressed({ letter: char }));
                     }
+                  }}
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                    if (!gameComplete && active) {
+                      setActiveKey(char);
+                    }
+                  }}
+                  onMouseUp={(event) => {
+                    event.preventDefault();
+                    setTimeout(() => setActiveKey(''), 20);
+                  }}
+                  onTouchStart={(event) => {
+                    event.preventDefault();
+                    if (!gameComplete && active) {
+                      setActiveKey(char);
+                      dispatch(setKeyPressed({ letter: char }));
+                    }
+                  }}
+                  onTouchEnd={(event) => {
+                    event.preventDefault();
+                    setTimeout(() => setActiveKey(''), 20);
                   }}
                 >
                   {char !== 'DEL' ? (

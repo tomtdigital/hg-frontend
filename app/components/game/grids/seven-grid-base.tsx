@@ -8,8 +8,8 @@ const SevenGridBase = ({
   handleClick,
 }: BaseGridProps) => {
   return (
-    <div className='flex h-[calc(60vh-104px)] justify-center'>
-      <div className='grid w-[calc(60vh-104px-12%)] grid-cols-5 grid-rows-7'>
+    <div className='flex h-[calc(58vh-104px)] justify-center'>
+      <div className='grid w-[calc(55vh-104px-12%)] grid-cols-5 grid-rows-7'>
         {[...Array(35)].map((_, index) => {
           const { backgroundColor, textColor, value } = formatCell(
             index,
@@ -24,12 +24,14 @@ const SevenGridBase = ({
               key={`cell ${index}`}
               className={`flex cursor-pointer items-center justify-center ${backgroundColor} ${
                 activeCells.includes(index)
-                  ? 'border-darkGrey border-[0.5px] border-solid'
+                  ? 'border-[0.5px] border-solid border-darkGrey'
                   : ''
               }`}
               onClick={() => handleClick(index)}
             >
-              <div className={`${textColor}`}>{value}</div>
+              <div className={`${textColor} device:text-[2em] text-[1em]`}>
+                {value}
+              </div>
             </div>
           );
         })}

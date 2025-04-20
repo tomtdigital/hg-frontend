@@ -26,7 +26,7 @@ const config: Config = {
         yellow: '#fdda24',
         white: '#fff',
       },
-      width: {
+      screens: {
         device: '375px',
       },
       fontSize: {

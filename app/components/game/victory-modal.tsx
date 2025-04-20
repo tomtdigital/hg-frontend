@@ -27,19 +27,23 @@ const VictoryModal = ({
 
   const content = allGridsComplete ? (
     <>
-      <p>Hannagrams Complete!</p>
-      <p>Yessss!!! You did it!!! The Hannah's go fucking mental!!!</p>
-      <p>
-        Your final score was {score}/{maxScore}
+      <p className='mb-4 text-lg font-bold text-black'>Hannagrams Complete!</p>
+      <p className='mb-2 text-base text-black'>
+        Yessss!!! You did it!!! The Hannah's go mental!!!
+      </p>
+      <p className='mb-2 text-base text-black'>
+        Your final score was <span className='font-semibold'>{score}</span>/
+        <span className='font-semibold'>{maxScore}</span>
       </p>
       {cluesRevealed.length > 0 && (
-        <p>
-          You needed {cluesRevealed.length} clue
+        <p className='mb-4 text-base text-black'>
+          You needed{' '}
+          <span className='font-semibold'>{cluesRevealed.length}</span> clue
           {cluesRevealed.length === 1 ? '' : 's'}
         </p>
       )}
       <button
-        className='bg-yellow'
+        className='mx-auto mt-4 block rounded bg-yellow px-6 py-3 text-lg text-black'
         onClick={() => {
           dispatch(setVictoryModalVisible(false));
         }}
@@ -49,21 +53,23 @@ const VictoryModal = ({
     </>
   ) : (
     <>
-      <p>Theme Solved!</p>
-      <p>
-        Yessss!!! You got the theme with only {stage + 1} of {totalStages}{' '}
-        letters.
+      <p className='mb-4 text-lg font-bold text-black'>Theme Solved!</p>
+      <p className='mb-2 text-base text-black'>
+        Yessss!!! You got the theme with only{' '}
+        <span className='font-semibold'>{stage + 1}</span> of{' '}
+        <span className='font-semibold'>{totalStages}</span> letters.
       </p>
-      <p>
-        See how close you can get to the maximum score of {maxScore} with the
-        remaining grids!
+      <p className='mb-2 text-base text-black'>
+        See how close you can get to the maximum score of{' '}
+        <span className='font-semibold'>{maxScore}</span> with the remaining
+        grids!
       </p>
-      <p>
+      <p className='mb-4 text-base text-black'>
         Until you complete all of the grids, the game will be marked as
         incomplete.
       </p>
       <button
-        className='bg-yellow'
+        className='mx-auto mt-4 block rounded bg-yellow px-6 py-3 text-lg text-black'
         onClick={() => {
           dispatch(setVictoryModalVisible(false));
         }}
