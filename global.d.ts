@@ -19,12 +19,10 @@ type Word = {
 
 type GridData = Word[];
 
-type GameGrid = [
-  {
-    grid: string;
-    data: GridData;
-  },
-];
+type GameGrid = {
+  grid: string;
+  data: GridData;
+}[];
 
 type Game = {
   _id: string;
@@ -37,11 +35,15 @@ type Game = {
   premium: true;
 };
 
-type CompletedGrid = {
+type GridCell = {
   cell: number;
   guess: string;
   answer: string;
 };
+
+type GridCells = GridCell[];
+
+type FullGrid = GridCells[];
 
 type GameSession = {
   _id: string; // id
@@ -50,8 +52,8 @@ type GameSession = {
     stage: number;
     cluesRevealed: string[];
     score: number;
-    lastCompletedGrid: CompletedGrid[];
-    finishedGrids: CompletedGrid[];
+    lastCompletedGrid: FullGrid;
+    finishedGrids: FullGrid[];
     solutionGuess: string;
     correctSolution: boolean;
     gameComplete: boolean;

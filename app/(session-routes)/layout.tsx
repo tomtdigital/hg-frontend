@@ -13,8 +13,8 @@ export default function SessionLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='flex h-[100vh] flex-col justify-between'>
-      {children}{' '}
+    <div className='min-h-[100vh]'>
+      <main className='min-h-[calc(100vh-5em)]'>{children}</main>
       <footer className='flex min-h-[3em] w-[100%] flex-col items-center justify-center bg-gray-900 p-[1em] md:flex-row md:p-[2em]'>
         <div className='mb-[1em] md:mb-0 md:mr-[3em]'>
           <Link href='/games' className='text-white'>
