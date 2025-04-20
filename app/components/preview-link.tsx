@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { FC, ReactNode } from "react";
-import { cn } from "@/app/utils/classname";
+import Link from 'next/link';
+import { FC, ReactNode } from 'react';
+import { cn } from '@/app/utils/classname';
 
 type PreviewLinkProps = {
   href: string;
@@ -15,7 +15,7 @@ export const PreviewLink: FC<PreviewLinkProps> = ({
 }) => (
   <Link
     className={cn(
-      "m-1 bg-yellow-500 hover:bg-yellow-600 text-black block w-[8em] text-center p-4 rounded-[10em]",
+      'm-1 block w-[8em] rounded-[10em] bg-white p-4 text-center text-black hover:bg-lightGrey',
       className
     )}
     href={href}
