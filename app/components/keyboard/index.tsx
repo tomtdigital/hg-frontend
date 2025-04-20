@@ -20,18 +20,33 @@ const Keyboard = ({ active }: KeyboardProps) => {
 
   // TEMP
   useEffect(() => {
-    const handleKeyboardUse = ({ key }: { key: string }) => {
-      if (/^[a-zA-Z]+$/.test(key) && (key.length === 1 || key === 'Backspace'))
+    let isKeyPressed = false;
+
+    const handleKeyboardUse = ({ key }: { key: string }): void => {
+      if (isKeyPressed) return;
+      isKeyPressed = true;
+
+      if (
+        /^[a-zA-Z]+$/.test(key) &&
+        (key.length === 1 || key === 'Backspace')
+      ) {
         dispatch(
           setKeyPressed({
             letter: key === 'Backspace' ? 'DEL' : key.toUpperCase(),
           })
         );
+      }
+    };
+
+    const handleKeyUp = () => {
+      isKeyPressed = false;
     };
 
     window.addEventListener('keydown', handleKeyboardUse);
+    window.addEventListener('keyup', handleKeyUp);
     return () => {
       window.removeEventListener('keydown', handleKeyboardUse);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 

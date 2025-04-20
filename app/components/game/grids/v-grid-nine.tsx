@@ -101,6 +101,7 @@ const VGridNine = ({ data, round, active, onComplete }: GridProps) => {
 
   useEffect(() => {
     const handleKeyPress = ({ letter: guess }: Key) => {
+      if (!guess) return;
       const newGrid = grid.map((word) =>
         word.map((letter) =>
           letter.cell === toggledCell

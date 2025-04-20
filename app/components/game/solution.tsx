@@ -3,10 +3,12 @@ import { updateSessionDataStorage } from '@/app/redux/slices/game-session-slice'
 import {
   GameState,
   Key,
+  setTabIndex,
   setVictoryModalVisible,
 } from '@/app/redux/slices/game-slice';
 import { useEffect, useState } from 'react';
 import VictoryModal from './victory-modal';
+import Link from 'next/link';
 
 type SolutionProps = {
   text: string;
@@ -22,7 +24,8 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
   );
   const { totalStages, keyPressed, victoryModalVisible } = storeGame;
 
-  const { stage, solutionGuess, correctSolution } = storeSession.gameData;
+  const { stage, solutionGuess, correctSolution, finishedGrids, gameComplete } =
+    storeSession.gameData;
 
   const word = text.replace(/ /g, '');
   const multipleWords = text.includes(' ');
@@ -31,6 +34,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
 
   useEffect(() => {
     const handleKeyPress = ({ letter }: Key) => {
+      if (!letter) return;
       let newSolutionGuess: string;
       if (letter === 'DEL') {
         if (toggledCell === 0) {
@@ -144,6 +148,31 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
         </div>
         {multipleWords && !correctSolution && (
           <p className='my-2'>Word count: {text.split(' ').length}</p>
+        )}
+        {correctSolution && (
+          <div className='w-full text-center'>
+            <p className='my-5'>You guessed right!!! 🎉</p>
+
+            {gameComplete ? (
+              <Link
+                href='/games'
+                className='mx-auto mt-2 block w-[10em] rounded bg-purple p-2 text-center text-white'
+              >
+                Back to Games
+              </Link>
+            ) : (
+              <button
+                className='mx-auto mt-2 rounded bg-purple p-2 text-white'
+                onClick={() => {
+                  const tab =
+                    finishedGrids.length === 0 ? 0 : finishedGrids.length - 1;
+                  dispatch(setTabIndex(tab));
+                }}
+              >
+                Back to Grids
+              </button>
+            )}
+          </div>
         )}
       </div>
       <VictoryModal
