@@ -36,8 +36,12 @@ export default async function GamesPreview() {
               );
               return (
                 <div key={game._id} className='mb-4'>
-                  <PreviewLink href={`/game/${game._id}`}>{date}</PreviewLink>
-                  <span className='block'>{complete && 'Complete'}</span>
+                  <PreviewLink href={`/game/${game._id}`} className='mb-3'>
+                    {date}
+                  </PreviewLink>
+                  <span className='mt-1 rounded-full bg-green p-2 text-[0.75em]'>
+                    {complete && '✔️'}
+                  </span>
                 </div>
               );
             })}

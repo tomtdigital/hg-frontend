@@ -152,25 +152,30 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
         {correctSolution && (
           <div className='w-full text-center'>
             <p className='my-5'>You guessed right!!! 🎉</p>
-
-            {gameComplete ? (
-              <Link
-                href='/games'
-                className='mx-auto mt-2 block w-[10em] rounded bg-purple p-2 text-center text-white'
-              >
-                Back to Games
-              </Link>
-            ) : (
-              <button
-                className='mx-auto mt-2 rounded bg-purple p-2 text-white'
-                onClick={() => {
-                  const tab =
-                    finishedGrids.length === 0 ? 0 : finishedGrids.length - 1;
-                  dispatch(setTabIndex(tab));
-                }}
-              >
-                Back to Grids
-              </button>
+            {!victoryModalVisible && (
+              <>
+                {gameComplete ? (
+                  <Link
+                    href='/games'
+                    className='mx-auto mt-2 block w-[10em] rounded bg-purple p-2 text-center text-white'
+                  >
+                    Back to Games
+                  </Link>
+                ) : (
+                  <button
+                    className='mx-auto mt-2 rounded bg-purple p-2 text-white'
+                    onClick={() => {
+                      const tab =
+                        finishedGrids.length === 0
+                          ? 0
+                          : finishedGrids.length - 1;
+                      dispatch(setTabIndex(tab));
+                    }}
+                  >
+                    Back to Grids
+                  </button>
+                )}
+              </>
             )}
           </div>
         )}
