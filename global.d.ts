@@ -20,7 +20,7 @@ type Word = {
 type GridData = Word[];
 
 type GameGrid = {
-  grid: string;
+  grid: GridType;
   data: GridData;
 }[];
 

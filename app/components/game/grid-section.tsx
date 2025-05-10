@@ -13,7 +13,7 @@ import GridWrapper from './grid-wrapper';
 import VictoryModal from './victory-modal';
 
 interface GridSectionProps {
-  type: string;
+  type: GridType;
   round: number;
   active: boolean;
   data: GridData;
