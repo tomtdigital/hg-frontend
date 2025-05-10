@@ -1,39 +1,25 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { GameState, Key, setActiveWord } from '@/app/redux/slices/game-slice';
 import { useEffect, useState } from 'react';
-import { GridProps } from '../grid';
+import { BaseGridProps } from '../grid-wrapper';
+import FiveGridBase from './five-grid-base';
 import SevenGridBase from './seven-grid-base';
+import NineGridBase from './nine-grid-base';
+import ErrorMessage from '../../error/error-message';
 
-const UGridSeven = ({ data, round, active, onComplete }: GridProps) => {
-  // All downs then acrosses
-  const baseGrid: FullGrid = [
-    [
-      { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-      { cell: 5, guess: '', answer: data[0].word[1].toUpperCase() },
-      { cell: 10, guess: '', answer: data[0].word[2].toUpperCase() },
-      { cell: 15, guess: '', answer: data[0].word[3].toUpperCase() },
-      { cell: 20, guess: '', answer: data[0].word[4].toUpperCase() },
-      { cell: 25, guess: '', answer: data[0].word[5].toUpperCase() },
-      { cell: 30, guess: '', answer: data[0].word[6].toUpperCase() },
-    ],
-    [
-      { cell: 4, guess: '', answer: data[1].word[0].toUpperCase() },
-      { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-      { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-      { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-      { cell: 24, guess: '', answer: data[1].word[4].toUpperCase() },
-      { cell: 29, guess: '', answer: data[1].word[5].toUpperCase() },
-      { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-    ],
-    [
-      { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
-      { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
-      { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
-      { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
-      { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
-    ],
-  ];
+interface GridProps extends BaseGridProps {
+  gridSize: number;
+  baseGrid: FullGrid;
+}
 
+export default function Grid({
+  gridSize,
+  baseGrid,
+  active,
+  round,
+  data,
+  onComplete,
+}: GridProps) {
   const dispatch = useAppDispatch();
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
@@ -167,15 +153,22 @@ const UGridSeven = ({ data, round, active, onComplete }: GridProps) => {
       if (onComplete) onComplete(grid);
   }, [active, grid, onComplete]);
 
-  return (
-    <SevenGridBase
-      activeCells={activeCells}
-      toggledWord={toggledWord}
-      toggledCell={toggledCell}
-      grid={grid}
-      handleClick={handleClick}
-    />
-  );
-};
+  const gridProps = {
+    activeCells,
+    toggledWord,
+    toggledCell,
+    grid,
+    handleClick,
+  };
 
-export default UGridSeven;
+  switch (gridSize) {
+    case 5:
+      return <FiveGridBase {...gridProps} />;
+    case 7:
+      return <SevenGridBase {...gridProps} />;
+    case 9:
+      return <NineGridBase {...gridProps} />;
+    default:
+      return <ErrorMessage />;
+  }
+}

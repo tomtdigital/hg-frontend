@@ -9,7 +9,7 @@ import {
   setVictoryModalVisible,
 } from '@/app/redux/slices/game-slice';
 import AdvanceModal from './advance-modal';
-import Grid from './grid';
+import GridWrapper from './grid-wrapper';
 import VictoryModal from './victory-modal';
 
 interface GridSectionProps {
@@ -94,7 +94,7 @@ export function GridSection({
 
   return (
     <>
-      <Grid type={type} active={active} round={round} data={data} />
+      <GridWrapper type={type} active={active} round={round} data={data} />
       <AdvanceModal
         visible={advanceModalVisible}
         stage={stage}
