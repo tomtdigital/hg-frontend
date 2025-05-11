@@ -573,6 +573,118 @@ export function getBaseGrid(type: GridType, data: GridData): FullGrid {
           { cell: 56, guess: '', answer: data[2].word[8].toUpperCase() },
         ],
       ];
+    case 'g-5':
+      return [
+        [
+          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
+          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
+          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
+          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
+        ],
+        [
+          { cell: 10, guess: '', answer: data[1].word[0].toUpperCase() },
+          { cell: 11, guess: '', answer: data[1].word[1].toUpperCase() },
+        ],
+        [
+          { cell: 16, guess: '', answer: data[2].word[0].toUpperCase() },
+          { cell: 17, guess: '', answer: data[2].word[1].toUpperCase() },
+          { cell: 18, guess: '', answer: data[2].word[2].toUpperCase() },
+          { cell: 19, guess: '', answer: data[2].word[3].toUpperCase() },
+        ],
+        [
+          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
+          { cell: 4, guess: '', answer: data[3].word[1].toUpperCase() },
+          { cell: 8, guess: '', answer: data[3].word[2].toUpperCase() },
+          { cell: 12, guess: '', answer: data[3].word[3].toUpperCase() },
+          { cell: 16, guess: '', answer: data[3].word[4].toUpperCase() },
+        ],
+        [
+          { cell: 11, guess: '', answer: data[4].word[0].toUpperCase() },
+          { cell: 15, guess: '', answer: data[4].word[1].toUpperCase() },
+          { cell: 19, guess: '', answer: data[4].word[2].toUpperCase() },
+        ],
+      ];
+    case 'g-7':
+      return [
+        [
+          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
+          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
+          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
+          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
+          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
+        ],
+        [
+          { cell: 17, guess: '', answer: data[1].word[0].toUpperCase() },
+          { cell: 18, guess: '', answer: data[1].word[1].toUpperCase() },
+          { cell: 19, guess: '', answer: data[1].word[2].toUpperCase() },
+        ],
+        [
+          { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
+          { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
+          { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
+          { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
+          { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
+        ],
+        [
+          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
+          { cell: 5, guess: '', answer: data[3].word[1].toUpperCase() },
+          { cell: 10, guess: '', answer: data[3].word[2].toUpperCase() },
+          { cell: 15, guess: '', answer: data[3].word[3].toUpperCase() },
+          { cell: 20, guess: '', answer: data[3].word[4].toUpperCase() },
+          { cell: 25, guess: '', answer: data[3].word[5].toUpperCase() },
+          { cell: 30, guess: '', answer: data[3].word[6].toUpperCase() },
+        ],
+        [
+          { cell: 19, guess: '', answer: data[4].word[0].toUpperCase() },
+          { cell: 24, guess: '', answer: data[4].word[1].toUpperCase() },
+          { cell: 29, guess: '', answer: data[4].word[2].toUpperCase() },
+          { cell: 34, guess: '', answer: data[4].word[3].toUpperCase() },
+        ],
+      ];
+    case 'g-9':
+      return [
+        [
+          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
+          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
+          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
+          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
+          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
+          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
+          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
+        ],
+        [
+          { cell: 38, guess: '', answer: data[1].word[0].toUpperCase() },
+          { cell: 39, guess: '', answer: data[1].word[1].toUpperCase() },
+          { cell: 40, guess: '', answer: data[1].word[2].toUpperCase() },
+          { cell: 41, guess: '', answer: data[1].word[3].toUpperCase() },
+        ],
+        [
+          { cell: 56, guess: '', answer: data[2].word[0].toUpperCase() },
+          { cell: 57, guess: '', answer: data[2].word[1].toUpperCase() },
+          { cell: 58, guess: '', answer: data[2].word[2].toUpperCase() },
+          { cell: 59, guess: '', answer: data[2].word[3].toUpperCase() },
+          { cell: 60, guess: '', answer: data[2].word[4].toUpperCase() },
+          { cell: 61, guess: '', answer: data[2].word[5].toUpperCase() },
+          { cell: 62, guess: '', answer: data[2].word[6].toUpperCase() },
+        ],
+        [
+          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
+          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
+          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
+          { cell: 21, guess: '', answer: data[3].word[3].toUpperCase() },
+          { cell: 28, guess: '', answer: data[3].word[4].toUpperCase() },
+          { cell: 35, guess: '', answer: data[3].word[5].toUpperCase() },
+          { cell: 42, guess: '', answer: data[3].word[6].toUpperCase() },
+          { cell: 49, guess: '', answer: data[3].word[7].toUpperCase() },
+          { cell: 56, guess: '', answer: data[3].word[8].toUpperCase() },
+        ],
+        [
+          { cell: 41, guess: '', answer: data[4].word[0].toUpperCase() },
+          { cell: 48, guess: '', answer: data[4].word[1].toUpperCase() },
+          { cell: 55, guess: '', answer: data[4].word[2].toUpperCase() },
+          { cell: 62, guess: '', answer: data[4].word[3].toUpperCase() },
+        ],
+      ];
     default:
       throw new Error(`Invalid grid type: ${type}`);
   }
