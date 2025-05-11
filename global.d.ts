@@ -32,7 +32,7 @@ type Game = {
   publishDate: string;
   createdAt: string;
   updatedAt: string;
-  premium: true;
+  premium: boolean;
 };
 
 type GridCell = {
