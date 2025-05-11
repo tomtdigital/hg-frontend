@@ -1,1531 +1,470 @@
 export function getBaseGrid(type: GridType, data: GridData): FullGrid {
+  const words = data.map((item) => item.word);
+
+  const createRow = (cells: number[], word: string): GridCell[] => {
+    return cells.map((cell, index) => ({
+      cell,
+      guess: '',
+      answer: word[index].toUpperCase(),
+    }));
+  };
+
+  const createGrid = (rows: number[][]): FullGrid => {
+    return rows.map((row, index) => createRow(row, words[index]));
+  };
+
   switch (type) {
     case 'a-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 8, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 11, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[3].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [8, 9, 10, 11],
+        [0, 4, 8, 12, 16],
+        [3, 7, 11, 15, 19],
+      ]);
     case 'a-7':
-      return [
-        [
-          { cell: 2, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 8, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 15, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 16, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 17, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 18, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 2, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 6, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [15, 16, 17, 18, 19],
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+      ]);
     case 'a-9':
-      return [
-        [
-          { cell: 3, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 11, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 19, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 41, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 48, guess: '', answer: data[0].word[6].toUpperCase() },
-          { cell: 55, guess: '', answer: data[0].word[7].toUpperCase() },
-          { cell: 62, guess: '', answer: data[0].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 28, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 30, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 31, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 32, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 33, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [28, 29, 30, 31, 32, 33, 34],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+      ]);
     case 'b-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[1].word[1].toUpperCase() },
-        ],
-        [
-          { cell: 15, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 19, guess: '', answer: data[2].word[1].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[3].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[4].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[4].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 8, guess: '', answer: data[5].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[5].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[5].word[2].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [8, 9, 10],
+        [16, 17, 18, 19],
+        [3, 7, 10],
+        [0, 4, 8, 12, 16],
+        [10, 15, 19],
+      ]);
     case 'b-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 24, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 29, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 34, guess: '', answer: data[2].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[3].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[4].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[4].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[4].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[4].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 15, guess: '', answer: data[5].word[0].toUpperCase() },
-          { cell: 16, guess: '', answer: data[5].word[1].toUpperCase() },
-          { cell: 17, guess: '', answer: data[5].word[2].toUpperCase() },
-          { cell: 18, guess: '', answer: data[5].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [15, 16, 17, 18],
+        [30, 31, 32, 33, 34],
+        [4, 9, 14, 18],
+        [0, 5, 10, 15, 20, 25, 30],
+        [18, 24, 29, 34],
+      ]);
     case 'b-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-        ],
-        [
-          { cell: 13, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 20, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 41, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 48, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 55, guess: '', answer: data[2].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[3].word[5].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[4].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[4].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[4].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[4].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[4].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[4].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 28, guess: '', answer: data[5].word[0].toUpperCase() },
-          { cell: 29, guess: '', answer: data[5].word[1].toUpperCase() },
-          { cell: 30, guess: '', answer: data[5].word[2].toUpperCase() },
-          { cell: 31, guess: '', answer: data[5].word[3].toUpperCase() },
-          { cell: 32, guess: '', answer: data[5].word[4].toUpperCase() },
-          { cell: 33, guess: '', answer: data[5].word[5].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5],
+        [28, 29, 30, 31, 32, 33],
+        [56, 57, 58, 59, 60, 61],
+        [5, 13, 20, 27, 33],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [33, 41, 48, 55, 61],
+      ]);
     case 'c-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [16, 17, 18, 19],
+        [0, 4, 8, 12, 16],
+      ]);
     case 'c-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [30, 31, 32, 33, 34],
+        [0, 5, 10, 15, 20, 25, 30],
+      ]);
     case 'c-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [56, 57, 58, 59, 60, 61, 62],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+      ]);
     case 'd-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 7, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 15, guess: '', answer: data[1].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[2].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[3].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2],
+        [16, 17, 18],
+        [0, 4, 8, 12, 16],
+        [2, 7, 11, 15, 18],
+      ]);
     case 'd-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 9, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 24, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[3].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [30, 31, 32, 33],
+        [0, 5, 10, 15, 20, 25, 30],
+        [3, 9, 14, 19, 24, 29, 33],
+      ]);
     case 'd-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-        ],
-        [
-          { cell: 13, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 20, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 41, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 48, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 55, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[2].word[5].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[3].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[3].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[3].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5],
+        [56, 57, 58, 59, 60, 61],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [5, 13, 20, 27, 34, 41, 48, 55, 61],
+      ]);
     case 'e-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 8, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[2].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[3].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [8, 9, 10, 11],
+        [16, 17, 18, 19],
+        [0, 4, 8, 12, 16],
+      ]);
     case 'e-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 15, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 16, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 17, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 18, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[3].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [15, 16, 17, 18, 19],
+        [30, 31, 32, 33, 34],
+        [0, 5, 10, 15, 20, 25, 30],
+      ]);
     case 'e-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 28, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 30, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 31, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 32, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 33, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[3].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[3].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[3].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [28, 29, 30, 31, 32, 33, 34],
+        [56, 57, 58, 59, 60, 61, 62],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+      ]);
     case 'f-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 8, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [8, 9, 10, 11],
+        [0, 4, 8, 12, 16],
+      ]);
     case 'f-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 10, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 12, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 13, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [10, 11, 12, 13, 14],
+        [0, 5, 10, 15, 20, 25, 30],
+      ]);
     case 'f-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 21, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 22, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 23, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 24, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 25, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 26, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [21, 22, 23, 24, 25, 26, 27],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+      ]);
     case 'g-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 10, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[1].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[2].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[3].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 11, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 15, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 19, guess: '', answer: data[4].word[2].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [16, 17, 18, 19],
+        [0, 4, 8, 12, 16],
+        [10, 11, 15, 19],
+      ]);
     case 'g-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 17, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 18, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[3].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 19, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 24, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 29, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 34, guess: '', answer: data[4].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [17, 18, 19],
+        [30, 31, 32, 33, 34],
+        [0, 5, 10, 15, 20, 25, 30],
+        [19, 24, 29, 34],
+      ]);
     case 'g-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 38, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 39, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 40, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 41, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[3].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[3].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[3].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 41, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 48, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 55, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 62, guess: '', answer: data[4].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [38, 39, 40, 41],
+        [56, 57, 58, 59, 60, 61, 62],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [41, 48, 55, 62],
+      ]);
     case 'h-5':
-      return [
-        [
-          { cell: 8, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 11, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 11, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [8, 9, 10, 11],
+        [0, 4, 8, 12, 16],
+        [3, 7, 11, 15, 19],
+      ]);
     case 'h-7':
-      return [
-        [
-          { cell: 15, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 16, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 17, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 18, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [15, 16, 17, 18, 19],
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+      ]);
     case 'h-9':
-      return [
-        [
-          { cell: 28, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 29, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 30, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 31, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 32, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 33, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[1].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[1].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[1].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 6, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 13, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 41, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 48, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 55, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 62, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [28, 29, 30, 31, 32, 33, 34],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+      ]);
     case 'i-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 2, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 17, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 22, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 27, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 32, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [30, 31, 32, 33, 34],
+        [2, 7, 12, 17, 22, 27, 32],
+      ]);
     case 'i-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 17, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 24, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 31, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 38, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 45, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 52, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 59, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [56, 57, 58, 59, 60, 61, 62],
+        [3, 10, 17, 24, 31, 38, 45, 52, 59],
+      ]);
     case 'j-5':
-      return [
-        [
-          { cell: 8, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 12, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 16, guess: '', answer: data[0].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[2].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [8, 12, 16],
+        [3, 7, 11, 15, 19],
+        [16, 17, 18, 19],
+      ]);
     case 'j-7':
-      return [
-        [
-          { cell: 20, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 25, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 30, guess: '', answer: data[0].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+        [30, 31, 32, 33, 34],
+      ]);
     case 'j-9':
-      return [
-        [
-          { cell: 35, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 42, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 49, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 56, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 6, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 13, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 20, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 41, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 48, guess: '', answer: data[1].word[6].toUpperCase() },
-          { cell: 55, guess: '', answer: data[1].word[7].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+        [56, 57, 58, 59, 60, 61, 62],
+      ]);
     case 'k-5':
-      return [
-        [
-          { cell: 9, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 9, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [12, 9, 6, 3],
+        [4, 9, 14, 19],
+        [0, 4, 8, 12, 16],
+      ]);
     case 'k-7':
-      return [
-        [
-          { cell: 16, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 12, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 22, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 28, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [20, 16, 12, 8, 4],
+        [10, 16, 22, 28, 34],
+        [0, 5, 10, 15, 20, 25, 30],
+      ]);
     case 'k-9':
-      return [
-        [
-          { cell: 30, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 24, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 38, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 46, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 54, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 1, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 22, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 29, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 36, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 43, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 50, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 57, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [36, 30, 24, 18, 12, 6],
+        [22, 30, 38, 46, 54, 62],
+        [1, 8, 15, 22, 29, 36, 43, 50, 57],
+      ]);
     case 'l-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 4, 8, 12, 16],
+        [16, 17, 18, 19],
+      ]);
     case 'l-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 5, 10, 15, 20, 25, 30],
+        [30, 31, 32, 33, 34],
+      ]);
     case 'l-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[0].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[0].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[0].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [56, 57, 58, 59, 60, 61, 62],
+      ]);
     case 'm-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 6, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[2].toUpperCase() },
-        ],
-        [
-          { cell: 12, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 8, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 4, guess: '', answer: data[3].word[2].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+        [0, 6, 12, 8, 4],
+      ]);
     case 'm-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[0].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[0].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[0].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 6, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 13, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 20, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 41, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 48, guess: '', answer: data[1].word[6].toUpperCase() },
-          { cell: 55, guess: '', answer: data[1].word[7].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 24, guess: '', answer: data[2].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 24, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 18, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 12, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 6, guess: '', answer: data[3].word[3].toUpperCase() },
-        ],
-      ];
-    case 'n-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 2, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[2].word[2].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+        [0, 8, 16, 24],
+        [24, 18, 12, 6],
+      ]);
     case 'n-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[2].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+        [5, 11, 17, 23, 29],
+      ]);
     case 'n-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[0].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[0].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[0].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 13, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 20, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 41, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 48, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 55, guess: '', answer: data[1].word[6].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[7].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 13, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+        [7, 15, 23, 31, 39, 47, 55],
+      ]);
     case 'o-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 16, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 17, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 18, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 11, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 19, guess: '', answer: data[3].word[4].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [16, 17, 18, 19],
+        [0, 4, 8, 12, 16],
+        [3, 7, 11, 15, 19],
+      ]);
     case 'o-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 30, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 31, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 32, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 34, guess: '', answer: data[3].word[6].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [30, 31, 32, 33, 34],
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+      ]);
     case 'o-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 56, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 57, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 58, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 59, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 60, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 61, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 62, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 6, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 13, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 20, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 41, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 48, guess: '', answer: data[3].word[6].toUpperCase() },
-          { cell: 55, guess: '', answer: data[3].word[7].toUpperCase() },
-          { cell: 62, guess: '', answer: data[3].word[8].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [56, 57, 58, 59, 60, 61, 62],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+      ]);
     case 'p-5':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 8, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[3].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 4, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 8, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 12, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 16, guess: '', answer: data[2].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 3, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 11, guess: '', answer: data[3].word[2].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3],
+        [8, 9, 10, 11],
+        [0, 4, 8, 12, 16],
+        [3, 7, 11],
+      ]);
     case 'p-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 10, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 11, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 12, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 13, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 14, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 30, guess: '', answer: data[2].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [10, 11, 12, 13, 14],
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14],
+      ]);
     case 'p-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 21, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 22, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 23, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 24, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 25, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 26, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[2].word[7].toUpperCase() },
-          { cell: 56, guess: '', answer: data[2].word[8].toUpperCase() },
-        ],
-        [
-          { cell: 6, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 13, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 20, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[3].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [21, 22, 23, 24, 25, 26, 27],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27],
+      ]);
     case 'q-7':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 25, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 26, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 27, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 28, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 29, guess: '', answer: data[1].word[4].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 5, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 10, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 15, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 20, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 25, guess: '', answer: data[2].word[5].toUpperCase() },
-        ],
-        [
-          { cell: 4, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 9, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 19, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 24, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 29, guess: '', answer: data[3].word[5].toUpperCase() },
-        ],
-        [
-          { cell: 22, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 27, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 28, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 33, guess: '', answer: data[4].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [25, 26, 27, 28, 29],
+        [0, 5, 10, 15, 20, 25],
+        [4, 9, 14, 19, 24, 29],
+        [22, 27, 28, 33],
+      ]);
     case 'q-9':
-      return [
-        [
-          { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-          { cell: 1, guess: '', answer: data[0].word[1].toUpperCase() },
-          { cell: 2, guess: '', answer: data[0].word[2].toUpperCase() },
-          { cell: 3, guess: '', answer: data[0].word[3].toUpperCase() },
-          { cell: 4, guess: '', answer: data[0].word[4].toUpperCase() },
-          { cell: 5, guess: '', answer: data[0].word[5].toUpperCase() },
-          { cell: 6, guess: '', answer: data[0].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 49, guess: '', answer: data[1].word[0].toUpperCase() },
-          { cell: 50, guess: '', answer: data[1].word[1].toUpperCase() },
-          { cell: 51, guess: '', answer: data[1].word[2].toUpperCase() },
-          { cell: 52, guess: '', answer: data[1].word[3].toUpperCase() },
-          { cell: 53, guess: '', answer: data[1].word[4].toUpperCase() },
-          { cell: 54, guess: '', answer: data[1].word[5].toUpperCase() },
-          { cell: 55, guess: '', answer: data[1].word[6].toUpperCase() },
-        ],
-        [
-          { cell: 0, guess: '', answer: data[2].word[0].toUpperCase() },
-          { cell: 7, guess: '', answer: data[2].word[1].toUpperCase() },
-          { cell: 14, guess: '', answer: data[2].word[2].toUpperCase() },
-          { cell: 21, guess: '', answer: data[2].word[3].toUpperCase() },
-          { cell: 28, guess: '', answer: data[2].word[4].toUpperCase() },
-          { cell: 35, guess: '', answer: data[2].word[5].toUpperCase() },
-          { cell: 42, guess: '', answer: data[2].word[6].toUpperCase() },
-          { cell: 49, guess: '', answer: data[2].word[7].toUpperCase() },
-        ],
-        [
-          { cell: 6, guess: '', answer: data[3].word[0].toUpperCase() },
-          { cell: 13, guess: '', answer: data[3].word[1].toUpperCase() },
-          { cell: 20, guess: '', answer: data[3].word[2].toUpperCase() },
-          { cell: 27, guess: '', answer: data[3].word[3].toUpperCase() },
-          { cell: 34, guess: '', answer: data[3].word[4].toUpperCase() },
-          { cell: 41, guess: '', answer: data[3].word[5].toUpperCase() },
-          { cell: 48, guess: '', answer: data[3].word[6].toUpperCase() },
-          { cell: 55, guess: '', answer: data[3].word[7].toUpperCase() },
-        ],
-        [
-          { cell: 46, guess: '', answer: data[4].word[0].toUpperCase() },
-          { cell: 53, guess: '', answer: data[4].word[1].toUpperCase() },
-          { cell: 54, guess: '', answer: data[4].word[2].toUpperCase() },
-          { cell: 61, guess: '', answer: data[4].word[3].toUpperCase() },
-        ],
-      ];
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [49, 50, 51, 52, 53, 54, 55],
+        [0, 7, 14, 21, 28, 35, 42, 49],
+        [6, 13, 20, 27, 34, 41, 48, 55],
+        [46, 53, 54, 61],
+      ]);
+    case 'r-5':
+      return createGrid([
+        [0, 4, 8, 12, 16],
+        [4, 5, 2, 7],
+      ]);
+    case 'r-7':
+      return createGrid([
+        [0, 1, 2, 3],
+        [15, 16, 17, 18],
+        [0, 5, 10, 15, 20, 25, 30],
+        [3, 9, 14, 18],
+        [16, 22, 28, 34],
+      ]);
+    case 'r-9':
+      return createGrid([
+        [0, 1, 2, 3, 4, 5],
+        [21, 22, 23, 24, 25, 26],
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [5, 13, 20, 26],
+        [22, 30, 38, 46, 54, 62],
+      ]);
+    case 's-5':
+      return createGrid([
+        [0, 1, 2, 3],
+        [8, 9, 10, 11],
+        [16, 17, 18, 19],
+        [0, 4, 8],
+        [11, 15, 19],
+      ]);
+    case 's-7':
+      return createGrid([
+        [0, 1, 2, 3, 4, 9],
+        [15, 16, 17, 18, 19],
+        [25, 30, 31, 32, 33, 34],
+        [0, 5, 10, 15],
+        [19, 24, 29, 34],
+      ]);
+    case 's-9':
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6, 13],
+        [28, 29, 30, 31, 32, 33, 34],
+        [49, 56, 57, 58, 59, 60, 61, 62],
+        [0, 7, 14, 21, 28],
+        [34, 41, 48, 55, 62],
+      ]);
+    case 't-7':
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [2, 7, 12, 17, 22, 27],
+      ]);
+    case 't-9':
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [3, 10, 17, 24, 31, 38, 45, 52, 59],
+      ]);
+    case 'u-5':
+      return createGrid([
+        [0, 4, 8, 12, 16],
+        [3, 7, 11, 15, 19],
+        [16, 17, 18, 19],
+      ]);
+    case 'u-7':
+      return createGrid([
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+        [30, 31, 32, 33, 34],
+      ]);
+    case 'u-9':
+      return createGrid([
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+        [56, 57, 58, 59, 60, 61, 62],
+      ]);
+    case 'v-7':
+      return createGrid([
+        [0, 5, 10, 15, 21, 26, 32],
+        [4, 9, 14, 19, 23, 28, 32],
+      ]);
+    case 'v-9':
+      return createGrid([
+        [0, 7, 14, 22, 29, 36, 44, 51, 59],
+        [6, 13, 20, 26, 33, 40, 46, 53, 59],
+      ]);
+    case 'w-7':
+      return createGrid([
+        [0, 5, 10, 15, 20, 25, 30],
+        [4, 9, 14, 19, 24, 29, 34],
+        [30, 26, 22, 28, 34],
+      ]);
+    case 'w-9':
+      return createGrid([
+        [0, 7, 14, 21, 28, 35, 42, 49, 56],
+        [6, 13, 20, 27, 34, 41, 48, 55, 62],
+        [56, 50, 44, 38],
+        [38, 46, 54, 62],
+      ]);
+    case 'x-7':
+      return createGrid([
+        [0, 5, 11, 17, 23, 29, 34],
+        [4, 9, 13, 17, 21, 25, 30],
+      ]);
+    case 'x-9':
+      return createGrid([
+        [0, 7, 15, 23, 31, 39, 47, 55, 62],
+        [6, 13, 19, 25, 31, 37, 43, 49, 56],
+      ]);
+    case 'y-5':
+      return createGrid([
+        [0, 4, 8],
+        [3, 7, 11, 15, 19],
+        [8, 9, 10, 11],
+        [16, 17, 18, 19],
+      ]);
+    case 'y-7':
+      return createGrid([
+        [0, 5, 11, 17],
+        [4, 9, 13, 17],
+        [17, 22, 27, 32],
+      ]);
+    case 'y-9':
+      return createGrid([
+        [0, 7, 15, 23, 31],
+        [6, 13, 19, 25, 31],
+        [31, 38, 45, 52, 59],
+      ]);
+    case 'z-7':
+      return createGrid([
+        [0, 1, 2, 3, 4],
+        [30, 31, 32, 33, 34],
+        [4, 9, 13, 17, 21, 25, 30],
+      ]);
+    case 'z-9':
+      return createGrid([
+        [0, 1, 2, 3, 4, 5, 6],
+        [56, 57, 58, 59, 60, 61, 62],
+        [6, 13, 19, 25, 31, 37, 43, 49, 56],
+      ]);
     default:
       throw new Error(`Invalid grid type: ${type}`);
   }
 }
-
-//     case 'u-7':
-//       return [
-//         [
-//           { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-//           { cell: 5, guess: '', answer: data[0].word[1].toUpperCase() },
-//           { cell: 10, guess: '', answer: data[0].word[2].toUpperCase() },
-//           { cell: 15, guess: '', answer: data[0].word[3].toUpperCase() },
-//           { cell: 20, guess: '', answer: data[0].word[4].toUpperCase() },
-//           { cell: 25, guess: '', answer: data[0].word[5].toUpperCase() },
-//           { cell: 30, guess: '', answer: data[0].word[6].toUpperCase() },
-//         ],
-//         [
-//           { cell: 4, guess: '', answer: data[1].word[0].toUpperCase() },
-//           { cell: 9, guess: '', answer: data[1].word[1].toUpperCase() },
-//           { cell: 14, guess: '', answer: data[1].word[2].toUpperCase() },
-//           { cell: 19, guess: '', answer: data[1].word[3].toUpperCase() },
-//           { cell: 24, guess: '', answer: data[1].word[4].toUpperCase() },
-//           { cell: 29, guess: '', answer: data[1].word[5].toUpperCase() },
-//           { cell: 34, guess: '', answer: data[1].word[6].toUpperCase() },
-//         ],
-//         [
-//           { cell: 30, guess: '', answer: data[2].word[0].toUpperCase() },
-//           { cell: 31, guess: '', answer: data[2].word[1].toUpperCase() },
-//           { cell: 32, guess: '', answer: data[2].word[2].toUpperCase() },
-//           { cell: 33, guess: '', answer: data[2].word[3].toUpperCase() },
-//           { cell: 34, guess: '', answer: data[2].word[4].toUpperCase() },
-//         ],
-//       ];
-//     case 'v-9':
-//       return [
-//         [
-//           { cell: 0, guess: '', answer: data[0].word[0].toUpperCase() },
-//           { cell: 7, guess: '', answer: data[0].word[1].toUpperCase() },
-//           { cell: 14, guess: '', answer: data[0].word[2].toUpperCase() },
-//           { cell: 22, guess: '', answer: data[0].word[3].toUpperCase() },
-//           { cell: 29, guess: '', answer: data[0].word[4].toUpperCase() },
-//           { cell: 36, guess: '', answer: data[0].word[5].toUpperCase() },
-//           { cell: 44, guess: '', answer: data[0].word[6].toUpperCase() },
-//           { cell: 51, guess: '', answer: data[0].word[7].toUpperCase() },
-//           { cell: 59, guess: '', answer: data[0].word[8].toUpperCase() },
-//         ],
-//         [
-//           { cell: 6, guess: '', answer: data[1].word[0].toUpperCase() },
-//           { cell: 13, guess: '', answer: data[1].word[1].toUpperCase() },
-//           { cell: 20, guess: '', answer: data[1].word[2].toUpperCase() },
-//           { cell: 26, guess: '', answer: data[1].word[3].toUpperCase() },
-//           { cell: 33, guess: '', answer: data[1].word[4].toUpperCase() },
-//           { cell: 40, guess: '', answer: data[1].word[5].toUpperCase() },
-//           { cell: 46, guess: '', answer: data[1].word[6].toUpperCase() },
-//           { cell: 53, guess: '', answer: data[1].word[7].toUpperCase() },
-//           { cell: 59, guess: '', answer: data[1].word[8].toUpperCase() },
-//         ],
-//       ];
