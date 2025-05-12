@@ -114,7 +114,7 @@ export default function GridPreviewClient({
                 />
               </div>
               <div
-                className={`mx-auto mt-2 flex grid max-w-screen-xl grid-cols-1 gap-4 text-black sm:grid-cols-3 lg:grid-cols-${gridConfig.length}`}
+                className={`mx-auto mt-2 flex max-w-screen-xl flex-wrap justify-center gap-4 text-black`}
               >
                 {gridConfig?.map((_: number[], wordIndex: number) => {
                   const wordConfig = gridConfig[wordIndex];
