@@ -1,17 +1,23 @@
 import Logout from '@/app/components/footer/logout';
 import '@/app/globals.css';
 import type { Metadata } from 'next';
+import { Session } from 'next-auth';
 import Link from 'next/link';
+import { getCachedUser } from '../api/data/server/user';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'User Session',
 };
 
-export default function SessionLayout({
+export default async function SessionLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user: Fetched<Session['user']> = await getCachedUser();
+  if (!user) redirect('/login');
+  const adminMember: boolean = user?.admin;
   return (
     <div className='min-h-[100vh]'>
       <main className='min-h-[calc(100vh-5em)]'>{children}</main>
@@ -19,6 +25,11 @@ export default function SessionLayout({
         <div className='mb-4 flex items-center justify-center'>
           <Link href='/games' className='text-lg text-white'>
             Games
+          </Link>
+        </div>
+        <div className='mb-4 flex items-center justify-center'>
+          <Link href='/grid-previews' className='text-lg text-white'>
+            Grid Previews
           </Link>
         </div>
         <div className='flex items-center justify-center'>

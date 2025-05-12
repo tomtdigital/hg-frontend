@@ -50,7 +50,7 @@ export default async function GamesPreview() {
                 </div>
               );
             })}
-            {/* <PreviewLink href={`/game/mock`}>MOCK GAME</PreviewLink> */}
+            <PreviewLink href={`/game/mock`}>MOCK GAME</PreviewLink>
           </div>
         </>
       ) : (

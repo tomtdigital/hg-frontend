@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { fetchGame } from '@/app/api/data/server/game';
 import { GameWrapper } from '@/app/components/game-wrapper';
 import Game from '@/app/components/game/game';
+import { getMockData } from '@/app/utils/get-mock-data';
 import { shuffleArray } from '@/app/utils/shuffle-array';
 
 export default async function GamePage({
@@ -11,9 +12,9 @@ export default async function GamePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  // const mockTypes: GridType[] = ['z-9'];
-  // const game = getMockData(mockTypes) as Fetched<Game>;
-  const game: Fetched<Game> = await fetchGame(id);
+  const mockTypes: GridType[] = ['q-7'];
+  const game = getMockData(mockTypes) as Fetched<Game>;
+  // const game: Fetched<Game> = await fetchGame(id);
   const praise = shuffleArray([
     'Nice nice nice!!!',
     'Fucking galaxy brain!!!',
