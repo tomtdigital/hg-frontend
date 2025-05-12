@@ -18,7 +18,7 @@ interface FormValues {
 
 const getOverlappingNumbersWithPositions = (
   gridConfig: number[][] | undefined
-): { number: number; positions: [number, number][] }[] => {
+): { number: number; hex: string; positions: [number, number][] }[] => {
   if (!gridConfig) return [];
   const positionsMap = new Map<number, [number, number][]>();
   gridConfig.forEach((row, rowIndex) => {
@@ -30,9 +30,26 @@ const getOverlappingNumbersWithPositions = (
     });
   });
 
+  const lightColors = [
+    '#ADD8E6', // Light Blue
+    '#FFFACD', // Lemon Chiffon
+    '#E6E6FA', // Lavender
+    '#FFDAB9', // Peach Puff
+    '#F5DEB3', // Wheat
+    '#D8BFD8', // Thistle
+    '#FFB6C1', // Light Pink
+    '#98FB98', // Pale Green
+    '#B0E0E6', // Powder Blue
+    '#FFE4E1', // Misty Rose
+  ];
+
   return Array.from(positionsMap.entries())
     .filter(([, positions]) => positions.length > 1)
-    .map(([num, positions]) => ({ number: num, positions }));
+    .map(([num, positions], index) => ({
+      number: num,
+      positions,
+      hex: lightColors[index % lightColors.length],
+    }));
 };
 
 export default function GridPreviewClient({
@@ -65,51 +82,54 @@ export default function GridPreviewClient({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='mx-auto grid max-w-screen-lg grid-cols-1 gap-4 text-black sm:grid-cols-2 lg:grid-cols-3'>
+      <div className='mx-auto text-black'>
         {fields.map((field, index) => {
           const gridName = watch(`items.${index}.path`, field.path);
           const gridConfig = config[gridName as keyof typeof config];
 
           return (
             <div key={field.id} className='mb-1'>
-              <select
-                {...register(`items.${index}.path` as const)}
-                defaultValue={field.path}
-                className='mr-4'
-              >
-                {imagePaths.map((path) => (
-                  <option key={path} value={path}>
-                    {path}
-                  </option>
-                ))}
-              </select>
-              <button
-                type='button'
-                onClick={() => remove(index)}
-                className='text-white'
-              >
-                Remove
-              </button>
+              <div className='flex justify-center'>
+                <div className=''>
+                  <select
+                    {...register(`items.${index}.path` as const)}
+                    defaultValue={field.path}
+                    className='mb-4 mr-4'
+                  >
+                    {imagePaths.map((path) => (
+                      <option key={path} value={path}>
+                        {path}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               <div className='mt-1'>
                 <Image
                   src={`/grid-previews/${watch(`items.${index}.path`, field.path)}.png`}
                   alt='Selected'
-                  width={100}
-                  height={100}
+                  width={200}
+                  height={200}
+                  className='mx-auto'
                 />
               </div>
-              <div className='mt-2'>
+              <div
+                className={`mx-auto mt-2 flex grid max-w-screen-xl grid-cols-1 gap-4 text-black sm:grid-cols-3 lg:grid-cols-${gridConfig.length}`}
+              >
                 {gridConfig?.map((_: number[], wordIndex: number) => {
                   const wordConfig = gridConfig[wordIndex];
                   return (
-                    <div key={wordIndex} className='mb-1'>
+                    <div
+                      key={wordIndex}
+                      className='mb-2 rounded border border-gray-200 p-2'
+                    >
                       <legend>Word {wordIndex + 1}</legend>
                       <label
                         htmlFor={`items.${index}.words.${wordIndex}.letters`}
                       >
                         Letters
                       </label>
-                      <div className='grid grid-cols-10 gap-1'>
+                      <div className=''>
                         {Array.from({ length: wordConfig.length }).map(
                           (_, letterIndex) => {
                             const cell = wordConfig[letterIndex];
@@ -117,9 +137,21 @@ export default function GridPreviewClient({
                               ''
                             );
 
+                            const overlappingNumbers =
+                              getOverlappingNumbersWithPositions(gridConfig);
+                            const overlappingNumber = overlappingNumbers.find(
+                              ({ number }) =>
+                                number === gridConfig[wordIndex][letterIndex]
+                            );
+
+                            const backgroundColor = overlappingNumber
+                              ? overlappingNumber.hex
+                              : 'white';
+
                             return (
                               <select
                                 key={letterIndex}
+                                style={{ backgroundColor }}
                                 {...register(
                                   `items.${index}.words.${wordIndex}.letters.${letterIndex}`
                                 )}
@@ -169,7 +201,6 @@ export default function GridPreviewClient({
                                     updatedLetters
                                   );
                                 }}
-                                className='w-full'
                               >
                                 <option value=''>_</option>
                                 {alphabet.map((letter) => (
@@ -182,10 +213,44 @@ export default function GridPreviewClient({
                           }
                         )}
                       </div>
+                      <label>Clue</label>
+                      <input
+                        type='text'
+                        {...register(`items.${index}.words.${wordIndex}.clue`)}
+                        className='w-full border border-gray-300 p-1'
+                      />
+                      <div className='mt-2'>
+                        <label>
+                          <input
+                            type='checkbox'
+                            {...register(
+                              `items.${index}.words.${wordIndex}.details.pronoun`
+                            )}
+                          />{' '}
+                          Pronoun
+                        </label>
+                      </div>
+                      <div className='mt-2'>
+                        <label>Word Count</label>
+                        <input
+                          type='text'
+                          {...register(
+                            `items.${index}.words.${wordIndex}.details.wordCount`
+                          )}
+                          className='w-full border border-gray-300 p-1'
+                        />
+                      </div>
                     </div>
                   );
                 })}
               </div>
+              <button
+                type='button'
+                onClick={() => remove(index)}
+                className='bg-red-500 hover:bg-red-600 focus:ring-red-400 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+              >
+                Remove Grid
+              </button>
             </div>
           );
         })}
