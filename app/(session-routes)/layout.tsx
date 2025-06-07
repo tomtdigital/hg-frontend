@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Logout from '@/app/components/footer/logout';
 import '@/app/globals.css';
 import type { Metadata } from 'next';
