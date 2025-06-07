@@ -11,6 +11,7 @@ const initialState: UserState = {
     name: '',
     email: '',
     token: '',
+    admin: false,
     premium: false,
   },
 };

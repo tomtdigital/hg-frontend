@@ -16,6 +16,7 @@ const Keyboard = ({ active }: KeyboardProps) => {
   ];
 
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const gameComplete: boolean = useAppSelector(
     (state) => state.gameSession?.session.gameData.gameComplete
   );
@@ -33,7 +34,10 @@ const Keyboard = ({ active }: KeyboardProps) => {
         setActiveKey(formattedKey);
         dispatch(
           setKeyPressed({
-            letter: formattedKey,
+            keyPressed: {
+              letter: formattedKey,
+            },
+            userId,
           })
         );
       }
@@ -73,7 +77,9 @@ const Keyboard = ({ active }: KeyboardProps) => {
                   onClick={(event) => {
                     event.preventDefault();
                     if (!gameComplete && active) {
-                      dispatch(setKeyPressed({ letter: char }));
+                      dispatch(
+                        setKeyPressed({ keyPressed: { letter: char }, userId })
+                      );
                     }
                   }}
                   onMouseDown={(event) => {
@@ -90,7 +96,9 @@ const Keyboard = ({ active }: KeyboardProps) => {
                     event.preventDefault();
                     if (!gameComplete && active) {
                       setActiveKey(char);
-                      dispatch(setKeyPressed({ letter: char }));
+                      dispatch(
+                        setKeyPressed({ keyPressed: { letter: char }, userId })
+                      );
                     }
                   }}
                   onTouchEnd={(event) => {

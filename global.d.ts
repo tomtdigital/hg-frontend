@@ -13,7 +13,9 @@ type Word = {
   clue: string;
   details?: {
     pronoun?: boolean;
+    plural?: boolean;
     wordCount?: string;
+    letterSplit?: string;
   };
 };
 
@@ -21,19 +23,20 @@ type GridData = Word[];
 
 type GameGrid = {
   grid: GridType;
+  name: string;
   data: GridData;
 }[];
 
 type Game = {
-  _id: string;
-  _v: number;
   main: GameGrid;
   solution: string;
-  publishDate: string;
-  createdAt: string;
-  updatedAt: string;
+  publishDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
   premium: boolean;
 };
+
+type NewGame = RequireOnly<Game, 'main' | 'solution' | 'publishDate'>;
 
 type GridCell = {
   cell: number;
@@ -71,3 +74,7 @@ type GameSessionPreview = {
 type StoredGameSession = RequireOnly<GameSession, 'game' | 'gameData'>;
 
 type StoredSessionData = Partial<GameSession['gameData']>;
+
+type ActionState<T = undefined> =
+  | { status: 'rejected'; error?: { message?: string } }
+  | { status: 'fulfilled'; data?: T };

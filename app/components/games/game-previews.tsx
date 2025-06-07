@@ -70,7 +70,7 @@ export default async function GamesPreview() {
                 premiumMember ? '' : 'mr-2'
               }`}
             >
-              Premium{' '}
+              Latest Premium Games{' '}
               {!premiumMember && (
                 <LockClosedIcon className='ml-1 w-5 max-w-4' />
               )}
@@ -125,9 +125,19 @@ export default async function GamesPreview() {
           </div>
         </div>
       ) : (
-        <>
-          <p>No premium games detected</p>
-        </>
+        <div className='mt-[2em]'>
+          <h2
+            className={`mb-4 flex items-center justify-center text-xl ${
+              premiumMember ? '' : 'mr-2'
+            }`}
+          >
+            Latest Premium Games{' '}
+            {!premiumMember && <LockClosedIcon className='ml-1 w-5 max-w-4' />}
+          </h2>
+          <p>
+            <em>No premium games detected</em>
+          </p>
+        </div>
       )}
     </div>
   );

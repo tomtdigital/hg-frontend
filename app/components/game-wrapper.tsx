@@ -8,7 +8,7 @@ import { getDefaultGameSession } from '../utils/get-default-game-session';
 import { getStorageKey } from '../utils/get-storage-key';
 import {
   GameState,
-  localGameKey,
+  getLocalGameKey,
   resetGameState,
 } from '../redux/slices/game-slice';
 
@@ -28,10 +28,12 @@ export const GameWrapper: FC<GameWrapperProps> = ({
   const storageInitialised = useRef(false);
   const reduxInitialised = useRef(false);
   const defaultSession = getDefaultGameSession(gameId);
+  const userId = useAppSelector((state) => state.user.credentials.id);
   // Used as localStorage identifier
-  const gameSessionKey = getStorageKey(gameId);
+  const gameSessionKey = getStorageKey(gameId, userId);
   // Initialise the store with the default session
   const dispatch = useAppDispatch();
+  const localGameKey = getLocalGameKey(userId);
 
   useEffect(() => {
     if (reduxInitialised.current) return;
@@ -52,9 +54,11 @@ export const GameWrapper: FC<GameWrapperProps> = ({
       let localGame = {} as GameState;
       if (rawStoreGame) localGame = JSON.parse(rawStoreGame);
       if (localGame && localGame?.id === gameId) {
-        dispatch(resetGameState(localGame));
+        dispatch(resetGameState({ state: localGame, userId }));
       } else {
-        dispatch(resetGameState({ totalStages, id: gameId }));
+        dispatch(
+          resetGameState({ state: { totalStages, id: gameId }, userId })
+        );
       }
       // Deal with the game session state
       const localSessionString = localStorage.getItem(gameSessionKey);

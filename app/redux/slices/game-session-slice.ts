@@ -35,7 +35,10 @@ export const updateSessionDataStorage = createAsyncThunk(
       }
     }
     // Update localstorage
-    localStorage.setItem(getStorageKey(session.game), JSON.stringify(body));
+    localStorage.setItem(
+      getStorageKey(session.game, store.user.credentials.id),
+      JSON.stringify(body)
+    );
     // Pass session to reducer
     return body;
   }

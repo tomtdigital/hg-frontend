@@ -30,6 +30,7 @@ export function GridSection({
   maxScore,
 }: GridSectionProps) {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
@@ -45,7 +46,7 @@ export function GridSection({
     correctSolution,
   } = storeSession.gameData;
 
-  const allGridsComplete = stage + 1 === totalStages;
+  const allGridsComplete = stage + 1 >= totalStages;
 
   const advance = () => {
     // Calculate/set score
@@ -62,8 +63,8 @@ export function GridSection({
     }
 
     // Reset values
-    dispatch(setKeyPressed({} as Key));
-    dispatch(setAdvanceModalVisible(false));
+    dispatch(setKeyPressed({ keyPressed: {} as Key, userId }));
+    dispatch(setAdvanceModalVisible({ advanceModalVisible: false, userId }));
 
     const total = score + toAdd;
     const gameComplete = allGridsComplete && correctSolution;
@@ -79,16 +80,16 @@ export function GridSection({
               : finishedGrids,
           lastCompletedGrid,
           gameComplete,
-          stage: gameComplete ? stage : stage + 1,
+          stage: stage + 1,
         },
       })
     );
 
     if (gameComplete) {
-      dispatch(setVictoryModalVisible(true));
+      dispatch(setVictoryModalVisible({ victoryModalVisible: true, userId }));
     } else {
       // Advance game
-      dispatch(setTabIndex(tabIndex + 1));
+      dispatch(setTabIndex({ tabIndex: tabIndex + 1, userId }));
     }
   };
 

@@ -23,7 +23,6 @@ const Clue = ({ active }: ClueProps) => {
   const minWordScore = activeWord.word?.length || 0;
   const maxWordScore = minWordScore * 3;
   const clueFontSize = minWordScore > 35 ? 'text-[1.5em]' : 'text-[1.2em]';
-
   const handleClueReveal = (word: string) => {
     dispatch(
       updateSessionDataStorage({
@@ -38,13 +37,14 @@ const Clue = ({ active }: ClueProps) => {
       <div className='items-center justify-center bg-darkGrey text-center'>
         <div className='flex items-center justify-center bg-darkGrey px-2 py-1'>
           <div className=''>
-            <p className='block text-[1.5em]'>{`${anagram} ${
-              activeWord.details?.pronoun ? '(p)' : ''
-            } ${
-              activeWord.details?.wordCount
-                ? `(${activeWord.details?.wordCount})`
-                : ''
-            }`}</p>
+            <p className='block text-[1.5em]'>
+              {`${anagram} ${activeWord.details?.pronoun ? '(p)' : ''} ${
+                activeWord.details?.wordCount
+                  ? `(${activeWord.details?.wordCount})`
+                  : ''
+              } ${activeWord.details?.plural ? '(pl)' : ''}
+              `}
+            </p>
           </div>
           {!revealClue && (
             <div>

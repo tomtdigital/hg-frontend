@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/app/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { updateSessionDataStorage } from '@/app/redux/slices/game-session-slice';
 import { setAdvanceModalVisible } from '@/app/redux/slices/game-slice';
 import { getBaseGrid } from '@/app/utils/get-base-grid';
@@ -22,6 +22,7 @@ export default function GridWrapper({
   data,
 }: GridWrapperProps) {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const handleComplete = (grid: FullGrid) => {
     dispatch(
       updateSessionDataStorage({
@@ -31,7 +32,7 @@ export default function GridWrapper({
         },
       })
     );
-    dispatch(setAdvanceModalVisible(true));
+    dispatch(setAdvanceModalVisible({ advanceModalVisible: true, userId }));
   };
 
   const gridSize = +type!.split('-')[1];

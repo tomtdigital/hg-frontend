@@ -24,15 +24,16 @@ const initialState: GameState = {
   activeWord: {} as Word,
 };
 
-export const localGameKey = 'hg-game';
+export const getLocalGameKey = (userId: string): string => `hg-game-${userId}`;
 
 function gameStateToLocalStorage(
   state: GameState,
-  updatedState: Partial<GameState>
+  updatedState: Partial<GameState>,
+  userId: string
 ) {
   if (updatedState)
     localStorage.setItem(
-      localGameKey,
+      getLocalGameKey(userId),
       JSON.stringify({
         ...state,
         ...updatedState,
@@ -44,42 +45,89 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setTabIndex(state, action: PayloadAction<number>) {
+    setTabIndex(
+      state,
+      action: PayloadAction<{ tabIndex: number; userId: string }>
+    ) {
       if (state.id)
-        gameStateToLocalStorage(state, { tabIndex: action.payload });
-      state.tabIndex = action.payload;
+        gameStateToLocalStorage(
+          state,
+          { tabIndex: action.payload.tabIndex },
+          action.payload.userId
+        );
+      state.tabIndex = action.payload.tabIndex;
     },
-    setTotalStages(state, action: PayloadAction<number>) {
+    setTotalStages(
+      state,
+      action: PayloadAction<{ totalStages: number; userId: string }>
+    ) {
       if (state.id)
-        gameStateToLocalStorage(state, { totalStages: action.payload });
-      state.totalStages = action.payload;
+        gameStateToLocalStorage(
+          state,
+          { totalStages: action.payload.totalStages },
+          action.payload.userId
+        );
+      state.totalStages = action.payload.totalStages;
     },
-    setKeyPressed(state, action: PayloadAction<Key>) {
+    setKeyPressed(
+      state,
+      action: PayloadAction<{ keyPressed: Key; userId: string }>
+    ) {
       if (state.id)
-        gameStateToLocalStorage(state, { keyPressed: action.payload });
-      state.keyPressed = action.payload;
+        gameStateToLocalStorage(
+          state,
+          { keyPressed: action.payload.keyPressed },
+          action.payload.userId
+        );
+      state.keyPressed = action.payload.keyPressed;
     },
-    setAdvanceModalVisible(state, action: PayloadAction<boolean>) {
+    setAdvanceModalVisible(
+      state,
+      action: PayloadAction<{ advanceModalVisible: boolean; userId: string }>
+    ) {
       if (state.id)
-        gameStateToLocalStorage(state, { advanceModalVisible: action.payload });
-      state.advanceModalVisible = action.payload;
+        gameStateToLocalStorage(
+          state,
+          { advanceModalVisible: action.payload.advanceModalVisible },
+          action.payload.userId
+        );
+      state.advanceModalVisible = action.payload.advanceModalVisible;
     },
-    setVictoryModalVisible(state, action: PayloadAction<boolean>) {
+    setVictoryModalVisible(
+      state,
+      action: PayloadAction<{ victoryModalVisible: boolean; userId: string }>
+    ) {
       if (state.id)
-        gameStateToLocalStorage(state, { victoryModalVisible: action.payload });
-      state.victoryModalVisible = action.payload;
+        gameStateToLocalStorage(
+          state,
+          { victoryModalVisible: action.payload.victoryModalVisible },
+          action.payload.userId
+        );
+      state.victoryModalVisible = action.payload.victoryModalVisible;
     },
-    setActiveWord(state, action: PayloadAction<Word>) {
+    setActiveWord(
+      state,
+      action: PayloadAction<{ activeWord: Word; userId: string }>
+    ) {
       if (state.id)
-        gameStateToLocalStorage(state, { activeWord: action.payload });
-      state.activeWord = action.payload;
+        gameStateToLocalStorage(
+          state,
+          { activeWord: action.payload.activeWord },
+          action.payload.userId
+        );
+      state.activeWord = action.payload.activeWord;
     },
     resetGameState(
       state,
-      action: PayloadAction<Partial<GameState> | undefined>
+      action: PayloadAction<{ state: Partial<GameState>; userId: string }>
     ) {
-      if (state.id) gameStateToLocalStorage(state, action.payload!);
-      Object.assign(state, action.payload);
+      if (state.id)
+        gameStateToLocalStorage(
+          state,
+          action.payload.state,
+          action.payload.userId
+        );
+      Object.assign(state, action.payload.state);
     },
   },
 });

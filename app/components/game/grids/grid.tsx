@@ -21,6 +21,7 @@ export default function Grid({
   onComplete,
 }: GridProps) {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
@@ -80,12 +81,12 @@ export default function Grid({
   }, [finishedGrids]);
 
   useEffect(() => {
-    dispatch(setActiveWord(data[0]));
+    dispatch(setActiveWord({ activeWord: data[0], userId }));
   }, []);
 
   useEffect(() => {
     const wordLocation = getWordLocation();
-    dispatch(setActiveWord(data[wordLocation]));
+    dispatch(setActiveWord({ activeWord: data[wordLocation], userId }));
   }, [toggledWord]);
 
   useEffect(() => {
