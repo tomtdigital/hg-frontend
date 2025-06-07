@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 import { fetchGame } from '@/app/api/data/server/game';
 import { GameWrapper } from '@/app/components/game-wrapper';
 import Game from '@/app/components/game/game';
-import { getMockData } from '@/app/utils/get-mock-data';
 import { shuffleArray } from '@/app/utils/shuffle-array';
 
 export default async function GamePage({
