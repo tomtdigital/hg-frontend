@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import {
   GameState,
+  setAdvanceModalVisible,
   setVictoryModalVisible,
 } from '@/app/redux/slices/game-slice';
 import Modal from '../modal';
@@ -17,6 +18,7 @@ const VictoryModal = ({
   allGridsComplete,
 }: VictoryModalProps) => {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
@@ -45,7 +47,12 @@ const VictoryModal = ({
       <button
         className='mx-auto mt-4 block rounded bg-purple px-6 py-3 text-lg text-white'
         onClick={() => {
-          dispatch(setVictoryModalVisible(false));
+          dispatch(
+            setAdvanceModalVisible({ advanceModalVisible: false, userId })
+          );
+          dispatch(
+            setVictoryModalVisible({ victoryModalVisible: false, userId })
+          );
         }}
       >
         Close
@@ -71,7 +78,9 @@ const VictoryModal = ({
       <button
         className='mx-auto mt-4 block rounded bg-purple px-6 py-3 text-lg text-white'
         onClick={() => {
-          dispatch(setVictoryModalVisible(false));
+          dispatch(
+            setVictoryModalVisible({ victoryModalVisible: false, userId })
+          );
         }}
       >
         Close

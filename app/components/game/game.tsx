@@ -1,11 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
-import {
-  GameState,
-  setActiveWord,
-  setTabIndex,
-} from '@/app/redux/slices/game-slice';
+import { GameState, setTabIndex } from '@/app/redux/slices/game-slice';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Keyboard from '../keyboard';
 import Clue from './clue';
@@ -21,6 +17,7 @@ type GameProps = {
 
 export default function Game({ grids, solution, praise }: GameProps) {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
@@ -41,7 +38,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
         <Tabs
           selectedIndex={tabIndex}
           onSelect={(value) => {
-            dispatch(setTabIndex(value));
+            dispatch(setTabIndex({ tabIndex: value, userId }));
           }}
         >
           <div className='mt-[1em]'>

@@ -1,3 +1,3 @@
-export function getStorageKey(id?: string): string {
-  return `hg-${id ? id + '-' : ''}session`;
+export function getStorageKey(gameId: string, userId: string): string {
+  return `hg-${gameId}-session-${userId}`;
 }

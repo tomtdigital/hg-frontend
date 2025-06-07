@@ -12,9 +12,7 @@ export default async function GamePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const mockTypes: GridType[] = ['q-7'];
-  const game = getMockData(mockTypes) as Fetched<Game>;
-  // const game: Fetched<Game> = await fetchGame(id);
+  const game: Fetched<Game> = await fetchGame(id);
   const praise = shuffleArray([
     'Nice nice nice!!!',
     'Fucking galaxy brain!!!',

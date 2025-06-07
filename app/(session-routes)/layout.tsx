@@ -27,11 +27,13 @@ export default async function SessionLayout({
             Games
           </Link>
         </div>
-        <div className='mb-4 flex items-center justify-center'>
-          <Link href='/grid-previews' className='text-lg text-white'>
-            Grid Previews
-          </Link>
-        </div>
+        {adminMember && (
+          <div className='mb-4 flex items-center justify-center'>
+            <Link href='/create-game' className='text-lg text-white'>
+              Create a game
+            </Link>
+          </div>
+        )}
         <div className='flex items-center justify-center'>
           <Logout />
         </div>

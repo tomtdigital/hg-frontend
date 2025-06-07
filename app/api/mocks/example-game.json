@@ -3,38 +3,12 @@
   "premium": false,
   "items": [
     {
-      "gridType": "v-7",
-      "name": "visit",
+      "gridType": "r-5",
+      "name": "river",
       "words": [
         {
-          "clue": "adventure",
-          "letters": ["J", "O", "U", "R", "N", "E", "Y"],
-          "details": {
-            "pronoun": false,
-            "wordCount": "",
-            "plural": false,
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "break",
-          "letters": ["H", "O", "L", "I", "D", "A", "Y"],
-          "details": {
-            "wordCount": "",
-            "plural": false,
-            "pronoun": false,
-            "letterSplit": ""
-          }
-        }
-      ]
-    },
-    {
-      "gridType": "p-7",
-      "name": "port",
-      "words": [
-        {
-          "clue": "prefix for across",
-          "letters": ["T", "R", "A", "N", "S"],
+          "clue": "sink",
+          "letters": ["B", "A", "S", "I", "N"],
           "details": {
             "pronoun": false,
             "plural": false,
@@ -43,30 +17,10 @@
           }
         },
         {
-          "clue": "stadium",
-          "letters": ["A", "R", "E", "N", "A"],
+          "clue": "cosmetics co.",
+          "letters": ["A", "V", "O", "N"],
           "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "exchanging",
-          "letters": ["T", "R", "A", "D", "I", "N", "G"],
-          "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "body of water",
-          "letters": ["S", "E", "A"],
-          "details": {
-            "pronoun": false,
+            "pronoun": true,
             "plural": false,
             "wordCount": "",
             "letterSplit": ""
@@ -94,6 +48,32 @@
           "details": {
             "plural": false,
             "wordCount": "",
+            "pronoun": false,
+            "letterSplit": ""
+          }
+        }
+      ]
+    },
+    {
+      "gridType": "v-7",
+      "name": "visit",
+      "words": [
+        {
+          "clue": "adventure",
+          "letters": ["J", "O", "U", "R", "N", "E", "Y"],
+          "details": {
+            "pronoun": false,
+            "wordCount": "",
+            "plural": false,
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "break",
+          "letters": ["H", "O", "L", "I", "D", "A", "Y"],
+          "details": {
+            "wordCount": "",
+            "plural": false,
             "pronoun": false,
             "letterSplit": ""
           }
@@ -129,32 +109,6 @@
           "letters": ["M", "A", "C", "H", "I", "N", "E"],
           "details": {
             "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        }
-      ]
-    },
-    {
-      "gridType": "r-5",
-      "name": "river",
-      "words": [
-        {
-          "clue": "sink",
-          "letters": ["B", "A", "S", "I", "N"],
-          "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "cosmetics co.",
-          "letters": ["A", "V", "O", "N"],
-          "details": {
-            "pronoun": true,
             "plural": false,
             "wordCount": "",
             "letterSplit": ""
@@ -199,6 +153,52 @@
         {
           "clue": "act, sing etc.",
           "letters": ["P", "E", "R", "F", "O", "R", "M"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        }
+      ]
+    },
+    {
+      "gridType": "p-7",
+      "name": "port",
+      "words": [
+        {
+          "clue": "prefix for across",
+          "letters": ["T", "R", "A", "N", "S"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "stadium",
+          "letters": ["A", "R", "E", "N", "A"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "exchanging",
+          "letters": ["T", "R", "A", "D", "I", "N", "G"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "body of water",
+          "letters": ["S", "E", "A"],
           "details": {
             "pronoun": false,
             "plural": false,

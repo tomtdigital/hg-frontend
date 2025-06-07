@@ -18,6 +18,7 @@ type SolutionProps = {
 
 const Solution = ({ text, active, maxScore }: SolutionProps) => {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
@@ -109,7 +110,7 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
           })
         );
       }
-      dispatch(setVictoryModalVisible(true));
+      dispatch(setVictoryModalVisible({ victoryModalVisible: true, userId }));
     }
   }, [solutionGuess, word]);
 
@@ -165,11 +166,8 @@ const Solution = ({ text, active, maxScore }: SolutionProps) => {
                   <button
                     className='mx-auto mt-2 rounded bg-purple p-2 text-white'
                     onClick={() => {
-                      const tab =
-                        finishedGrids.length === 0
-                          ? 0
-                          : finishedGrids.length - 1;
-                      dispatch(setTabIndex(tab));
+                      const tab = finishedGrids.length;
+                      dispatch(setTabIndex({ tabIndex: tab, userId }));
                     }}
                   >
                     Back to Grids

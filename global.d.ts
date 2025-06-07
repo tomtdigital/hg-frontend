@@ -36,6 +36,8 @@ type Game = {
   premium: boolean;
 };
 
+type NewGame = RequireOnly<Game, 'main' | 'solution' | 'publishDate'>;
+
 type GridCell = {
   cell: number;
   guess: string;

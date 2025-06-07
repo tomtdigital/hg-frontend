@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useActionState, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import ExampleGame from '../../../api/mocks/example-game.json';
+import ExampleGame from '../../api/mocks/example-game.json';
 import { createGame } from '@/app/api/actions/create-game';
 
 interface FormWord extends RequireOnly<Word, 'clue'> {
@@ -12,13 +12,14 @@ interface FormWord extends RequireOnly<Word, 'clue'> {
 
 interface FormItem {
   name: string;
-  gridType: string;
+  gridType: GridType;
   words: FormWord[];
 }
 
 export interface CreateGameFormData {
   solution: string;
-  premium?: boolean;
+  publishDate: string;
+  premium: boolean;
   items: FormItem[];
 }
 
@@ -58,7 +59,7 @@ const getOverlappingNumbersWithPositions = (
     }));
 };
 
-export default function GridPreviewClient({
+export default function CreateGameForm({
   imagePaths,
   config,
 }: {
@@ -67,16 +68,21 @@ export default function GridPreviewClient({
 }) {
   const { control, register, setValue, watch, getValues, handleSubmit } =
     useForm<CreateGameFormData>({
-      defaultValues:
-        // {
-        //   items: [
-        //     {
-        //       path: imagePaths[0] || '',
-        //       words: [] as FormWord[],
-        //     },
-        //   ],
-        // },
-        ExampleGame,
+      // defaultValues: {
+      //   ...(ExampleGame as CreateGameFormData),
+      //   publishDate: new Date().toISOString().split('T')[0], // Default to today
+      // },
+      defaultValues: {
+        solution: '',
+        premium: false,
+        publishDate: new Date().toISOString().split('T')[0], // Default to today
+        items: [
+          {
+            gridType: imagePaths[0] || '',
+            words: [] as FormWord[],
+          },
+        ],
+      },
     });
 
   const { fields, append, remove } = useFieldArray({
@@ -85,7 +91,7 @@ export default function GridPreviewClient({
   });
 
   const initialState = {} as ActionState;
-  const [state, formAction, pending] = useActionState(
+  const [state, formAction] = useActionState(
     async (_: ActionState, payload: CreateGameFormData) => {
       return await createGame(payload);
     },
@@ -123,7 +129,7 @@ export default function GridPreviewClient({
                     className='mb-4'
                     onChange={(e) => {
                       const newPath = e.target.value;
-                      setValue(`items.${index}.gridType`, newPath);
+                      setValue(`items.${index}.gridType`, newPath as GridType);
                       const newGridConfig =
                         config[newPath as keyof typeof config];
                       setValue(
@@ -343,7 +349,7 @@ export default function GridPreviewClient({
                       { shouldDirty: true, shouldValidate: true }
                     );
                   }}
-                  className='bg-red-500 hover:bg-red-600 focus:ring-red-400 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+                  className='bg-red-500 hover:bg-red-600 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
                 >
                   Reset Grid
                 </button>
@@ -356,7 +362,7 @@ export default function GridPreviewClient({
           <div>
             <button
               type='button'
-              className='hover:bg-green-500 focus:ring-red-400 rounded bg-green px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+              className='hover:bg-green-500 rounded bg-green px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
               onClick={() =>
                 append({
                   gridType: imagePaths[0] || '',
@@ -392,12 +398,33 @@ export default function GridPreviewClient({
               Premium
             </label>
           </div>
+          <div className='mb-4 mt-4'>
+            <label htmlFor='publishDate' className='mb-1 block font-semibold'>
+              Publish Date
+            </label>
+            <input
+              type='date'
+              id='publishDate'
+              {...register('publishDate')}
+              className='border border-gray-300 p-1'
+            />
+          </div>
+          {state.status === 'rejected' && state?.error?.message && (
+            <div className='text-red-500 my-2 rounded p-2 text-center'>
+              {state.error.message}
+            </div>
+          )}
+          <div className='mx-auto'>
+            <button
+              type='submit'
+              className='bg-purple-500 hover:bg-purple-600 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50'
+              disabled={isPending}
+            >
+              {isPending ? 'Submitting...' : 'Submit'}
+            </button>
+          </div>
         </div>
       </div>
-      <pre>{JSON.stringify(watch(), null, 2)}</pre>
-      <button type='submit' className='mt-4 text-white' disabled={isPending}>
-        {isPending ? 'Submitting...' : 'Submit'}
-      </button>
     </form>
   );
 }
