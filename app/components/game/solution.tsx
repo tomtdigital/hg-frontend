@@ -222,6 +222,7 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
                         {grids[index].name.slice(1).toUpperCase()}
                       </span>
                     ) : (
+                      // TODO: deduct points for revealing
                       <button
                         className='mr-2 inline-block rounded bg-purple px-2 py-1 text-white'
                         onClick={() => revealGridName(index)}

@@ -15,7 +15,7 @@ export function getBaseGrid(type: GridType, data: GridData): FullGrid {
     return rows.map((row, index) => createRow(row, words[index]));
   };
 
-  const wordCells: Record<GridType, number[][]> = wordCellConfig;
+  const wordCells: Partial<Record<GridType, number[][]>> = wordCellConfig;
 
   // Validate the grid type and return the corresponding grid
   if (!wordCells[type]) {

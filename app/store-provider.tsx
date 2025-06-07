@@ -23,6 +23,7 @@ export default function StoreProvider({
           name: '',
           email: '',
           token: '',
+          admin: false,
           premium: false,
         }
       )

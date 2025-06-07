@@ -24,13 +24,14 @@ export const getMockData = (types: GridType[]): Game => {
   });
 
   return {
+    //@ts-expect-error mock data
     _id: 'mock-id',
     _v: 1,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    publishDate: '2025-04-21',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    publishDate: new Date('2025-04-21'),
     premium: false,
-    main,
+    main: main as GameGrid,
     solution: 'abcde',
   };
 };
