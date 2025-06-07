@@ -60,9 +60,9 @@ const VictoryModal = ({
     </>
   ) : (
     <>
-      <p className='mb-4 text-lg font-bold text-black'>Theme Solved!</p>
+      <p className='mb-4 text-lg font-bold text-black'>Puzzle Theme Solved!</p>
       <p className='mb-2 text-base text-black'>
-        Yessss!!! You got the theme with only{' '}
+        Yessss!!! You got the puzzle theme with only{' '}
         <span className='font-semibold'>{stage + 1}</span> of{' '}
         <span className='font-semibold'>{totalStages}</span> letters.
       </p>

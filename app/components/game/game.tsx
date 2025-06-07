@@ -120,6 +120,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
               text={solution}
               active={!gameComplete}
               maxScore={maxScore}
+              grids={grids}
             />
             <div className='grid h-[calc(48vh-60px-100px-3em)] grid-cols-1 grid-rows-3'>
               <Keyboard active={!gameComplete} />
