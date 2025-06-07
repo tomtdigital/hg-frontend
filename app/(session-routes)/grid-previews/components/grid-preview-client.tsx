@@ -1,7 +1,10 @@
 'use client';
 
+import { createGrid } from '@/app/api/actions/create-grid';
 import Image from 'next/image';
+import { useActionState, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
+import ExampleGame from '../../../api/mocks/example-game.json';
 
 interface FormWord extends RequireOnly<Word, 'clue'> {
   letters: string[];
@@ -12,7 +15,7 @@ interface FormItem {
   words: FormWord[];
 }
 
-interface FormValues {
+export interface FormValues {
   items: FormItem[];
 }
 
@@ -57,18 +60,20 @@ export default function GridPreviewClient({
   config,
 }: {
   imagePaths: GridType[];
-  config: Record<GridType, number[][]>;
+  config: Partial<Record<GridType, number[][]>>;
 }) {
   const { control, register, setValue, watch, getValues, handleSubmit } =
     useForm<FormValues>({
-      defaultValues: {
-        items: [
-          {
-            path: imagePaths[0] || '',
-            words: [] as FormWord[],
-          },
-        ],
-      },
+      defaultValues:
+        // {
+        //   items: [
+        //     {
+        //       path: imagePaths[0] || '',
+        //       words: [] as FormWord[],
+        //     },
+        //   ],
+        // },
+        ExampleGame,
     });
 
   const { fields, append, remove } = useFieldArray({
@@ -76,8 +81,20 @@ export default function GridPreviewClient({
     name: 'items',
   });
 
-  const onSubmit = (data: unknown) => {
-    console.log({ data });
+  const initialState = {} as ActionState;
+  const [state, formAction, pending] = useActionState(
+    async (_: ActionState, payload: FormValues) => {
+      return await createGrid(payload);
+    },
+    initialState
+  );
+
+  const [isPending, startTransition] = useTransition();
+
+  const onSubmit = (data: FormValues) => {
+    startTransition(() => {
+      formAction(data);
+    });
   };
 
   return (
@@ -253,11 +270,32 @@ export default function GridPreviewClient({
                         </label>
                       </div>
                       <div className='mt-2'>
+                        <label>
+                          <input
+                            type='checkbox'
+                            {...register(
+                              `items.${index}.words.${wordIndex}.details.plural`
+                            )}
+                          />
+                          Plural
+                        </label>
+                      </div>
+                      <div className='mt-2'>
                         <label>Word Count</label>
                         <input
                           type='text'
                           {...register(
                             `items.${index}.words.${wordIndex}.details.wordCount`
+                          )}
+                          className='w-full border border-gray-300 p-1'
+                        />
+                      </div>
+                      <div className='mt-2'>
+                        <label>Letter Split</label>
+                        <input
+                          type='text'
+                          {...register(
+                            `items.${index}.words.${wordIndex}.details.letterSplit`
                           )}
                           className='w-full border border-gray-300 p-1'
                         />
@@ -272,6 +310,23 @@ export default function GridPreviewClient({
                 className='bg-red-500 hover:bg-red-600 focus:ring-red-400 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
               >
                 Remove Grid
+              </button>
+              <button
+                type='button'
+                onClick={() => {
+                  setValue(
+                    `items.${index}.words`,
+                    gridConfig?.map((wordConfig) => ({
+                      clue: '',
+                      letters: Array(wordConfig.length).fill(''),
+                      details: {},
+                    })) || [],
+                    { shouldDirty: true, shouldValidate: true }
+                  );
+                }}
+                className='bg-red-500 hover:bg-red-600 focus:ring-red-400 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+              >
+                Reset Grid
               </button>
             </div>
           );
@@ -290,8 +345,8 @@ export default function GridPreviewClient({
         </button>
       </div>
       <pre>{JSON.stringify(watch(), null, 2)}</pre>
-      <button type='submit' className='mt-4 text-white'>
-        Submit
+      <button type='submit' className='mt-4 text-white' disabled={isPending}>
+        {isPending ? 'Submitting...' : 'Submit'}
       </button>
     </form>
   );

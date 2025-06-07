@@ -13,7 +13,9 @@ type Word = {
   clue: string;
   details?: {
     pronoun?: boolean;
+    plural?: boolean;
     wordCount?: string;
+    letterSplit?: string;
   };
 };
 
@@ -71,3 +73,7 @@ type GameSessionPreview = {
 type StoredGameSession = RequireOnly<GameSession, 'game' | 'gameData'>;
 
 type StoredSessionData = Partial<GameSession['gameData']>;
+
+type ActionState<T = undefined> =
+  | { status: 'rejected'; error?: { message?: string } }
+  | { status: 'fulfilled'; data?: T };
