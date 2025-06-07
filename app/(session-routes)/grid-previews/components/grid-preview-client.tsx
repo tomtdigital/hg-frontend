@@ -95,6 +95,28 @@ export default function GridPreviewClient({
                     {...register(`items.${index}.path` as const)}
                     defaultValue={field.path}
                     className='mb-4 mr-4'
+                    onChange={(e) => {
+                      const newPath = e.target.value;
+                      // Update the path in the form state
+                      setValue(`items.${index}.path`, newPath);
+
+                      // Get the new grid config
+                      const newGridConfig =
+                        config[newPath as keyof typeof config];
+
+                      // Reset the words array for this item
+                      setValue(
+                        `items.${index}.words`,
+                        newGridConfig
+                          ? newGridConfig.map((wordConfig) => ({
+                              clue: '',
+                              letters: Array(wordConfig.length).fill(''),
+                              details: {},
+                            }))
+                          : [],
+                        { shouldDirty: true, shouldValidate: true }
+                      );
+                    }}
                   >
                     {imagePaths.map((path) => (
                       <option key={path} value={path}>
@@ -267,7 +289,7 @@ export default function GridPreviewClient({
           Add Grid
         </button>
       </div>
-      <pre>{JSON.stringify(getValues(), null, 2)}</pre>
+      <pre>{JSON.stringify(watch(), null, 2)}</pre>
       <button type='submit' className='mt-4 text-white'>
         Submit
       </button>
