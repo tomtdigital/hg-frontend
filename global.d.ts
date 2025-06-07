@@ -23,17 +23,16 @@ type GridData = Word[];
 
 type GameGrid = {
   grid: GridType;
+  name: string;
   data: GridData;
 }[];
 
 type Game = {
-  _id: string;
-  _v: number;
   main: GameGrid;
   solution: string;
-  publishDate: string;
-  createdAt: string;
-  updatedAt: string;
+  publishDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
   premium: boolean;
 };
 

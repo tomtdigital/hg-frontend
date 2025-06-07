@@ -1,7 +1,10 @@
 {
+  "solution": "liverpool",
+  "premium": false,
   "items": [
     {
-      "path": "v-7",
+      "gridType": "v-7",
+      "name": "visit",
       "words": [
         {
           "clue": "adventure",
@@ -26,7 +29,54 @@
       ]
     },
     {
-      "path": "l-7",
+      "gridType": "p-7",
+      "name": "port",
+      "words": [
+        {
+          "clue": "prefix for across",
+          "letters": ["T", "R", "A", "N", "S"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "stadium",
+          "letters": ["A", "R", "E", "N", "A"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "exchanging",
+          "letters": ["T", "R", "A", "D", "I", "N", "G"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        },
+        {
+          "clue": "body of water",
+          "letters": ["S", "E", "A"],
+          "details": {
+            "pronoun": false,
+            "plural": false,
+            "wordCount": "",
+            "letterSplit": ""
+          }
+        }
+      ]
+    },
+    {
+      "gridType": "l-7",
+      "name": "lime",
       "words": [
         {
           "clue": "cocktails",
@@ -51,7 +101,8 @@
       ]
     },
     {
-      "path": "i-7",
+      "gridType": "i-7",
+      "name": "industry",
       "words": [
         {
           "clue": "e.g. olympic",
@@ -86,7 +137,8 @@
       ]
     },
     {
-      "path": "r-5",
+      "gridType": "r-5",
+      "name": "river",
       "words": [
         {
           "clue": "sink",
@@ -111,52 +163,8 @@
       ]
     },
     {
-      "path": "o-9",
-      "words": [
-        {
-          "clue": "bedroom",
-          "letters": ["C", "H", "A", "M", "B", "E", "R"],
-          "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "reading",
-          "letters": ["R", "E", "C", "I", "T", "A", "L"],
-          "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "assists flow",
-          "letters": ["C", "O", "N", "D", "U", "C", "T", "O", "R"],
-          "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        },
-        {
-          "clue": "dry run",
-          "letters": ["R", "E", "H", "E", "A", "R", "S", "A", "L"],
-          "details": {
-            "pronoun": false,
-            "plural": false,
-            "wordCount": "",
-            "letterSplit": ""
-          }
-        }
-      ]
-    },
-    {
-      "path": "e-7",
+      "gridType": "e-7",
+      "name": "entertainment",
       "words": [
         {
           "clue": "fidgets",
@@ -201,11 +209,12 @@
       ]
     },
     {
-      "path": "p-7",
+      "gridType": "o-9",
+      "name": "orchestra",
       "words": [
         {
-          "clue": "prefix for across",
-          "letters": ["T", "R", "A", "N", "S"],
+          "clue": "bedroom",
+          "letters": ["C", "H", "A", "M", "B", "E", "R"],
           "details": {
             "pronoun": false,
             "plural": false,
@@ -214,8 +223,8 @@
           }
         },
         {
-          "clue": "stadium",
-          "letters": ["A", "R", "E", "N", "A"],
+          "clue": "reading",
+          "letters": ["R", "E", "C", "I", "T", "A", "L"],
           "details": {
             "pronoun": false,
             "plural": false,
@@ -224,8 +233,8 @@
           }
         },
         {
-          "clue": "exchanging",
-          "letters": ["T", "R", "A", "D", "I", "N", "G"],
+          "clue": "assists flow",
+          "letters": ["C", "O", "N", "D", "U", "C", "T", "O", "R"],
           "details": {
             "pronoun": false,
             "plural": false,
@@ -234,8 +243,8 @@
           }
         },
         {
-          "clue": "body of water",
-          "letters": ["S", "E", "A"],
+          "clue": "dry run",
+          "letters": ["R", "E", "H", "E", "A", "R", "S", "A", "L"],
           "details": {
             "pronoun": false,
             "plural": false,

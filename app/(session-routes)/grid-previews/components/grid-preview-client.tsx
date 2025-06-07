@@ -1,21 +1,24 @@
 'use client';
 
-import { createGrid } from '@/app/api/actions/create-grid';
 import Image from 'next/image';
 import { useActionState, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import ExampleGame from '../../../api/mocks/example-game.json';
+import { createGame } from '@/app/api/actions/create-game';
 
 interface FormWord extends RequireOnly<Word, 'clue'> {
   letters: string[];
 }
 
 interface FormItem {
-  path: string;
+  name: string;
+  gridType: string;
   words: FormWord[];
 }
 
-export interface FormValues {
+export interface CreateGameFormData {
+  solution: string;
+  premium?: boolean;
   items: FormItem[];
 }
 
@@ -63,7 +66,7 @@ export default function GridPreviewClient({
   config: Partial<Record<GridType, number[][]>>;
 }) {
   const { control, register, setValue, watch, getValues, handleSubmit } =
-    useForm<FormValues>({
+    useForm<CreateGameFormData>({
       defaultValues:
         // {
         //   items: [
@@ -83,15 +86,15 @@ export default function GridPreviewClient({
 
   const initialState = {} as ActionState;
   const [state, formAction, pending] = useActionState(
-    async (_: ActionState, payload: FormValues) => {
-      return await createGrid(payload);
+    async (_: ActionState, payload: CreateGameFormData) => {
+      return await createGame(payload);
     },
     initialState
   );
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: CreateGameFormData) => {
     startTransition(() => {
       formAction(data);
     });
@@ -101,27 +104,28 @@ export default function GridPreviewClient({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='mx-auto text-black'>
         {fields.map((field, index) => {
-          const gridName = watch(`items.${index}.path`, field.path);
+          const gridName = watch(`items.${index}.gridType`, field.gridType);
           const gridConfig = config[gridName as keyof typeof config];
 
           return (
             <div key={field.id} className='mb-1'>
-              <div className='flex justify-center'>
-                <div className=''>
+              <div className='flex flex-col items-center'>
+                <div className='mb-2'>
+                  <label
+                    htmlFor={`items.${index}.gridType`}
+                    className='mb-1 block font-semibold'
+                  >
+                    Grid Type
+                  </label>
                   <select
-                    {...register(`items.${index}.path` as const)}
-                    defaultValue={field.path}
-                    className='mb-4 mr-4'
+                    {...register(`items.${index}.gridType` as const)}
+                    defaultValue={field.gridType}
+                    className='mb-4'
                     onChange={(e) => {
                       const newPath = e.target.value;
-                      // Update the path in the form state
-                      setValue(`items.${index}.path`, newPath);
-
-                      // Get the new grid config
+                      setValue(`items.${index}.gridType`, newPath);
                       const newGridConfig =
                         config[newPath as keyof typeof config];
-
-                      // Reset the words array for this item
                       setValue(
                         `items.${index}.words`,
                         newGridConfig
@@ -142,15 +146,29 @@ export default function GridPreviewClient({
                     ))}
                   </select>
                 </div>
-              </div>
-              <div className='mt-1'>
-                <Image
-                  src={`/grid-previews/${watch(`items.${index}.path`, field.path)}.png`}
-                  alt='Selected'
-                  width={200}
-                  height={200}
-                  className='mx-auto'
-                />
+                <div>
+                  <Image
+                    src={`/grid-previews/${watch(`items.${index}.gridType`, field.gridType)}.png`}
+                    alt='Selected'
+                    width={200}
+                    height={200}
+                    className='mx-auto'
+                  />
+                </div>
+                <div className='mb-4'>
+                  <label
+                    htmlFor={`items.${index}.name`}
+                    className='mb-1 block font-semibold'
+                  >
+                    Name
+                  </label>
+                  <input
+                    type='text'
+                    {...register(`items.${index}.name`)}
+                    className='border border-gray-300 p-1'
+                    placeholder='Enter grid name'
+                  />
+                </div>
               </div>
               <div
                 className={`mx-auto mt-2 flex max-w-screen-xl flex-wrap justify-center gap-4 text-black`}
@@ -304,45 +322,77 @@ export default function GridPreviewClient({
                   );
                 })}
               </div>
-              <button
-                type='button'
-                onClick={() => remove(index)}
-                className='bg-red-500 hover:bg-red-600 focus:ring-red-400 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
-              >
-                Remove Grid
-              </button>
-              <button
-                type='button'
-                onClick={() => {
-                  setValue(
-                    `items.${index}.words`,
-                    gridConfig?.map((wordConfig) => ({
-                      clue: '',
-                      letters: Array(wordConfig.length).fill(''),
-                      details: {},
-                    })) || [],
-                    { shouldDirty: true, shouldValidate: true }
-                  );
-                }}
-                className='bg-red-500 hover:bg-red-600 focus:ring-red-400 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
-              >
-                Reset Grid
-              </button>
+              <div className='mt-4 flex justify-center gap-4'>
+                <button
+                  type='button'
+                  onClick={() => remove(index)}
+                  className='bg-red-600 hover:bg-red-700 focus:ring-red-500 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+                >
+                  Remove Grid
+                </button>
+                <button
+                  type='button'
+                  onClick={() => {
+                    setValue(
+                      `items.${index}.words`,
+                      gridConfig?.map((wordConfig) => ({
+                        clue: '',
+                        letters: Array(wordConfig.length).fill(''),
+                        details: {},
+                      })) || [],
+                      { shouldDirty: true, shouldValidate: true }
+                    );
+                  }}
+                  className='bg-red-500 hover:bg-red-600 focus:ring-red-400 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+                >
+                  Reset Grid
+                </button>
+              </div>
+              <hr className='mx-auto my-8 w-[80%] border-t border-gray-300' />
             </div>
           );
         })}
-        <button
-          type='button'
-          className='text-white'
-          onClick={() =>
-            append({
-              path: imagePaths[0] || '',
-              words: [],
-            })
-          }
-        >
-          Add Grid
-        </button>
+        <div className='mb-4 mt-4 flex flex-col items-center justify-center'>
+          <div>
+            <button
+              type='button'
+              className='hover:bg-green-500 focus:ring-red-400 rounded bg-green px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+              onClick={() =>
+                append({
+                  gridType: imagePaths[0] || '',
+                  name: '',
+                  words: [],
+                })
+              }
+            >
+              Add Grid
+            </button>
+          </div>
+          <hr className='mx-auto my-8 w-[80%] border-t border-gray-300' />
+
+          <div className='mb-4 mt-4'>
+            <label htmlFor='solution' className='mb-1 block font-semibold'>
+              Solution
+            </label>
+            <input
+              type='text'
+              id='solution'
+              {...register('solution')}
+              className='border border-gray-300 p-1'
+              placeholder='Enter solution'
+            />
+          </div>
+          <div className='mb-4 mt-4 block'>
+            <label className='mb-1 block font-semibold'>
+              <input
+                type='checkbox'
+                {...register('premium')}
+                className='mr-2'
+              />
+              Premium
+            </label>
+          </div>
+        </div>
       </div>
       <pre>{JSON.stringify(watch(), null, 2)}</pre>
       <button type='submit' className='mt-4 text-white' disabled={isPending}>
