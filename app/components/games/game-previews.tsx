@@ -131,7 +131,7 @@ export default async function GamesPreview() {
               premiumMember ? '' : 'mr-2'
             }`}
           >
-            Latest Premium Games{' '}
+            Premium
             {!premiumMember && <LockClosedIcon className='ml-1 w-5 max-w-4' />}
           </h2>
           <p>
@@ -158,7 +158,7 @@ export default async function GamesPreview() {
                 );
               })
             ) : (
-              <p>No crab games created yet {':('}</p>
+              <p>No crab games detected {':('}</p>
             )}
           </div>
         </div>
