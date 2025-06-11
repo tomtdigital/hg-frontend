@@ -70,7 +70,7 @@ export default async function GamesPreview() {
                 premiumMember ? '' : 'mr-2'
               }`}
             >
-              Latest Premium Games{' '}
+              Premium
               {!premiumMember && (
                 <LockClosedIcon className='ml-1 w-5 max-w-4' />
               )}
@@ -87,7 +87,7 @@ export default async function GamesPreview() {
                 <div key={game._id} className='mb-4'>
                   <PreviewLink
                     key={game._id}
-                    className={`bg-purple text-white hover:bg-darkPurple ${complete ? 'mb-3' : ''}`}
+                    className={`bg-purple-500 text-white hover:bg-purple-600 ${complete ? 'mb-3' : ''}`}
                     href={`/game/${game._id}`}
                   >
                     {date}
@@ -141,8 +141,8 @@ export default async function GamesPreview() {
       )}
       {user?.roles.includes('owner') && (
         <div className='mt-[2em]'>
-          <h2 className='text-xl'>Tom & Hannah Games</h2>
-          <div className='flex w-full flex-col items-center'>
+          <h2 className='text-xl'>Tom & Hannah 🦀 </h2>
+          <div className='flex w-full flex-col items-center text-white'>
             {gamePreviews?.ownerGames &&
             gamePreviews?.ownerGames?.length > 0 ? (
               gamePreviews.ownerGames.map((game: GamePreview) => {
@@ -151,7 +151,7 @@ export default async function GamesPreview() {
                   <PreviewLink
                     key={game._id}
                     href={`/game/${game._id}`}
-                    className='mb-4'
+                    className='mb-4 bg-orange-600 text-white hover:bg-orange-700'
                   >
                     {date}
                   </PreviewLink>
