@@ -30,7 +30,7 @@ export const getMockData = (types: GridType[]): Game => {
     createdAt: new Date(),
     updatedAt: new Date(),
     publishDate: new Date('2025-04-21'),
-    premium: false,
+    access: 'free',
     main: main as GameGrid,
     solution: 'abcde',
   };

@@ -23,8 +23,8 @@ export default function StoreProvider({
           name: '',
           email: '',
           token: '',
-          admin: false,
-          premium: false,
+          membership: 'free',
+          roles: ['user'],
         }
       )
     );

@@ -19,7 +19,7 @@ export default async function SessionLayout({
 }>) {
   const user: Fetched<Session['user']> = await getCachedUser();
   if (!user) redirect('/login');
-  const adminMember: boolean = user?.admin;
+  const adminMember: boolean = user?.roles?.includes('admin') || false;
   return (
     <div className='min-h-[100vh]'>
       <main className='min-h-[calc(100vh-5em)]'>{children}</main>

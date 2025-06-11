@@ -11,8 +11,8 @@ const initialState: UserState = {
     name: '',
     email: '',
     token: '',
-    admin: false,
-    premium: false,
+    membership: 'free',
+    roles: ['user'],
   },
 };
 

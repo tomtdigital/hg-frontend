@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useActionState, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import ExampleGame from '../../api/mocks/example-game.json';
 import { createGame } from '@/app/api/actions/create-game';
 
 interface FormWord extends RequireOnly<Word, 'clue'> {
@@ -19,7 +18,7 @@ interface FormItem {
 export interface CreateGameFormData {
   solution: string;
   publishDate: string;
-  premium: boolean;
+  access: Access;
   items: FormItem[];
 }
 
@@ -74,7 +73,7 @@ export default function CreateGameForm({
       // },
       defaultValues: {
         solution: '',
-        premium: false,
+        access: 'free',
         publishDate: new Date().toISOString().split('T')[0], // Default to today
         items: [
           {
@@ -332,7 +331,7 @@ export default function CreateGameForm({
                 <button
                   type='button'
                   onClick={() => remove(index)}
-                  className='bg-red-600 hover:bg-red-700 focus:ring-red-500 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+                  className='rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
                 >
                   Remove Grid
                 </button>
@@ -349,7 +348,7 @@ export default function CreateGameForm({
                       { shouldDirty: true, shouldValidate: true }
                     );
                   }}
-                  className='bg-red-500 hover:bg-red-600 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+                  className='rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2'
                 >
                   Reset Grid
                 </button>
@@ -362,7 +361,7 @@ export default function CreateGameForm({
           <div>
             <button
               type='button'
-              className='hover:bg-green-500 rounded bg-green px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2'
+              className='rounded bg-green px-4 py-2 text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2'
               onClick={() =>
                 append({
                   gridType: imagePaths[0] || '',
@@ -389,14 +388,37 @@ export default function CreateGameForm({
             />
           </div>
           <div className='mb-4 mt-4 block'>
-            <label className='mb-1 block font-semibold'>
-              <input
-                type='checkbox'
-                {...register('premium')}
-                className='mr-2'
-              />
-              Premium
-            </label>
+            <label className='mb-1 block font-semibold'>Access</label>
+            <div className='flex gap-4'>
+              <label>
+                <input
+                  type='radio'
+                  {...register('access')}
+                  value='free'
+                  className='mr-2'
+                  defaultChecked
+                />
+                Free
+              </label>
+              <label>
+                <input
+                  type='radio'
+                  {...register('access')}
+                  value='premium'
+                  className='mr-2'
+                />
+                Premium
+              </label>
+              <label>
+                <input
+                  type='radio'
+                  {...register('access')}
+                  value='owner'
+                  className='mr-2'
+                />
+                Tom and Hannah
+              </label>
+            </div>
           </div>
           <div className='mb-4 mt-4'>
             <label htmlFor='publishDate' className='mb-1 block font-semibold'>
@@ -410,14 +432,14 @@ export default function CreateGameForm({
             />
           </div>
           {state.status === 'rejected' && state?.error?.message && (
-            <div className='text-red-500 my-2 rounded p-2 text-center'>
+            <div className='my-2 rounded p-2 text-center text-red-500'>
               {state.error.message}
             </div>
           )}
           <div className='mx-auto'>
             <button
               type='submit'
-              className='bg-purple-500 hover:bg-purple-600 mt-4 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50'
+              className='mt-4 rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50'
               disabled={isPending}
             >
               {isPending ? 'Submitting...' : 'Submit'}

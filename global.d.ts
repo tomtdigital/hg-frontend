@@ -27,13 +27,15 @@ type GameGrid = {
   data: GridData;
 }[];
 
+type Access = 'free' | 'premium' | 'owner';
+
 type Game = {
   main: GameGrid;
   solution: string;
   publishDate: Date;
   createdAt: Date;
   updatedAt: Date;
-  premium: boolean;
+  access: Access;
 };
 
 type NewGame = RequireOnly<Game, 'main' | 'solution' | 'publishDate'>;

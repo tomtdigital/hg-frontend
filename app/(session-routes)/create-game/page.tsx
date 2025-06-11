@@ -20,7 +20,7 @@ const validImages = existingGridNames.filter((name) => {
 export default async function CreateGame() {
   const user: Fetched<Session['user']> = await getCachedUser();
   if (!user) redirect('/login');
-  if (!user.admin) redirect('/games');
+  if (!user.roles?.includes('admin')) redirect('/games');
 
   return <CreateGameForm imagePaths={validImages} config={WordCellConfig} />;
 }

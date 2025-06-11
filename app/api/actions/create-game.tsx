@@ -12,7 +12,7 @@ export async function createGame(
   // Ensure the user is authenticated
   const user: Fetched<Session['user']> = await getCachedUser();
   if (!user) redirect('/login');
-  if (!user.admin) {
+  if (!user.roles?.includes('admin')) {
     return {
       status: 'rejected',
       error: { message: 'You do not have permission to create a game.' },
@@ -48,7 +48,7 @@ export async function createGame(
   } catch (error: unknown) {
     err = true;
     if (status === 409)
-      message = `A ${transformedData.premium ? 'premium' : 'non-premium'} game already exists on this date!`;
+      message = `A game with ${transformedData.access} access already exists on this date!`;
     return { status: 'rejected', error: { message } };
   } finally {
     if (!err) {

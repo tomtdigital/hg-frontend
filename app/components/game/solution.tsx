@@ -192,7 +192,7 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
                   </Link>
                 ) : (
                   <button
-                    className='mx-auto mt-2 rounded bg-purple p-2 text-white'
+                    className='mx-auto mt-2 block rounded bg-purple p-2 text-white'
                     onClick={() => {
                       const tab = finishedGrids.length;
                       dispatch(setTabIndex({ tabIndex: tab, userId }));

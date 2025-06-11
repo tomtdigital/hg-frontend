@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import NextAuth from 'next-auth';
 
+type Role = 'user' | 'admin' | 'owner';
+type Membership = 'free' | 'premium';
+
 declare module 'next-auth' {
   interface Session {
     user: {
@@ -8,8 +11,8 @@ declare module 'next-auth' {
       name: string;
       email: string;
       token: string;
-      premium: boolean;
-      admin: boolean;
+      membership: Membership;
+      roles: Role[];
     };
   }
 
@@ -19,8 +22,8 @@ declare module 'next-auth' {
       name: string;
       email: string;
       token: string;
-      premium: boolean;
-      admin: boolean;
+      membership: Membership;
+      roles: Role[];
     };
   }
 }

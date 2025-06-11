@@ -15,7 +15,7 @@ import { getCompletionStatus } from '@/app/utils/get-completion-status';
 export default async function GamesPreview() {
   const user: Fetched<Session['user']> = await getCachedUser();
   if (!user) redirect('/login');
-  const premiumMember: boolean = user.premium;
+  const premiumMember: boolean = user.membership === 'premium';
   const gamePreviews: Fetched<GamePreviews> = await fetchGamePreviews();
   const freeGames: Fetched<GamePreview[]> = gamePreviews?.freeGames;
   const premiumGames: Fetched<GamePreview[]> = gamePreviews?.premiumGames;
@@ -137,6 +137,30 @@ export default async function GamesPreview() {
           <p>
             <em>No premium games detected</em>
           </p>
+        </div>
+      )}
+      {user?.roles.includes('owner') && (
+        <div className='mt-[2em]'>
+          <h2 className='text-xl'>Tom & Hannah Games</h2>
+          <div className='flex w-full flex-col items-center'>
+            {gamePreviews?.ownerGames &&
+            gamePreviews?.ownerGames?.length > 0 ? (
+              gamePreviews.ownerGames.map((game: GamePreview) => {
+                const date = formatDate(game.publishDate);
+                return (
+                  <PreviewLink
+                    key={game._id}
+                    href={`/game/${game._id}`}
+                    className='mb-4'
+                  >
+                    {date}
+                  </PreviewLink>
+                );
+              })
+            ) : (
+              <p>No crab games created yet {':('}</p>
+            )}
+          </div>
         </div>
       )}
     </div>

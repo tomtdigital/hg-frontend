@@ -31,7 +31,7 @@ export function transformToApi(formData: CreateGameFormData): NewGame {
       })),
     ],
     solution: formData.solution,
-    premium: formData.premium,
+    access: formData.access,
     publishDate: new Date(formData.publishDate),
   };
 }

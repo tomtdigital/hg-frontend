@@ -1,6 +1,6 @@
 {
   "solution": "liverpool",
-  "premium": false,
+  "access": "free",
   "items": [
     {
       "gridType": "r-5",
