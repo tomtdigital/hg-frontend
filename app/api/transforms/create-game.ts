@@ -1,18 +1,17 @@
 import { CreateGameFormData } from '@/app/(session-routes)/create-game/form';
 
 const shuffleLetters = (letters: string[]): string[] => {
-  const original = Array.from(new Set(letters.map((l) => l.toLowerCase())));
-  if (original.length <= 1) return original;
+  if (letters.length <= 1) return letters;
 
   let shuffled: string[];
   do {
-    shuffled = [...original];
+    shuffled = [...letters];
     // Fisher-Yates shuffle
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-  } while (shuffled.join('') === original.join(''));
+  } while (shuffled.join('') === letters.join(''));
 
   return shuffled;
 };
@@ -24,7 +23,7 @@ export function transformToApi(formData: CreateGameFormData): NewGame {
         grid: item.gridType,
         name: item.name,
         data: item.words.map((word) => ({
-          anagram: shuffleLetters(word.letters).join(' '),
+          anagram: shuffleLetters(word.letters).join(''),
           word: word.letters.join(''),
           clue: word.clue,
           details: word.details,

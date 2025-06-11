@@ -5,7 +5,7 @@ import '@/app/globals.css';
 import type { Metadata } from 'next';
 import { Session } from 'next-auth';
 import Link from 'next/link';
-import { getCachedUser, getUser } from '../api/data/server/user';
+import { getCachedUser } from '../api/data/server/user';
 import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
@@ -17,9 +17,8 @@ export default async function SessionLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user: Fetched<Session['user']> = await getUser();
+  const user: Fetched<Session['user']> = await getCachedUser();
   if (!user) redirect('/login');
-  console.log('user', user);
   const adminMember: boolean = user?.admin;
   return (
     <div className='min-h-[100vh]'>

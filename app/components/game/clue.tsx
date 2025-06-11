@@ -38,11 +38,11 @@ const Clue = ({ active }: ClueProps) => {
         <div className='flex items-center justify-center bg-darkGrey px-2 py-1'>
           <div className=''>
             <p className='block text-[1.5em]'>
-              {`${anagram} ${activeWord.details?.pronoun ? '(p)' : ''} ${
+              {`${activeWord.details?.letterSplit || anagram} ${activeWord.details?.pronoun ? '(p)' : ''} ${activeWord.details?.plural ? '(pl)' : ''} ${
                 activeWord.details?.wordCount
                   ? `(${activeWord.details?.wordCount})`
                   : ''
-              } ${activeWord.details?.plural ? '(pl)' : ''}
+              }
               `}
             </p>
           </div>
