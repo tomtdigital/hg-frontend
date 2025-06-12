@@ -147,14 +147,24 @@ export default async function GamesPreview() {
             gamePreviews?.ownerGames?.length > 0 ? (
               gamePreviews.ownerGames.map((game: GamePreview) => {
                 const date = formatDate(game.publishDate);
+                const complete: boolean = getCompletionStatus(
+                  game,
+                  sessionPreviews
+                );
                 return (
-                  <PreviewLink
-                    key={game._id}
-                    href={`/game/${game._id}`}
-                    className='mb-4 bg-orange-600 text-white hover:bg-orange-700'
-                  >
-                    {date}
-                  </PreviewLink>
+                  <div key={game._id} className='mb-4'>
+                    <PreviewLink
+                      href={`/game/${game._id}`}
+                      className={`mb-4 bg-orange-600 text-white hover:bg-orange-700 ${complete ? 'mb-3' : ''}`}
+                    >
+                      {date}
+                    </PreviewLink>
+                    {complete && (
+                      <span className='mt-1 rounded-full bg-green p-2 text-[0.75em]'>
+                        {'✔️'}
+                      </span>
+                    )}
+                  </div>
                 );
               })
             ) : (
