@@ -155,7 +155,7 @@ export default async function GamesPreview() {
                   <div key={game._id} className='mb-4'>
                     <PreviewLink
                       href={`/game/${game._id}`}
-                      className={`mb-4 bg-orange-600 text-white hover:bg-orange-700 ${complete ? 'mb-3' : ''}`}
+                      className={`bg-orange-600 text-white hover:bg-orange-700 ${complete ? 'mb-3' : ''}`}
                     >
                       {date}
                     </PreviewLink>
