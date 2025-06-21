@@ -35,7 +35,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
 
   return (
     <PageWrapper>
-      <div className='h-md:block hidden'>
+      <div className='hidden h-md:block'>
         <Tabs
           selectedIndex={tabIndex}
           onSelect={(value) => {
@@ -110,10 +110,10 @@ export default function Game({ grids, solution, praise }: GameProps) {
                     maxScore={maxScore}
                   />
                 </GameStageSwipe>
-                <div className='h-lg:h-[90px] mt-[3em] h-[75px]'>
-                  <Clue active={active} />
+                <div className='mt-[3em] h-[75px] h-lg:h-[90px]'>
+                  <Clue active={active} grids={grids} />
                 </div>
-                <div className='h-lg:h-[calc(48vh-60px-90px-3em)] grid h-[calc(48vh-60px-75px-3em)] grid-cols-1 grid-rows-3'>
+                <div className='grid h-[calc(48vh-60px-75px-3em)] grid-cols-1 grid-rows-3 h-lg:h-[calc(48vh-60px-90px-3em)]'>
                   <Keyboard active={active} />
                 </div>
               </TabPanel>
@@ -134,7 +134,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
           </TabPanel>
         </Tabs>
       </div>
-      <div className='h-md:hidden block'>
+      <div className='block h-md:hidden'>
         <div className='flex h-full min-h-[300px] flex-col items-center justify-center'>
           <p className='mb-2 text-center text-lg font-semibold'>
             Please rotate your device

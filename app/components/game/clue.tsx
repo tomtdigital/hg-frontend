@@ -1,23 +1,31 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { updateSessionDataStorage } from '@/app/redux/slices/game-session-slice';
-import { GameState } from '@/app/redux/slices/game-slice';
+import { GameState, setActiveWord } from '@/app/redux/slices/game-slice';
 import { useMemo, useState } from 'react';
 import Modal from '../modal';
+import Swiper from '../swiper';
 
 type ClueProps = {
   active: boolean;
+  grids: GameGrid;
 };
 
-const Clue = ({ active }: ClueProps) => {
+const Clue = ({ active, grids }: ClueProps) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.credentials.id);
   const storeGame: GameState = useAppSelector((state) => state.game);
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
   );
-  const { activeWord } = storeGame;
-
+  const { activeWord, tabIndex } = storeGame;
+  const activeGrid = grids[tabIndex];
+  const maxIndex = activeGrid.data.length - 1;
+  const activeWordIndex = activeGrid.data.findIndex(
+    (item) => JSON.stringify(item?.word) === JSON.stringify(activeWord?.word)
+  );
   const { cluesRevealed } = storeSession.gameData;
+
   const revealClue = cluesRevealed?.includes(activeWord.word) || !active;
   const anagram = activeWord.anagram?.toUpperCase();
   const minWordScore = activeWord.word?.length || 0;
@@ -56,32 +64,54 @@ const Clue = ({ active }: ClueProps) => {
 
   return (
     <div className='flex-column flex h-full w-full items-center justify-center bg-darkGrey px-1 text-white'>
-      <div className='items-center justify-center bg-darkGrey text-center'>
-        <div className='flex items-center justify-center bg-darkGrey px-2 py-1'>
-          <div className=''>
-            <p className='h-lg:text-[1.5em] block text-[1.2em]'>
-              {wordDetailsString}
-            </p>
-          </div>
-          {!revealClue && (
-            <div>
-              <button
-                className='h-lg:text-[1.2em] ml-4 block px-4 py-2 text-[1em]'
-                onClick={() => setShowModal(true)}
-              >
-                🔍
-              </button>
+      <Swiper
+        enableSwipe={false}
+        onLeft={() => {
+          if (activeWordIndex !== 0) {
+            const nextWord = activeGrid.data[activeWordIndex - 1];
+            dispatch(setActiveWord({ activeWord: nextWord, userId }));
+          } else {
+            const nextWord = activeGrid.data[maxIndex];
+            dispatch(setActiveWord({ activeWord: nextWord, userId }));
+          }
+        }}
+        onRight={() => {
+          if (activeWordIndex < maxIndex) {
+            const nextWord = activeGrid.data[activeWordIndex + 1];
+            dispatch(setActiveWord({ activeWord: nextWord, userId }));
+          } else {
+            const nextWord = activeGrid.data[0];
+            dispatch(setActiveWord({ activeWord: nextWord, userId }));
+          }
+        }}
+      >
+        <div className='items-center justify-center bg-darkGrey text-center'>
+          <div className='flex items-center justify-center bg-darkGrey px-2 py-1'>
+            <div className=''>
+              <p className='block text-[1.2em] h-lg:text-[1.5em]'>
+                {wordDetailsString}
+              </p>
             </div>
-          )}
+            {!revealClue && (
+              <div>
+                <button
+                  className='ml-4 block px-4 py-2 text-[1em] h-lg:text-[1.2em]'
+                  onClick={() => setShowModal(true)}
+                >
+                  🔍
+                </button>
+              </div>
+            )}
+          </div>
+          <div>
+            {revealClue && (
+              <p className={clueFontSize}>
+                <em>{activeWord.clue}</em>
+              </p>
+            )}
+          </div>
         </div>
-        <div>
-          {revealClue && (
-            <p className={clueFontSize}>
-              <em>{activeWord.clue}</em>
-            </p>
-          )}
-        </div>
-      </div>
+      </Swiper>
       <Modal visible={showModal}>
         <div className='w-full p-6 text-center'>
           <p className='mb-2 text-[1.2em] text-black'>

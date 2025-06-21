@@ -20,14 +20,14 @@ export default function GameStageSwipe({ children }: GameStageSwipeProps) {
 
   return (
     <Swiper
-      onSwipeLeft={() => {
-        if (nextStageUnlocked) {
-          dispatch(setTabIndex({ tabIndex: tabIndex + 1, userId }));
-        }
-      }}
-      onSwipeRight={() => {
+      onLeft={() => {
         if (tabIndex > 0) {
           dispatch(setTabIndex({ tabIndex: tabIndex - 1, userId }));
+        }
+      }}
+      onRight={() => {
+        if (nextStageUnlocked) {
+          dispatch(setTabIndex({ tabIndex: tabIndex + 1, userId }));
         }
       }}
     >
