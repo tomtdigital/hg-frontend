@@ -1,14 +1,14 @@
-"use server";
+'use server';
 
-import { Session } from "next-auth";
-import { redirect } from "next/navigation";
-import { getCachedUser } from "./user";
+import { Session } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { getCachedUser } from './user';
 
 export async function fetchGame(id: string): Promise<Fetched<Game>> {
   let statusCode;
-  const message = "Unable to rerieve game";
-  const user: Fetched<Session["user"]> = await getCachedUser();
-  if (!user) redirect("/login");
+  const message = 'Unable to rerieve game';
+  const user: Fetched<Session['user']> = await getCachedUser();
+  if (!user) redirect('/login');
 
   try {
     const res = await fetch(`${process.env.BACKEND_URL}/games/${id}`, {
@@ -27,9 +27,9 @@ export async function fetchGame(id: string): Promise<Fetched<Game>> {
   } finally {
     switch (statusCode) {
       case 403:
-        redirect("/upgrade");
+        redirect('/upgrade');
       case 404:
-        redirect("/not-found");
+        redirect('/not-found');
       default:
         break;
     }

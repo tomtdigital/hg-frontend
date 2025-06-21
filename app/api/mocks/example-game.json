@@ -12,7 +12,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -22,7 +22,7 @@
           "details": {
             "pronoun": true,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         }
@@ -37,7 +37,7 @@
           "letters": ["M", "O", "J", "I", "T", "O", "S"],
           "details": {
             "pronoun": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "plural": true,
             "letterSplit": ""
           }
@@ -47,7 +47,7 @@
           "letters": ["S", "T", "O", "N", "E"],
           "details": {
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "pronoun": false,
             "letterSplit": ""
           }
@@ -63,7 +63,7 @@
           "letters": ["J", "O", "U", "R", "N", "E", "Y"],
           "details": {
             "pronoun": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "plural": false,
             "letterSplit": ""
           }
@@ -72,7 +72,7 @@
           "clue": "break",
           "letters": ["H", "O", "L", "I", "D", "A", "Y"],
           "details": {
-            "wordCount": "",
+            "additionalInfo": "",
             "plural": false,
             "pronoun": false,
             "letterSplit": ""
@@ -90,7 +90,7 @@
           "details": {
             "plural": true,
             "pronoun": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -100,7 +100,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -110,7 +110,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         }
@@ -126,7 +126,7 @@
           "details": {
             "plural": true,
             "pronoun": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -136,7 +136,7 @@
           "details": {
             "plural": true,
             "pronoun": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -146,7 +146,7 @@
           "details": {
             "plural": false,
             "pronoun": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -156,7 +156,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         }
@@ -172,7 +172,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -182,7 +182,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -192,7 +192,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -202,7 +202,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         }
@@ -218,7 +218,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -228,7 +228,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -238,7 +238,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         },
@@ -248,7 +248,7 @@
           "details": {
             "pronoun": false,
             "plural": false,
-            "wordCount": "",
+            "additionalInfo": "",
             "letterSplit": ""
           }
         }

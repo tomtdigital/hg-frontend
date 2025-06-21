@@ -14,7 +14,7 @@ type Word = {
   details?: {
     pronoun?: boolean;
     plural?: boolean;
-    wordCount?: string;
+    additionalInfo?: string;
     letterSplit?: string;
   };
 };

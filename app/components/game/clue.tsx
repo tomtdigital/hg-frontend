@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { updateSessionDataStorage } from '@/app/redux/slices/game-session-slice';
 import { GameState } from '@/app/redux/slices/game-slice';
+import { useMemo, useState } from 'react';
 import Modal from '../modal';
-import { useState } from 'react';
 
 type ClueProps = {
   active: boolean;
@@ -23,6 +23,25 @@ const Clue = ({ active }: ClueProps) => {
   const minWordScore = activeWord.word?.length || 0;
   const maxWordScore = minWordScore * 3;
   const clueFontSize = minWordScore > 35 ? 'text-[1.5em]' : 'text-[1.2em]';
+  const wordDetails = activeWord.details || {};
+  // results in e.g. "A B C D", "A B C D (p) (pl) (additional info)" etc.
+  const wordDetailsString = useMemo(
+    () =>
+      [
+        activeWord.details?.letterSplit || anagram,
+        wordDetails?.pronoun ? '(p)' : '',
+        wordDetails?.plural ? '(pl)' : '',
+        wordDetails?.additionalInfo
+          ? wordDetails.additionalInfo.match(/^\(.*\)$/)
+            ? wordDetails.additionalInfo
+            : `(${wordDetails.additionalInfo})`
+          : '',
+      ]
+        .filter(Boolean)
+        .join(' '),
+    [activeWord]
+  );
+
   const handleClueReveal = (word: string) => {
     dispatch(
       updateSessionDataStorage({
@@ -37,14 +56,7 @@ const Clue = ({ active }: ClueProps) => {
       <div className='items-center justify-center bg-darkGrey text-center'>
         <div className='flex items-center justify-center bg-darkGrey px-2 py-1'>
           <div className=''>
-            <p className='block text-[1.5em]'>
-              {`${activeWord.details?.letterSplit || anagram} ${activeWord.details?.pronoun ? '(p)' : ''} ${activeWord.details?.plural ? '(pl)' : ''} ${
-                activeWord.details?.wordCount
-                  ? `(${activeWord.details?.wordCount})`
-                  : ''
-              }
-              `}
-            </p>
+            <p className='block text-[1.5em]'>{wordDetailsString}</p>
           </div>
           {!revealClue && (
             <div>

@@ -304,11 +304,11 @@ export default function CreateGameForm({
                         </label>
                       </div>
                       <div className='mt-2'>
-                        <label>Word Count</label>
+                        <label>Additional Info (e.g. word count)</label>
                         <input
                           type='text'
                           {...register(
-                            `items.${index}.words.${wordIndex}.details.wordCount`
+                            `items.${index}.words.${wordIndex}.details.additionalInfo`
                           )}
                           className='w-full border border-gray-300 p-1'
                         />
