@@ -1,9 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { updateSessionDataStorage } from '@/app/redux/slices/game-session-slice';
-import { GameState, setActiveWord } from '@/app/redux/slices/game-slice';
+import { GameState } from '@/app/redux/slices/game-slice';
 import { useMemo, useState } from 'react';
 import Modal from '../modal';
-import Swiper from '../swiper';
 
 type ClueProps = {
   active: boolean;
@@ -16,7 +15,7 @@ const Clue = ({ active }: ClueProps) => {
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
   );
-  const { activeWord, tabIndex } = storeGame;
+  const { activeWord } = storeGame;
   const { cluesRevealed } = storeSession.gameData;
 
   const revealClue = cluesRevealed?.includes(activeWord.word) || !active;
