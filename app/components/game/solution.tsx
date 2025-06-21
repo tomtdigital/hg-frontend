@@ -2,14 +2,13 @@ import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { updateSessionDataStorage } from '@/app/redux/slices/game-session-slice';
 import {
   GameState,
-  Key,
   setTabIndex,
   setVictoryModalVisible,
 } from '@/app/redux/slices/game-slice';
-import { useEffect, useState } from 'react';
-import VictoryModal from './victory-modal';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Modal from '../modal';
+import VictoryModal from './victory-modal';
 
 type SolutionProps = {
   text: string;
@@ -25,7 +24,7 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
   );
-  const { totalStages, keyPressed, victoryModalVisible } = storeGame;
+  const { totalStages, victoryModalVisible } = storeGame;
 
   const { stage, solutionGuess, correctSolution, finishedGrids, gameComplete } =
     storeSession.gameData;
@@ -44,60 +43,6 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
     newReveals[index] = true;
     setReveals(newReveals);
   };
-
-  useEffect(() => {
-    const handleKeyPress = ({ letter }: Key) => {
-      if (!letter) return;
-      let newSolutionGuess: string;
-      if (letter === 'DEL') {
-        if (toggledCell === 0) {
-          newSolutionGuess =
-            ' ' + solutionGuess.substring(1, solutionGuess.length);
-          setToggledCell(word.length - 1);
-        } else {
-          const partOne = solutionGuess.substring(0, toggledCell);
-          const partTwo = solutionGuess.substring(
-            toggledCell + 1,
-            solutionGuess.length
-          );
-          setToggledCell(toggledCell - 1);
-          newSolutionGuess = partOne + ' ' + partTwo;
-        }
-        dispatch(
-          updateSessionDataStorage({
-            gameData: { solutionGuess: newSolutionGuess },
-            updateDb: false,
-          })
-        );
-      } else {
-        if (toggledCell === 0) {
-          newSolutionGuess =
-            letter + solutionGuess.substring(1, solutionGuess.length);
-          setToggledCell(toggledCell + 1);
-        } else {
-          const partOne = solutionGuess.substring(0, toggledCell);
-          const partTwo = solutionGuess.substring(
-            toggledCell + 1,
-            solutionGuess.length
-          );
-          if (toggledCell === word.length - 1) {
-            setToggledCell(0);
-          } else {
-            setToggledCell(toggledCell + 1);
-          }
-          newSolutionGuess = partOne + letter + partTwo;
-        }
-        dispatch(
-          updateSessionDataStorage({
-            gameData: { solutionGuess: newSolutionGuess },
-            updateDb: false,
-          })
-        );
-      }
-    };
-
-    if (keyPressed && active && !correctSolution) handleKeyPress(keyPressed);
-  }, [keyPressed]);
 
   useEffect(() => {
     if (
@@ -149,24 +94,22 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
           </div>
         )}
         <div className='flex justify-center p-4'>
-          <div
-            className={`grid w-[100%] grid-cols-${word.length > 3 ? word.length : 4}`}
-          >
-            {[...Array(word.length)].map((_, index) => {
-              const background = index === toggledCell ? 'darkGrey' : 'white';
-              const color = index === toggledCell ? 'white' : 'black';
-              return (
-                <div
-                  key={`cell ${index}`}
-                  onClick={() => {
-                    setToggledCell(index);
-                  }}
-                  className={`cursor-pointer border-solid border-black bg-${background} flex min-h-[3.5em] items-center justify-center border-[1px]`}
-                >
-                  <div className={`text-${color}`}>{solutionGuess[index]}</div>
-                </div>
-              );
-            })}
+          <div className='w-[100%]'>
+            <input
+              type='text'
+              className='w-full rounded border-2 border-darkGrey bg-white p-2 text-center text-black'
+              value={solutionGuess}
+              style={{ textTransform: 'uppercase' }}
+              onChange={(e) => {
+                dispatch(
+                  updateSessionDataStorage({
+                    gameData: { solutionGuess: e.target.value },
+                    updateDb: false,
+                  })
+                );
+              }}
+              readOnly={correctSolution}
+            />
           </div>
         </div>
         {multipleWords && !correctSolution && (

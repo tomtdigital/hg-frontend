@@ -26,7 +26,7 @@ export default function Grid({
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
   );
-  const { keyPressed, activeWord } = storeGame;
+  const { keyPressed } = storeGame;
   const { finishedGrids } = storeSession.gameData;
 
   const [grid, setGrid] = useState<FullGrid>(baseGrid);
@@ -88,14 +88,6 @@ export default function Grid({
     const wordLocation = getWordLocation();
     dispatch(setActiveWord({ activeWord: data[wordLocation], userId }));
   }, [toggledWord]);
-
-  useEffect(() => {
-    const wordIndex = data.findIndex((word) => word === activeWord);
-    if (wordIndex !== -1) {
-      setToggledWord(wordCells[wordIndex]);
-      setToggledCell(wordCells[wordIndex][0]);
-    }
-  }, [activeWord]);
 
   useEffect(() => {
     const handleKeyPress = ({ letter: guess }: Key) => {

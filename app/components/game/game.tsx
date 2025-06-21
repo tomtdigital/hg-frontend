@@ -111,7 +111,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
                   />
                 </GameStageSwipe>
                 <div className='mt-[3em] h-[75px] h-lg:h-[90px]'>
-                  <Clue active={active} grids={grids} />
+                  <Clue active={active} />
                 </div>
                 <div className='grid h-[calc(48vh-60px-75px-3em)] grid-cols-1 grid-rows-3 h-lg:h-[calc(48vh-60px-90px-3em)]'>
                   <Keyboard active={active} />
@@ -120,17 +120,23 @@ export default function Game({ grids, solution, praise }: GameProps) {
             );
           })}
           <TabPanel>
-            <GameStageSwipe>
+            {gameComplete ? (
+              <GameStageSwipe>
+                <Solution
+                  text={solution}
+                  active={!gameComplete}
+                  maxScore={maxScore}
+                  grids={grids}
+                />
+              </GameStageSwipe>
+            ) : (
               <Solution
                 text={solution}
                 active={!gameComplete}
                 maxScore={maxScore}
                 grids={grids}
               />
-            </GameStageSwipe>
-            <div className='grid h-[calc(48vh-60px-100px-3em)] grid-cols-1 grid-rows-3'>
-              <Keyboard active={!gameComplete} />
-            </div>
+            )}
           </TabPanel>
         </Tabs>
       </div>
