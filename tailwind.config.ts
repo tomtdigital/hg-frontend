@@ -205,6 +205,9 @@ const config: Config = {
       },
       screens: {
         device: '375px',
+        'h-md': { raw: '(min-height: 568px)' },
+        'h-lg': { raw: '(min-height: 768px)' },
+        'h-xl': { raw: '(min-height: 900px)' },
       },
       fontSize: {
         header1: '1.8em',

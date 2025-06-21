@@ -23,7 +23,8 @@ export default async function GamesPreview() {
     await fetchSessionPreviews();
 
   return (
-    <div className='flex flex-col items-center text-center'>
+    <div className='mb-10 mt-4 flex flex-col items-center text-center'>
+      <h1 className='mb-[1.5em] text-2xl font-bold'>Latest Games</h1>
       {freeGames && freeGames?.length > 0 ? (
         <>
           <h2 className='text-xl'>Free</h2>
@@ -101,7 +102,7 @@ export default async function GamesPreview() {
               ) : (
                 <span
                   key={game._id}
-                  className='m-1 mb-4 block w-[8em] rounded-[10em] bg-midGrey p-4 text-center text-white'
+                  className='m-1 mb-4 block w-[8em] rounded-[10em] bg-midGrey p-4 text-center'
                 >
                   <p className='block'>{date}</p>
                 </span>
@@ -112,13 +113,11 @@ export default async function GamesPreview() {
             {premiumMember ? (
               <>
                 {premiumGames.length > 3 && (
-                  <Link href='/games/premium' className='text-white'>
-                    View all
-                  </Link>
+                  <Link href='/games/premium'>View all</Link>
                 )}
               </>
             ) : (
-              <Link href='/upgrade' className='text-white'>
+              <Link href='/upgrade' className='underline'>
                 Upgrade today!
               </Link>
             )}

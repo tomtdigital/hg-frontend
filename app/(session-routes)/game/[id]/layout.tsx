@@ -13,5 +13,9 @@ export default async function GameLayout({
   const user: Fetched<Session['user']> = await getCachedUser();
   if (!user) redirect('/login');
 
-  return <StoreProvider user={user}>{children}</StoreProvider>;
+  return (
+    <StoreProvider user={user}>
+      <div className='h-[calc(100vh - 3em)]'>{children}</div>
+    </StoreProvider>
+  );
 }

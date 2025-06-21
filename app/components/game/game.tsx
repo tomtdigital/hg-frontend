@@ -8,6 +8,7 @@ import Clue from './clue';
 import { GridSection } from './grid-section';
 import PageWrapper from './page-wrapper';
 import Solution from './solution';
+import GameStageSwipe from '../swiper/game-stage-swipe';
 
 type GameProps = {
   grids: GameGrid;
@@ -34,7 +35,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
 
   return (
     <PageWrapper>
-      <>
+      <div className='h-md:block hidden'>
         <Tabs
           selectedIndex={tabIndex}
           onSelect={(value) => {
@@ -52,10 +53,10 @@ export default function Game({ grids, solution, praise }: GameProps) {
                 let unlocked = index === 0;
                 if (index > 0) unlocked = stage >= index;
                 let tabColors = 'border-midGrey bg-midGrey';
-                if (unlocked) {
+                if (unlocked || index === tabIndex) {
                   tabColors = 'border-lightGrey bg-lightGrey';
                 }
-                if (stage > index) {
+                if (stage > index && index !== tabIndex) {
                   tabColors = 'border-green bg-green';
                 }
 
@@ -68,15 +69,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
                     disabled={!unlocked}
                   >
                     <span className='block'>
-                      {unlocked ? (
-                        stage > index ? (
-                          '✔️'
-                        ) : (
-                          index + 1
-                        )
-                      ) : (
-                        <>&#128274;</>
-                      )}
+                      {unlocked ? index + 1 : <>&#128274;</>}
                     </span>
                   </Tab>
                 );
@@ -88,7 +81,7 @@ export default function Game({ grids, solution, praise }: GameProps) {
                     : 'border-purple bg-purple text-white'
                 } cursor-pointer`}
               >
-                {gameComplete ? '✔️' : '💭'}
+                {'💭'}
               </Tab>
             </TabList>
           </div>
@@ -98,36 +91,53 @@ export default function Game({ grids, solution, praise }: GameProps) {
 
             return (
               <TabPanel key={game.grid + 'grid'}>
-                <GridSection
-                  type={game.grid}
-                  round={index}
-                  data={game.data}
-                  active={active}
-                  praise={praise}
-                  maxScore={maxScore}
-                />
-                <div className='mt-[3em] h-[100px]'>
+                <GameStageSwipe>
+                  <GridSection
+                    type={game.grid}
+                    round={index}
+                    data={game.data}
+                    active={active}
+                    praise={praise}
+                    maxScore={maxScore}
+                  />
+                </GameStageSwipe>
+                <div className='h-lg:h-[90px] mt-[3em] h-[75px]'>
                   <Clue active={active} />
                 </div>
-                <div className='grid h-[calc(48vh-60px-100px-3em)] grid-cols-1 grid-rows-3'>
+                <div className='h-lg:h-[calc(48vh-60px-90px-3em)] grid h-[calc(48vh-60px-75px-3em)] grid-cols-1 grid-rows-3'>
                   <Keyboard active={active} />
                 </div>
               </TabPanel>
             );
           })}
           <TabPanel>
-            <Solution
-              text={solution}
-              active={!gameComplete}
-              maxScore={maxScore}
-              grids={grids}
-            />
+            <GameStageSwipe>
+              <Solution
+                text={solution}
+                active={!gameComplete}
+                maxScore={maxScore}
+                grids={grids}
+              />
+            </GameStageSwipe>
             <div className='grid h-[calc(48vh-60px-100px-3em)] grid-cols-1 grid-rows-3'>
               <Keyboard active={!gameComplete} />
             </div>
           </TabPanel>
         </Tabs>
-      </>
+      </div>
+      <div className='h-md:hidden block'>
+        <div className='flex h-full min-h-[300px] flex-col items-center justify-center'>
+          <p className='mb-2 text-center text-lg font-semibold'>
+            Please rotate your device
+          </p>
+          <p className='text-center text-sm text-gray-400'>
+            Unable to display the game at this screen height.
+          </p>
+          <span role='img' aria-label='rotate' className='mt-4 text-4xl'>
+            🔄
+          </span>
+        </div>
+      </div>
     </PageWrapper>
   );
 }

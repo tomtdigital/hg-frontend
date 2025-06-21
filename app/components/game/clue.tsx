@@ -22,7 +22,10 @@ const Clue = ({ active }: ClueProps) => {
   const anagram = activeWord.anagram?.toUpperCase();
   const minWordScore = activeWord.word?.length || 0;
   const maxWordScore = minWordScore * 3;
-  const clueFontSize = minWordScore > 35 ? 'text-[1.5em]' : 'text-[1.2em]';
+  const clueFontSize =
+    minWordScore > 35
+      ? 'text-[1.2em] h-lg:text-[1.5em]'
+      : 'text-[1em] h-lg:text-[1.2em]';
   const wordDetails = activeWord.details || {};
   // results in e.g. "A B C D", "A B C D (p) (pl) (additional info)" etc.
   const wordDetailsString = useMemo(
@@ -52,16 +55,18 @@ const Clue = ({ active }: ClueProps) => {
   };
 
   return (
-    <div className='flex-column flex h-full w-full items-center justify-center bg-darkGrey px-1'>
+    <div className='flex-column flex h-full w-full items-center justify-center bg-darkGrey px-1 text-white'>
       <div className='items-center justify-center bg-darkGrey text-center'>
         <div className='flex items-center justify-center bg-darkGrey px-2 py-1'>
           <div className=''>
-            <p className='block text-[1.5em]'>{wordDetailsString}</p>
+            <p className='h-lg:text-[1.5em] block text-[1.2em]'>
+              {wordDetailsString}
+            </p>
           </div>
           {!revealClue && (
             <div>
               <button
-                className='ml-4 block px-4 py-2 text-[1.2em]'
+                className='h-lg:text-[1.2em] ml-4 block px-4 py-2 text-[1em]'
                 onClick={() => setShowModal(true)}
               >
                 🔍

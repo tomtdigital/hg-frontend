@@ -22,14 +22,14 @@ const FiveGridBase = ({
           return (
             <div
               key={`cell ${index}`}
-              className={`flex cursor-pointer items-center justify-center ${backgroundColor} ${
+              className={`flex items-center justify-center ${backgroundColor} ${
                 activeCells.includes(index)
-                  ? 'border-[0.5px] border-solid border-darkGrey'
+                  ? 'cursor-pointer border-[0.5px] border-solid border-darkGrey'
                   : ''
               }`}
               onClick={() => handleClick(index)}
             >
-              <div className={`${textColor} device:text-[2.5em] text-[1.5em]`}>
+              <div className={`${textColor} text-[1.5em] device:text-[2.5em]`}>
                 {value}
               </div>
             </div>

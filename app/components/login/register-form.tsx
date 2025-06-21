@@ -23,7 +23,7 @@ export default function RegisterForm() {
       <div className='w-full'>
         <div>
           <label
-            className='mb-3 mt-5 block text-xs font-medium text-white'
+            className='mb-3 mt-5 block text-xs font-medium'
             htmlFor='password'
           >
             Name
@@ -42,7 +42,7 @@ export default function RegisterForm() {
         </div>
         <div className='mt-4'>
           <label
-            className='mb-3 mt-5 block text-xs font-medium text-white'
+            className='mb-3 mt-5 block text-xs font-medium'
             htmlFor='email'
           >
             Email
@@ -60,10 +60,7 @@ export default function RegisterForm() {
           </div>
         </div>
         <div className='mt-4'>
-          <label
-            className='mb-3 mt-5 block text-xs font-medium text-white'
-            htmlFor='name'
-          >
+          <label className='mb-3 mt-5 block text-xs font-medium' htmlFor='name'>
             Password
           </label>
           <div className='relative'>
@@ -81,7 +78,7 @@ export default function RegisterForm() {
         </div>
       </div>
       <Button
-        className='mt-4 w-full bg-yellow-400 text-black hover:bg-yellow-500'
+        className='mt-4 bg-yellow-400 text-center text-black hover:bg-yellow-500'
         aria-disabled={isPending}
       >
         Register <ArrowRightIcon className='ml-auto h-5 w-5 text-black' />

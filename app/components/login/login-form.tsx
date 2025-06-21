@@ -1,15 +1,14 @@
 'use client';
 
-import { lusitana } from '@/app/fonts';
+import { loginUser } from '@/app/api/actions/user';
+import { Button } from '@/app/components/button';
+import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import {
   AtSymbolIcon,
-  KeyIcon,
   ExclamationCircleIcon,
+  KeyIcon,
 } from '@heroicons/react/24/outline';
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from '@/app/components/button';
 import { useActionState } from 'react';
-import { loginUser } from '@/app/api/actions/user';
 
 export default function LoginForm() {
   const initialState: string = '';
@@ -20,13 +19,11 @@ export default function LoginForm() {
 
   return (
     <form action={formAction}>
-      <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-        Please log in to continue.
-      </h1>
+      <h1 className='mb-3 text-2xl'>Please log in to continue.</h1>
       <div className='w-full'>
         <div>
           <label
-            className='mb-3 mt-5 block text-xs font-medium text-white'
+            className='mb-3 mt-5 block text-xs font-medium'
             htmlFor='email'
           >
             Email
@@ -45,7 +42,7 @@ export default function LoginForm() {
         </div>
         <div className='mt-4'>
           <label
-            className='mb-3 mt-5 block text-xs font-medium text-white'
+            className='mb-3 mt-5 block text-xs font-medium'
             htmlFor='password'
           >
             Password
@@ -65,7 +62,7 @@ export default function LoginForm() {
         </div>
       </div>
       <Button
-        className='mt-4 w-full bg-yellow-400 text-black hover:bg-yellow-500'
+        className='mt-4 bg-yellow-400 text-center text-black hover:bg-yellow-500'
         aria-disabled={isPending}
       >
         Log in <ArrowRightIcon className='ml-auto h-5 w-5 text-black' />

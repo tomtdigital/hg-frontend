@@ -21,22 +21,22 @@ export default async function SessionLayout({
   if (!user) redirect('/login');
   const adminMember: boolean = user?.roles?.includes('admin') || false;
   return (
-    <div className='min-h-[100vh]'>
-      <main className='min-h-[calc(100vh-5em)]'>{children}</main>
-      <footer className='flex min-h-[3em] w-full flex-col items-center justify-center p-4'>
-        <div className='mb-4 flex items-center justify-center'>
-          <Link href='/games' className='text-lg text-white'>
+    <div className='h-[100vh + 3em] flex flex-col items-center justify-between'>
+      <main>{children}</main>
+      <footer className='flex min-h-[3em] w-full flex-col items-center justify-center'>
+        <div className='flex w-full items-center justify-center border-b-2 border-darkGrey py-4'>
+          <Link href='/games' className='block text-lg'>
             Games
           </Link>
         </div>
         {adminMember && (
-          <div className='mb-4 flex items-center justify-center'>
-            <Link href='/create-game' className='text-lg text-white'>
+          <div className='flex w-full items-center justify-center border-b-2 border-darkGrey py-4'>
+            <Link href='/create-game' className='block text-lg'>
               Create a game
             </Link>
           </div>
         )}
-        <div className='flex items-center justify-center'>
+        <div className='flex w-full items-center justify-center border-b-2 border-darkGrey py-4'>
           <Logout />
         </div>
       </footer>
