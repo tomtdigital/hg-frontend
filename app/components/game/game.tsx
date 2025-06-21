@@ -53,11 +53,16 @@ export default function Game({ grids, solution, praise }: GameProps) {
                 let unlocked = index === 0;
                 if (index > 0) unlocked = stage >= index;
                 let tabColors = 'border-midGrey bg-midGrey';
-                if (unlocked || index === tabIndex) {
-                  tabColors = 'border-lightGrey bg-lightGrey';
-                }
-                if (stage > index && index !== tabIndex) {
-                  tabColors = 'border-green bg-green';
+                const isCurrent = index === tabIndex;
+                const isCompleted = stage > index;
+                if (isCompleted) {
+                  tabColors = isCurrent
+                    ? 'border-green-600 bg-green-500'
+                    : 'border-green-400 bg-green-400';
+                } else if (unlocked) {
+                  tabColors = isCurrent
+                    ? `border-lightGrey-600 bg-lightGrey-500`
+                    : `border-lightGrey-400 bg-lightGrey-400`;
                 }
 
                 return (
@@ -77,8 +82,12 @@ export default function Game({ grids, solution, praise }: GameProps) {
               <Tab
                 className={`ml-1 mr-1 flex h-8 w-8 items-center justify-center rounded-[50%] border-2 border-solid font-medium ${
                   gameComplete
-                    ? 'border-green bg-green text-black'
-                    : 'border-purple bg-purple text-white'
+                    ? tabIndex === grids.length
+                      ? 'border-green-600 bg-green-500 text-black'
+                      : 'border-green-500 bg-green-400 text-black'
+                    : tabIndex !== grids.length
+                      ? 'border-purple-500 bg-purple-400 text-white'
+                      : 'border-purple-600 bg-purple-500 text-white'
                 } cursor-pointer`}
               >
                 {'💭'}

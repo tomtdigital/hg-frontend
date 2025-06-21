@@ -38,7 +38,6 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
     Array.from({ length: totalStages }, () => false)
   );
   const [showThemeModal, setShowThemeModal] = useState(false);
-
   const revealGridName = (index: number) => {
     if (index < 0 || index >= stage) return;
     const newReveals = [...reveals];
@@ -150,7 +149,9 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
           </div>
         )}
         <div className='flex justify-center p-4'>
-          <div className={`grid w-[100%] grid-cols-${word.length}`}>
+          <div
+            className={`grid w-[100%] grid-cols-${word.length > 3 ? word.length : 4}`}
+          >
             {[...Array(word.length)].map((_, index) => {
               const background = index === toggledCell ? 'darkGrey' : 'white';
               const color = index === toggledCell ? 'white' : 'black';

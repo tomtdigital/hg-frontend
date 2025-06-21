@@ -14,6 +14,7 @@ export default function Swiper({
 }: Swiper) {
   return (
     <div
+      className='flex items-center'
       onTouchStart={(e) => {
         const touch = e.touches[0];
         type SwipeDiv = EventTarget & { _swipeStartX?: number };
@@ -33,7 +34,23 @@ export default function Swiper({
         }
       }}
     >
-      {children}
+      <button
+        type='button'
+        onClick={onSwipeRight}
+        aria-label='Swipe right'
+        className='cursor-pointer border-none bg-none px-2 text-2xl text-midGrey'
+      >
+        &lt;
+      </button>
+      <div className='flex-1'>{children}</div>
+      <button
+        type='button'
+        onClick={onSwipeLeft}
+        aria-label='Swipe left'
+        className='cursor-pointer border-none bg-none px-2 text-2xl text-midGrey'
+      >
+        &gt;
+      </button>
     </div>
   );
 }

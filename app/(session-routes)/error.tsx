@@ -14,7 +14,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className='p-8'>
+    <div className='h-[calc(100vh - 3em)] p-8'>
       <div className='text-center'>
         <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>
         <p className='mb-4'>
