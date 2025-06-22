@@ -7,6 +7,7 @@ export type Key = {
 export type GameState = {
   id: string;
   tabIndex: number;
+  toggledWordIndex?: number;
   totalStages: number;
   keyPressed: Key;
   advanceModalVisible: boolean;
@@ -18,6 +19,7 @@ const initialState: GameState = {
   id: '',
   tabIndex: 0,
   totalStages: 0,
+  toggledWordIndex: 0,
   keyPressed: {} as Key,
   advanceModalVisible: false,
   victoryModalVisible: false,
@@ -56,6 +58,18 @@ const gameSlice = createSlice({
           action.payload.userId
         );
       state.tabIndex = action.payload.tabIndex;
+    },
+    setToggledWordIndex(
+      state,
+      action: PayloadAction<{ toggledWordIndex: number; userId: string }>
+    ) {
+      if (state.id)
+        gameStateToLocalStorage(
+          state,
+          { toggledWordIndex: action.payload.toggledWordIndex },
+          action.payload.userId
+        );
+      state.toggledWordIndex = action.payload.toggledWordIndex;
     },
     setTotalStages(
       state,
@@ -135,6 +149,7 @@ const gameSlice = createSlice({
 export const {
   setTabIndex,
   setTotalStages,
+  setToggledWordIndex,
   setKeyPressed,
   setAdvanceModalVisible,
   setVictoryModalVisible,

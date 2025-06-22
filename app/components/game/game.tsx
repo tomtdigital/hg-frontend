@@ -111,7 +111,10 @@ export default function Game({ grids, solution, praise }: GameProps) {
                   />
                 </GameStageSwipe>
                 <div className='mt-[3em] h-[75px] h-lg:h-[90px]'>
-                  <Clue active={active} />
+                  <Clue
+                    active={active}
+                    gridSize={grids[tabIndex]?.data?.length || 0}
+                  />
                 </div>
                 <div className='grid h-[calc(48vh-60px-75px-3em)] grid-cols-1 grid-rows-3 h-lg:h-[calc(48vh-60px-90px-3em)]'>
                   <Keyboard active={active} />

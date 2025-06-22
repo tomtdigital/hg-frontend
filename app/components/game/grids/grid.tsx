@@ -6,6 +6,7 @@ import FiveGridBase from './five-grid-base';
 import SevenGridBase from './seven-grid-base';
 import NineGridBase from './nine-grid-base';
 import ErrorMessage from '../../error/error-message';
+import { useToggledWordIndex } from '@/app/hooks/use-toggled-word-index';
 
 interface GridProps extends BaseGridProps {
   gridSize: number;
@@ -26,8 +27,10 @@ export default function Grid({
   const storeSession: StoredGameSession = useAppSelector(
     (state) => state.gameSession?.session
   );
+
   const { keyPressed } = storeGame;
   const { finishedGrids } = storeSession.gameData;
+  const { index, increaseIndex, decreaseIndex } = useToggledWordIndex(gridSize);
 
   const [grid, setGrid] = useState<FullGrid>(baseGrid);
   const wordCells: number[][] = baseGrid.map((word: GridCells) =>
@@ -41,6 +44,7 @@ export default function Grid({
     // Only do something if its a cell in the game
     if (activeCells.includes(cell)) {
       setToggledCell(cell);
+
       const possibleToggles = wordCells.filter((word) => word.includes(cell));
       // Just toggle the word if there is only one word to choose from
       if (possibleToggles.length === 1) {
@@ -88,6 +92,11 @@ export default function Grid({
     const wordLocation = getWordLocation();
     dispatch(setActiveWord({ activeWord: data[wordLocation], userId }));
   }, [toggledWord]);
+
+  useEffect(() => {
+    setToggledWord(wordCells[index]);
+    setToggledCell(wordCells[index][0]);
+  }, [index]);
 
   useEffect(() => {
     const handleKeyPress = ({ letter: guess }: Key) => {
