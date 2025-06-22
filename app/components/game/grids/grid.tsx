@@ -95,6 +95,7 @@ export default function Grid({
 
   useEffect(() => {
     setToggledWord(wordCells[index]);
+    if (wordCells[index]?.length === 0) return;
     setToggledCell(wordCells[index][0]);
   }, [index]);
 
