@@ -32,6 +32,7 @@ export async function createGame(
     const res = await fetch(`${process.env.BACKEND_URL}/games`, {
       method: 'POST',
       headers: {
+        authorization: `Bearer ${user?.token}`,
         'Content-Type': 'application/json',
       },
       body,

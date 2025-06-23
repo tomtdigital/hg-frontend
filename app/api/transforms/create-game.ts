@@ -30,6 +30,7 @@ export function transformToApi(formData: CreateGameFormData): NewGame {
         })),
       })),
     ],
+    description: formData.description,
     solution: formData.solution,
     access: formData.access,
     publishDate: new Date(formData.publishDate),

@@ -31,6 +31,7 @@ type Access = 'free' | 'premium' | 'owner';
 
 type Game = {
   main: GameGrid;
+  description?: string;
   solution: string;
   publishDate: Date;
   createdAt: Date;
