@@ -1,4 +1,3 @@
-import { useToggledWordIndex } from '@/app/hooks/use-toggled-word-index';
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { GameState, Key, setActiveWord } from '@/app/redux/slices/game-slice';
 import { useEffect, useRef, useState } from 'react';
@@ -30,7 +29,6 @@ export default function Grid({
 
   const { keyPressed } = storeGame;
   const { finishedGrids } = storeSession.gameData;
-  const { index, increaseIndex, decreaseIndex } = useToggledWordIndex(gridSize);
 
   const [grid, setGrid] = useState<FullGrid>(baseGrid);
   const wordCells: number[][] = baseGrid.map((word: GridCells) =>
@@ -114,12 +112,6 @@ export default function Grid({
     const wordLocation = getWordLocation();
     dispatch(setActiveWord({ activeWord: data[wordLocation], userId }));
   }, [toggledWord]);
-
-  useEffect(() => {
-    setToggledWord(wordCells[index]);
-    if (wordCells[index]?.length === 0) return;
-    setToggledCell(wordCells[index][0]);
-  }, [index]);
 
   useEffect(() => {
     const handleKeyPress = ({ letter: guess }: Key) => {
