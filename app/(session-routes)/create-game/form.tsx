@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useActionState, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { createGame } from '@/app/api/actions/create-game';
+import ExampleGame from '@/app/api/mocks/example-game.json';
 
 interface FormWord extends RequireOnly<Word, 'clue'> {
   letters: string[];
@@ -68,21 +69,21 @@ export default function CreateGameForm({
 }) {
   const { control, register, setValue, watch, getValues, handleSubmit } =
     useForm<CreateGameFormData>({
-      // defaultValues: {
-      //   ...(ExampleGame as CreateGameFormData),
-      //   publishDate: new Date().toISOString().split('T')[0], // Default to today
-      // },
       defaultValues: {
-        solution: '',
-        access: 'free',
+        ...(ExampleGame as CreateGameFormData),
         publishDate: new Date().toISOString().split('T')[0], // Default to today
-        items: [
-          {
-            gridType: imagePaths[0] || '',
-            words: [] as FormWord[],
-          },
-        ],
       },
+      // defaultValues: {
+      //   solution: '',
+      //   access: 'free',
+      //   publishDate: new Date().toISOString().split('T')[0], // Default to today
+      //   items: [
+      //     {
+      //       gridType: imagePaths[0] || '',
+      //       words: [] as FormWord[],
+      //     },
+      //   ],
+      // },
     });
 
   const { fields, append, remove } = useFieldArray({

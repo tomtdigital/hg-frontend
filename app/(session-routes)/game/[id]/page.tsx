@@ -25,7 +25,15 @@ export default async function GamePage({
     <>
       {game && (
         <GameWrapper totalStages={game.main.length}>
-          <Game grids={game.main} solution={game.solution} praise={praise} />
+          <Game
+            grids={game.main}
+            solution={game.solution}
+            intro={{
+              title: game.publishDate.toString(),
+              description: game.description,
+            }}
+            praise={praise}
+          />
         </GameWrapper>
       )}
     </>

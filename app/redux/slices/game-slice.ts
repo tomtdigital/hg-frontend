@@ -13,6 +13,7 @@ export type GameState = {
   advanceModalVisible: boolean;
   victoryModalVisible: boolean;
   activeWord: Word;
+  readDescription?: boolean;
 };
 
 const initialState: GameState = {
@@ -24,6 +25,7 @@ const initialState: GameState = {
   advanceModalVisible: false,
   victoryModalVisible: false,
   activeWord: {} as Word,
+  readDescription: false,
 };
 
 export const getLocalGameKey = (userId: string): string => `hg-game-${userId}`;
@@ -58,6 +60,18 @@ const gameSlice = createSlice({
           action.payload.userId
         );
       state.tabIndex = action.payload.tabIndex;
+    },
+    setReadDescription(
+      state,
+      action: PayloadAction<{ readDescription: boolean; userId: string }>
+    ) {
+      if (state.id)
+        gameStateToLocalStorage(
+          state,
+          { readDescription: action.payload.readDescription },
+          action.payload.userId
+        );
+      state.readDescription = action.payload.readDescription;
     },
     setToggledWordIndex(
       state,
@@ -155,5 +169,6 @@ export const {
   setVictoryModalVisible,
   setActiveWord,
   resetGameState,
+  setReadDescription,
 } = gameSlice.actions;
 export default gameSlice.reducer;
