@@ -1,12 +1,12 @@
+import { useToggledWordIndex } from '@/app/hooks/use-toggled-word-index';
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { GameState, Key, setActiveWord } from '@/app/redux/slices/game-slice';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ErrorMessage from '../../error/error-message';
 import { BaseGridProps } from '../grid-wrapper';
 import FiveGridBase from './five-grid-base';
-import SevenGridBase from './seven-grid-base';
 import NineGridBase from './nine-grid-base';
-import ErrorMessage from '../../error/error-message';
-import { useToggledWordIndex } from '@/app/hooks/use-toggled-word-index';
+import SevenGridBase from './seven-grid-base';
 
 interface GridProps extends BaseGridProps {
   gridSize: number;
@@ -40,34 +40,56 @@ export default function Grid({
   const [toggledWord, setToggledWord] = useState<number[]>(wordCells[0]);
   const [toggledCell, setToggledCell] = useState<number>(toggledWord[0]);
 
-  const toggleWords = (cell: number) => {
-    // Only do something if its a cell in the game
-    if (activeCells.includes(cell)) {
-      setToggledCell(cell);
+  const lastClickedCellRef = useRef<number | null>(null);
 
-      const possibleToggles = wordCells.filter((word) => word.includes(cell));
-      // Just toggle the word if there is only one word to choose from
-      if (possibleToggles.length === 1) {
+  const toggleWords = (cell: number) => {
+    // Only do something if it's a cell in the game
+    if (!activeCells.includes(cell)) return;
+
+    // Set the toggled cell to the clicked cell
+    setToggledCell(cell);
+
+    // Find all words that include this cell (could be more than one in overlapping grids)
+    const possibleToggles = wordCells.filter((word) => word.includes(cell));
+
+    // If only one word contains this cell, set it as the toggled word
+    if (possibleToggles.length === 1) {
+      setToggledWord(possibleToggles[0]);
+      lastClickedCellRef.current = cell;
+      return;
+    }
+
+    // If the same cell is clicked consecutively, toggle to the next word containing this cell
+    if (lastClickedCellRef.current === cell) {
+      // Convert possible toggles and current toggled word to strings for comparison
+      const possibleTogglesString = possibleToggles.map((word) =>
+        JSON.stringify(word)
+      );
+      const toggledWordString = JSON.stringify(toggledWord);
+      const startingIndex = possibleTogglesString.indexOf(toggledWordString);
+
+      // Cycle to the next word, or loop back to the first if at the end
+      if (
+        startingIndex === -1 ||
+        startingIndex === possibleToggles.length - 1
+      ) {
         setToggledWord(possibleToggles[0]);
       } else {
-        // If there is more than one word to toggle...
-        const possibleTogglesString = possibleToggles.map((word) =>
-          JSON.stringify(word)
-        );
-        const toggledWordString = JSON.stringify(toggledWord);
-        const startingIndex = possibleTogglesString.indexOf(toggledWordString);
-        // ...and the currently toggled word isnt a possiblility for toggling, toggle the first available word.
-        //  Do the same if the word is included but the loop needs to start over
-        if (
-          startingIndex === -1 ||
-          startingIndex === possibleToggles.length - 1
-        ) {
-          setToggledWord(possibleToggles[0]);
-        } else {
-          setToggledWord(possibleToggles[startingIndex + 1]);
-        }
+        setToggledWord(possibleToggles[startingIndex + 1]);
+      }
+    } else {
+      // If a new cell is clicked, stay on the current word if it's valid, otherwise set to the first possible word
+      if (
+        !possibleToggles.some(
+          (word) => JSON.stringify(word) === JSON.stringify(toggledWord)
+        )
+      ) {
+        setToggledWord(possibleToggles[0]);
       }
     }
+
+    // Update the last clicked cell reference
+    lastClickedCellRef.current = cell;
   };
 
   const handleClick = (cell: number) => {
