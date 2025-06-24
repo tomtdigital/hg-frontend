@@ -87,8 +87,8 @@ const Solution = ({ text, active, maxScore, grids }: SolutionProps) => {
               Each individual grid has a theme that ties it's clues together.
             </p>
             <p className='my-2'>
-              If you combine the letters from each grid (some can repeat), you
-              will get the solution word.
+              If you combine the letters from each grid, you will get the
+              solution word.
             </p>
             <p>The solution word also ties all of the themes together.</p>
           </div>
