@@ -185,12 +185,14 @@ export default function Game({ grids, solution, intro, praise }: GameProps) {
                     />
                   </GameStageSwipe>
                 ) : (
-                  <Solution
-                    text={solution}
-                    active={!gameComplete}
-                    maxScore={maxScore}
-                    grids={grids}
-                  />
+                  <div className='w-full px-4'>
+                    <Solution
+                      text={solution}
+                      active={!gameComplete}
+                      maxScore={maxScore}
+                      grids={grids}
+                    />
+                  </div>
                 )}
               </TabPanel>
             </Tabs>
