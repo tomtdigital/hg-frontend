@@ -18,6 +18,7 @@ interface FormItem {
 
 export interface CreateGameFormData {
   solution: string;
+  title: string;
   publishDate: string;
   access: Access;
   description?: string;
@@ -431,6 +432,17 @@ export default function CreateGameForm({
               id='publishDate'
               {...register('publishDate')}
               className='border border-gray-300 p-1'
+            />
+          </div>
+          <div className='mb-4 mt-4'>
+            <label htmlFor='title' className='mb-1 block font-semibold'>
+              Game Title
+            </label>
+            <textarea
+              id='title'
+              {...register('title')}
+              className='border border-gray-300 p-1'
+              placeholder='Enter game title'
             />
           </div>
           <div className='mb-4 mt-4'>

@@ -29,7 +29,7 @@ export default async function GamePage({
             grids={game.main}
             solution={game.solution}
             intro={{
-              title: game.publishDate.toString(),
+              title: game.title ?? game.publishDate.toString(),
               description: game.description,
             }}
             praise={praise}
