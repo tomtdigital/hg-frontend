@@ -34,7 +34,7 @@ type Game = {
   title: string;
   description?: string;
   solution: string;
-  publishDate: string;
+  publishDate: Date;
   createdAt: Date;
   updatedAt: Date;
   access: Access;
