@@ -67,9 +67,7 @@ export default function Game({ grids, solution, intro, praise }: GameProps) {
           <div className='flex h-[calc(100vh-3em)] w-full flex-col items-center justify-center overflow-auto'>
             <div className='flex min-h-full w-full flex-col items-center justify-center'>
               <div className='mb-4 max-w-md text-center'>
-                <h2 className='mb-2 text-2xl font-bold'>
-                  {formatDate(intro.title)}
-                </h2>
+                <h2 className='mb-2 text-2xl font-bold'>{intro.title}</h2>
                 <p className='text-lg'>{intro.description}</p>
               </div>
               <button

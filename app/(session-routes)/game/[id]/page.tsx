@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { fetchGame } from '@/app/api/data/server/game';
 import { GameWrapper } from '@/app/components/game-wrapper';
 import Game from '@/app/components/game/game';
+import { formatDate } from '@/app/utils/format-date';
 import { shuffleArray } from '@/app/utils/shuffle-array';
 
 export default async function GamePage({
@@ -29,7 +30,7 @@ export default async function GamePage({
             grids={game.main}
             solution={game.solution}
             intro={{
-              title: game.title ?? game.publishDate.toString(),
+              title: game.title ?? formatDate(game.publishDate),
               description: game.description,
             }}
             praise={praise}
