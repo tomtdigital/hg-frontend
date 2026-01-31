@@ -39,7 +39,7 @@ export default function GridDesign() {
         <div>
           <label
             htmlFor='gridSize'
-            className='block text-sm font-medium text-gray-700'
+            className='block text-sm font-medium text-white'
           >
             Grid Size
           </label>
@@ -56,82 +56,78 @@ export default function GridDesign() {
             className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
           />
         </div>
-        <div>
-          <label className='block text-sm font-medium text-gray-700'>
+        <div className='space-y-2'>
+          <legend className='text-md block font-medium text-white'>
             Colors
-          </label>
-          <div className='space-y-2'>
+          </legend>
+          <div>
+            <label htmlFor='emptyColor' className='text-sm text-white'>
+              Empty
+            </label>
+            <input
+              type='color'
+              id='emptyColor'
+              placeholder='#000'
+              defaultValue={colorScheme?.empty}
+              {...register('colorScheme.empty')}
+              className='mt-1 block rounded-md'
+            />
+          </div>
+          <div className='flex'>
             <div>
-              <label htmlFor='emptyColor' className='text-sm text-gray-600'>
-                Empty
-              </label>
-              <input
-                type='text'
-                id='emptyColor'
-                placeholder='#000'
-                defaultValue={colorScheme?.empty || '#000'}
-                {...register('colorScheme.empty')}
-                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
-                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
-              />
-            </div>
-            <div>
-              <label htmlFor='selectedColor' className='text-sm text-gray-600'>
+              <label htmlFor='selectedColor' className='text-sm text-white'>
                 Selected
               </label>
               <input
-                type='text'
+                type='color'
                 id='selectedColor'
                 placeholder='#a1e646'
-                defaultValue={colorScheme?.selected || '#a1e646'}
+                defaultValue={colorScheme?.selected}
                 {...register('colorScheme.selected')}
-                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
-                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
+                className='mr-5 mt-1 block rounded-md'
               />
             </div>
             <div>
-              <label htmlFor='selectedColor' className='text-sm text-gray-600'>
-                Selected text
-              </label>
-              <input
-                type='text'
-                id='selectedColor'
-                placeholder='#E0E0E0'
-                defaultValue={colorScheme?.selectedText || '#000'}
-                {...register('colorScheme.selectedText')}
-                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
-                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
-              />
+              <div>
+                <label htmlFor='selectedColor' className='text-sm text-white'>
+                  Selected text
+                </label>
+                <input
+                  type='color'
+                  id='selectedColor'
+                  placeholder='#E0E0E0'
+                  defaultValue={colorScheme?.selectedText}
+                  {...register('colorScheme.selectedText')}
+                  className='mt-1 block rounded-md'
+                />
+              </div>
             </div>
+          </div>
+          <div className='flex'>
             <div>
-              <label htmlFor='filledColor' className='text-sm text-gray-600'>
+              <label htmlFor='filledColor' className='text-sm text-white'>
                 Filled
               </label>
               <input
-                type='text'
+                type='color'
                 id='filledColor'
                 placeholder='#8b1f8b'
-                defaultValue={colorScheme?.filled || '#8b1f8b'}
+                defaultValue={colorScheme?.filled}
                 {...register('colorScheme.filled')}
-                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
-                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
+                className='mr-5 mt-1 block rounded-md'
               />
             </div>
             <div>
-              <label
-                htmlFor='filledTextColor'
-                className='text-sm text-gray-600'
-              >
+              <label htmlFor='filledTextColor' className='text-sm text-white'>
                 Filled text
               </label>
               <input
-                type='text'
+                type='color'
                 id='filledTextColor'
                 placeholder='#a8e9fb'
-                defaultValue={colorScheme?.filledText || '#a8e9fb'}
+                defaultValue={colorScheme?.filledText}
                 {...register('colorScheme.filledText')}
-                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
-                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
+                className='mt-1 block rounded-md'
               />
             </div>
           </div>
