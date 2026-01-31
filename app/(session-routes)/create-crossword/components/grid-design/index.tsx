@@ -7,7 +7,6 @@ import {
   setColorScheme,
   setGridValues,
 } from '@/app/redux/slices/create-crossword-slice';
-import { RootState } from '@/app/redux/store';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -22,9 +21,13 @@ export default function GridDesign() {
     (state) => state.createCrossword
   );
 
-  const onSubmit = (data: FormData) => {
+  const resetGrid = () => {
     dispatch(setStep(0));
     dispatch(setGridValues([]));
+  };
+
+  const onSubmit = (data: FormData) => {
+    resetGrid();
     dispatch(setGridSize(data.gridSize));
     dispatch(setColorScheme(data.colorScheme));
     dispatch(setStep(1));
@@ -44,7 +47,12 @@ export default function GridDesign() {
             type='number'
             id='gridSize'
             defaultValue={gridSize}
-            {...register('gridSize', { valueAsNumber: true })}
+            {...register('gridSize', {
+              valueAsNumber: true,
+              onChange: resetGrid,
+              min: 3,
+              max: 15,
+            })}
             className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
           />
         </div>
@@ -60,8 +68,8 @@ export default function GridDesign() {
               <input
                 type='text'
                 id='emptyColor'
-                placeholder='#FFFFFF'
-                defaultValue={colorScheme?.empty || '#FFFFFF'}
+                placeholder='#000'
+                defaultValue={colorScheme?.empty || '#000'}
                 {...register('colorScheme.empty')}
                 pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
                 className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
@@ -74,9 +82,23 @@ export default function GridDesign() {
               <input
                 type='text'
                 id='selectedColor'
-                placeholder='#E0E0E0'
-                defaultValue={colorScheme?.selected || '#E0E0E0'}
+                placeholder='#a1e646'
+                defaultValue={colorScheme?.selected || '#a1e646'}
                 {...register('colorScheme.selected')}
+                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
+                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
+              />
+            </div>
+            <div>
+              <label htmlFor='selectedColor' className='text-sm text-gray-600'>
+                Selected text
+              </label>
+              <input
+                type='text'
+                id='selectedColor'
+                placeholder='#E0E0E0'
+                defaultValue={colorScheme?.selectedText || '#000'}
+                {...register('colorScheme.selectedText')}
                 pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
                 className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
               />
@@ -88,9 +110,26 @@ export default function GridDesign() {
               <input
                 type='text'
                 id='filledColor'
-                placeholder='#000000'
-                defaultValue={colorScheme?.filled || '#000000'}
+                placeholder='#8b1f8b'
+                defaultValue={colorScheme?.filled || '#8b1f8b'}
                 {...register('colorScheme.filled')}
+                pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
+                className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
+              />
+            </div>
+            <div>
+              <label
+                htmlFor='filledTextColor'
+                className='text-sm text-gray-600'
+              >
+                Filled text
+              </label>
+              <input
+                type='text'
+                id='filledTextColor'
+                placeholder='#a8e9fb'
+                defaultValue={colorScheme?.filledText || '#a8e9fb'}
+                {...register('colorScheme.filledText')}
                 pattern='#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?'
                 className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
               />

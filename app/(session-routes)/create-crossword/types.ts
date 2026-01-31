@@ -13,7 +13,9 @@ type CrossWordGridData = {
 type ColorScheme = {
   empty: string;
   filled: string;
+  filledText: string;
   selected: string;
+  selectedText: string;
 };
 
 type CrosswordData = {

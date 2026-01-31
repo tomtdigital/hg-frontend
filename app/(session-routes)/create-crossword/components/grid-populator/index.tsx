@@ -41,17 +41,17 @@ export default function GridPopulator({
     }
   }, [gridSize]);
 
-  // Update grid when initialValues change
-  useEffect(() => {
-    if (initialValues?.length) {
-      setGrid(initialValues);
-    }
-  }, [initialValues]);
+  // // Update grid when initialValues change
+  // useEffect(() => {
+  //   if (initialValues?.length) {
+  //     setGrid(initialValues);
+  //   }
+  // }, [initialValues]);
 
-  // Reset grid when gridSize changes
-  useEffect(() => {
-    setGrid(defaultGrid);
-  }, [gridSize]);
+  // // Reset grid when gridSize changes
+  // useEffect(() => {
+  //   setGrid(defaultGrid);
+  // }, [gridSize]);
 
   const handleKey = (index: number, e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Tab') return;
@@ -86,26 +86,49 @@ export default function GridPopulator({
           marginBottom: 20,
         }}
       >
-        {grid.map((cell, i) => (
-          <div
-            key={i}
-            ref={refs.current[i]}
-            tabIndex={0}
-            onKeyDown={(e) => handleKey(i, e)}
-            onClick={() => refs.current[i]?.current?.focus()}
-            className={`flex h-[60px] w-[60px] items-center justify-center border-2 ${cell.color === 'black' ? 'bg-black text-white' : 'bg-white text-black'} cursor-pointer select-none text-2xl font-bold focus:border-4 focus:border-blue-500 focus:outline-none`}
-          >
-            {cell.letter}
-          </div>
-        ))}
+        {grid.map((cell, i) => {
+          const baseClass = `flex h-[60px] w-[60px] items-center justify-center border-2 cursor-pointer select-none text-2xl font-bold focus:border-4 focus:border-blue-500 focus:outline-none focus:bg-[var(--selected-color)] focus:text-[var(--selected-text-color)]`;
+          const bgVarClass = `bg-[var(--bg-color)]`;
+          const textColorClass = `text-[var(--text-color)]`;
+          const finalClass = `${baseClass} ${bgVarClass} ${textColorClass}`;
+
+          const bgColor = cell.letter
+            ? colorScheme?.filled || '#000000'
+            : colorScheme?.empty || '#ffffff';
+          const selectedColor = colorScheme?.selected || '#E0E0E0';
+          const selectedTextColor = colorScheme?.selectedText || '#000000';
+          const textColor = colorScheme?.filledText;
+
+          return (
+            <div
+              key={i}
+              ref={refs.current[i]}
+              tabIndex={0}
+              onKeyDown={(e) => handleKey(i, e)}
+              onClick={() => refs.current[i]?.current?.focus()}
+              className={finalClass}
+              style={
+                {
+                  ['--bg-color']: bgColor,
+                  ['--selected-color']: selectedColor,
+                  ['--text-color']: textColor,
+                  ['--selected-text-color']: selectedTextColor,
+                } as React.CSSProperties
+              }
+            >
+              {cell.letter}
+            </div>
+          );
+        })}
       </div>
       <button
+        className='rounded-md bg-blue-600 px-4 py-2 text-white'
         onClick={() => {
           dispatch(setGridValues(grid));
           dispatch(setStep(2));
         }}
       >
-        Submit
+        Apply
       </button>
     </>
   );

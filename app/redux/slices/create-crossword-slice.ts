@@ -15,9 +15,11 @@ const initialState: CreateCrosswordState = {
   step: 0,
   gridSize: 5,
   colorScheme: {
-    empty: '#FFFFFF',
-    filled: '#000000',
+    empty: '#000',
+    filled: '#72e1f2',
+    filledText: '#000000',
     selected: '#bfff00',
+    selectedText: '#f800c2',
   },
   gridValues: undefined,
 };
