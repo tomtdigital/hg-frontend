@@ -17,9 +17,9 @@ export default async function SessionLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user: Fetched<Session['user']> = await getCachedUser();
-  if (!user) redirect('/login');
-  const adminMember: boolean = user?.roles?.includes('admin') || false;
+  // const user: Fetched<Session['user']> = await getCachedUser();
+  // if (!user) redirect('/login');
+  // const adminMember: boolean = user?.roles?.includes('admin') || false;
   return (
     <div className='flex min-h-screen flex-col items-center justify-between'>
       <main>{children}</main>
@@ -29,13 +29,20 @@ export default async function SessionLayout({
             Games
           </Link>
         </div>
-        {adminMember && (
+        {/* {adminMember && (
           <div className='flex w-full items-center justify-center border-b-2 border-darkGrey py-4'>
             <Link href='/create-game' className='block text-lg'>
               Create a game
             </Link>
           </div>
-        )}
+        )} */}
+        {/* {adminMember && ( */}
+        <div className='flex w-full items-center justify-center border-b-2 border-darkGrey py-4'>
+          <Link href='/create-crossword' className='block text-lg'>
+            Create a crossword
+          </Link>
+        </div>
+        {/* })} */}
         <div className='flex w-full items-center justify-center border-b-2 border-darkGrey py-4'>
           <Logout />
         </div>

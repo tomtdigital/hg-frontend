@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '@/app/redux/slices/user-slice';
 import gameSessionReducer from '@/app/redux/slices/game-session-slice';
 import gameReducer from '@/app/redux/slices/game-slice';
+import createCrossWordSliceReducer from '@/app/redux/slices/create-crossword-slice';
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       user: userReducer,
       gameSession: gameSessionReducer,
       game: gameReducer,
+      createCrossword: createCrossWordSliceReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
   });

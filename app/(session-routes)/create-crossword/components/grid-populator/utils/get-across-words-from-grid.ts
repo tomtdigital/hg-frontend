@@ -4,7 +4,7 @@
  * @param size - Dimension of the grid (assumes square grid)
  * @returns Array of objects containing word indices and the word string
  */
-export function getAcrossWordsFromGrid(grid: Cell[], size: number) {
+export function getAcrossWordsFromGrid(grid: Cell[], size: number): GridWord[] {
   const words = [];
 
   // Iterate through each cell in the grid
