@@ -31,9 +31,8 @@ export function getDownWordsFromGrid(grid: Cell[], size: number): GridWord[] {
 
       // Extract letters and build the word string
       const word = indices.map((idx) => grid[idx].letter ?? '').join('');
-      words.push({ indices, word });
+      if (word.length > 1) words.push({ indices, word });
     }
   }
-
   return words;
 }

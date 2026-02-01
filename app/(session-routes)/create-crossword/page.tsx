@@ -1,5 +1,5 @@
 import StoreProvider from '@/app/store-provider';
-import GridCreator from './components/grid-creator';
+import CreateCrosswordForm from './form';
 // import { getCachedUser } from '@/app/api/data/server/user';
 // import { redirect } from 'next/navigation';
 // import { Session } from 'next-auth';
@@ -11,7 +11,7 @@ export default async function CreateCrossword() {
 
   return (
     <StoreProvider user={user}>
-      <GridCreator />
+      <CreateCrosswordForm />
     </StoreProvider>
   );
 }

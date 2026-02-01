@@ -36,7 +36,7 @@ export function getAcrossWordsFromGrid(grid: Cell[], size: number): GridWord[] {
 
       // Extract letters and create word entry
       const word = indices.map((idx) => grid[idx].letter ?? '').join('');
-      words.push({ indices, word });
+      if (word.length > 1) words.push({ indices, word });
     }
   }
 
