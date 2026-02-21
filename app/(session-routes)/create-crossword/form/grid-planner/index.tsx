@@ -11,7 +11,7 @@ export default function GridPlanner({
 }: {
   gridSize: number;
   gridRefs: MutableRefObject<React.RefObject<HTMLDivElement>[]>;
-  gridValues: Cell[];
+  gridValues: string[];
   colorScheme: ColorScheme;
   handleChange: (index: number, e: KeyboardEvent<HTMLDivElement>) => void;
 }) {
@@ -26,13 +26,13 @@ export default function GridPlanner({
           marginBottom: 20,
         }}
       >
-        {gridValues.map((cell, i) => {
+        {gridValues.map((letter, i) => {
           const baseClass = `flex h-[60px] w-[60px] items-center justify-center border-2 cursor-pointer select-none text-2xl font-bold focus:border-4 focus:border-blue-500 focus:outline-none focus:bg-[var(--selected-color)] focus:text-[var(--selected-text-color)]`;
           const bgVarClass = `bg-[var(--bg-color)]`;
           const textColorClass = `text-[var(--text-color)]`;
           const finalClass = `${baseClass} ${bgVarClass} ${textColorClass}`;
 
-          const bgColor = cell.letter
+          const bgColor = letter
             ? colorScheme?.filled || '#000000'
             : colorScheme?.empty || '#ffffff';
           const selectedColor = colorScheme?.selected || '#E0E0E0';
@@ -56,7 +56,7 @@ export default function GridPlanner({
                 } as React.CSSProperties
               }
             >
-              {cell.letter}
+              {letter}
             </div>
           );
         })}

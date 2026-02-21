@@ -8,7 +8,7 @@ export type CreateCrosswordState = {
   step: number;
   gridSize: number;
   colorScheme?: ColorScheme;
-  gridValues?: Cell[];
+  gridValues?: string[];
 };
 
 const initialState: CreateCrosswordState = {
@@ -31,7 +31,7 @@ const createCrossWordSlice = createSlice({
     setColorScheme(state, action: PayloadAction<ColorScheme>) {
       state.colorScheme = action.payload;
     },
-    setGridValues(state, action: PayloadAction<Cell[]>) {
+    setGridValues(state, action: PayloadAction<string[]>) {
       state.gridValues = action.payload;
     },
   },

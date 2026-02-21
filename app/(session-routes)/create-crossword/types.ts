@@ -1,8 +1,3 @@
-type Cell = {
-  letter: string;
-  color: string;
-};
-
 type GridWord = { indices: number[]; word: string; clue?: string };
 
 type CrossWordGridData = {

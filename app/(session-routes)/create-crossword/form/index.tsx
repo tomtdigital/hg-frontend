@@ -45,7 +45,7 @@ export default function CreateCrosswordForm() {
     selected: '#bfff00',
     selectedText: '#f800c2',
   };
-  const [gridValues, setGridValues] = useState<Cell[]>(
+  const [gridValues, setGridValues] = useState<string[]>(
     calculateGridValues(defaultGridSize, defaultColorScheme.empty)
   );
   const [cluesUnlocked, setCluesUnlocked] = useState(false);

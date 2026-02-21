@@ -5,10 +5,11 @@
  * @returns A function that takes the previous cell array and returns an updated array
  */
 export const updateCellWithLetter =
-  (index: number, letter: string) => (prev: Cell[]) => {
+  (index: number, letter: string) => (prev: string[]) => {
     // Create a shallow copy to avoid mutating the original array
     const updated = [...prev];
-    // Update the cell at the specified index with the new letter and reset color to white
-    updated[index] = { letter, color: 'white' };
+    console.log(`Updating cell at index ${index} with letter '${letter}'`);
+    // Update the cell at the specified index with the new letter
+    updated[index] = letter;
     return updated;
   };

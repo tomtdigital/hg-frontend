@@ -1,36 +1,36 @@
 /**
  * Extracts all down words from a crossword grid.
- * @param grid - Array of cells representing the crossword grid
+ * @param grid - Array of string representing the crossword grid (letters or empty strings for blank cells)
  * @param size - The width/height of the square grid
  * @returns Array of objects containing word indices and the word string
  */
-export function getDownWordsFromGrid(grid: Cell[], size: number): GridWord[] {
+export function getDownWordsFromGrid(grid: string[], size: number): GridWord[] {
   const words = [];
 
   // Iterate through each cell in the grid
   for (let i = 0; i < grid.length; i++) {
     const row = Math.floor(i / size);
     const col = i % size;
-    const cell = grid[i];
+    const cellValue = grid[i];
 
-    // Skip black cells
-    if (cell.color === 'black') continue;
+    // Skip empty cells
+    if (!cellValue) continue;
 
-    // Check if this cell starts a down word (black above, white below)
-    const aboveIsBlack = row === 0 || grid[i - size].color === 'black';
-    const belowIsWhite = row < size - 1 && grid[i + size].color === 'white';
+    // Check if this cell starts a down word (no letter above, has letter below)
+    const aboveHasNoLetter = row === 0 || !grid[i - size];
+    const belowHasLetter = row < size - 1 && !!grid[i + size];
 
-    if (aboveIsBlack && belowIsWhite) {
+    if (aboveHasNoLetter && belowHasLetter) {
       // Collect all indices for this word
       const indices = [i];
       let j = i + size;
-      while (j < grid.length && grid[j].color === 'white') {
+      while (j < grid.length && grid[j]) {
         indices.push(j);
         j += size;
       }
 
       // Extract letters and build the word string
-      const word = indices.map((idx) => grid[idx].letter ?? '').join('');
+      const word = indices.map((idx) => grid[idx] ?? '').join('');
       if (word.length > 1) words.push({ indices, word });
     }
   }
