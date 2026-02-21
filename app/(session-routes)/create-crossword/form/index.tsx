@@ -13,8 +13,8 @@ import { updateCellWithLetter } from './utils/update-cell-with-letter';
 type FormData = {
   gridSize: number;
   colorScheme: ColorScheme;
-  across: string[];
-  down: string[];
+  across: GridWord[];
+  down: GridWord[];
 };
 
 type GridValidation = {
@@ -50,20 +50,15 @@ export default function CreateCrosswordForm() {
   );
   const [cluesUnlocked, setCluesUnlocked] = useState(false);
   const [unlockCluesHelperText, setUnlockCluesHelperText] = useState('');
-  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
-    defaultValues: {
-      gridSize: 3,
-      colorScheme: {
-        empty: '#000',
-        filled: '#72e1f2',
-        filledText: '#000000',
-        selected: '#bfff00',
-        selectedText: '#f800c2',
+  const { register, handleSubmit, watch, getValues, setValue } =
+    useForm<FormData>({
+      defaultValues: {
+        gridSize: defaultGridSize,
+        colorScheme: defaultColorScheme,
+        across: [],
+        down: [],
       },
-      across: [],
-      down: [],
-    },
-  });
+    });
 
   const workingGridSize = watch('gridSize');
   const workingGridArea = workingGridSize * workingGridSize;
@@ -126,32 +121,18 @@ export default function CreateCrosswordForm() {
       setUnlockCluesHelperText(message || 'Invalid grid.');
       return;
     }
-    setValue(
-      'across',
-      acrossValues.map((word) => word.word)
-    );
-    setValue(
-      'down',
-      downValues.map((word) => word.word)
-    );
+    setValue('across', acrossValues);
+    setValue('down', downValues);
     setCluesUnlocked(true);
   };
 
   const onSubmit = (data: FormData) => {
-    const acrossValues = getAcrossWordsFromGrid(gridValues, data.gridSize);
-    const downValues = getDownWordsFromGrid(gridValues, data.gridSize);
     const finalValues: CrosswordData = {
       gridSize: data.gridSize,
       colorScheme: data.colorScheme,
       gridData: {
-        across: acrossValues.map((wordObj, index) => ({
-          ...wordObj,
-          clue: data.across[index],
-        })),
-        down: downValues.map((wordObj, index) => ({
-          ...wordObj,
-          clue: data.down[index],
-        })),
+        across: data.across,
+        down: data.down,
       },
     };
 
@@ -277,12 +258,12 @@ export default function CreateCrosswordForm() {
                 <div className='space-y-4'>
                   {workingAcross.map((word, index) => (
                     <div key={index} className='flex items-center space-x-4'>
-                      <label className='w-12 text-right'>{word}</label>
+                      <label className='w-12 text-right'>{word.word}</label>
                       <input
                         type='text'
-                        {...register(`across.${index}`)}
+                        {...register(`across.${index}.clue`)}
                         className='flex-1 rounded-md border border-gray-300 p-2 shadow-sm'
-                        placeholder={`clue for ${word}`}
+                        placeholder={`clue for ${word.word}`}
                       />
                     </div>
                   ))}
@@ -293,12 +274,12 @@ export default function CreateCrosswordForm() {
                 <div className='space-y-4'>
                   {workingDown.map((word, index) => (
                     <div key={index} className='flex items-center space-x-4'>
-                      <label className='w-12 text-right'>{word}</label>
+                      <label className='w-12 text-right'>{word.word}</label>
                       <input
                         type='text'
-                        {...register(`down.${index}`)}
+                        {...register(`down.${index}.clue`)}
                         className='flex-1 rounded-md border border-gray-300 p-2 shadow-sm'
-                        placeholder={`clue for ${word}`}
+                        placeholder={`clue for ${word.word}`}
                       />
                     </div>
                   ))}
@@ -325,6 +306,7 @@ export default function CreateCrosswordForm() {
               </p>
             </>
           )}
+          <pre>{JSON.stringify(getValues(), null, 2)}</pre>
         </div>
       </form>
     </>
