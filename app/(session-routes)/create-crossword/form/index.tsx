@@ -46,7 +46,7 @@ export default function CreateCrosswordForm() {
     selectedText: '#f800c2',
   };
   const [gridValues, setGridValues] = useState<string[]>(
-    calculateGridValues(defaultGridSize, defaultColorScheme.empty)
+    calculateGridValues(defaultGridSize)
   );
   const [cluesUnlocked, setCluesUnlocked] = useState(false);
   const [unlockCluesHelperText, setUnlockCluesHelperText] = useState('');
@@ -73,9 +73,7 @@ export default function CreateCrosswordForm() {
       workingGridArea !== gridValues.length ||
       workingGridArea !== gridRefs.current.length
     ) {
-      setGridValues(
-        calculateGridValues(workingGridSize, workingColorScheme.empty)
-      );
+      setGridValues(calculateGridValues(workingGridSize));
       gridRefs.current = Array.from({ length: workingGridArea }, () =>
         createRef<HTMLDivElement>()
       );
