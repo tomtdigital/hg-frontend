@@ -249,7 +249,7 @@ export default function CreateCrosswordForm() {
                         <input
                           type='text'
                           {...register(`across.${index}.clue`)}
-                          className='rounded-md border border-gray-300 p-2 shadow-sm'
+                          className='rounded-md border border-gray-300 p-2 text-black shadow-sm'
                           placeholder={`clue for ${word.word}`}
                           required
                         />
@@ -266,7 +266,7 @@ export default function CreateCrosswordForm() {
                         <input
                           type='text'
                           {...register(`down.${index}.clue`)}
-                          className='rounded-md border border-gray-300 p-2 shadow-sm'
+                          className='rounded-md border border-gray-300 p-2 text-black shadow-sm'
                           placeholder={`clue for ${word.word}`}
                           required
                         />
