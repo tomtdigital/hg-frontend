@@ -13,7 +13,7 @@ export default function GridPlanner({
   gridRefs: MutableRefObject<React.RefObject<HTMLDivElement>[]>;
   gridValues: string[];
   colorScheme: ColorScheme;
-  handleChange: (index: number, e: KeyboardEvent<HTMLDivElement>) => void;
+  handleChange: (e: KeyboardEvent<HTMLDivElement>, index: number) => void;
 }) {
   return (
     <>
@@ -44,7 +44,7 @@ export default function GridPlanner({
               key={i}
               ref={gridRefs?.current[i]}
               tabIndex={0}
-              onKeyDown={(e) => handleChange(i, e)}
+              onKeyDown={(e) => handleChange(e, i)}
               onClick={() => gridRefs?.current[i]?.current?.focus()}
               className={finalClass}
               style={

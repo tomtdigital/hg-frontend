@@ -1,15 +1,21 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
-import { setCrosswordFormData } from '@/app/redux/slices/create-crossword-slice';
+import {
+  resetCrosswordGridData,
+  updateCrosswordData,
+  updateGridValues,
+} from '@/app/redux/slices/create-crossword-slice';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGridPlannerState } from '../hooks/use-grid-planner-state';
 import { useGridValidation } from '../hooks/use-grid-validation';
+import { generateEmptyGrid } from '../utils/generate-empty-grid';
 import { getAcrossWordsFromGrid } from '../utils/get-across-words-from-grid';
 import { getDownWordsFromGrid } from '../utils/get-down-words-from-grid';
 import GridPlanner from './grid-planner';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { resetGridRefs } from '../utils/reset-grid-refs';
 
 type FormData = {
   gridSize: number;
@@ -19,26 +25,26 @@ type FormData = {
 };
 
 export default function CreateCrosswordForm() {
-  const { crosswordFormData } = useAppSelector(
-    (state) => state.createCrossword
-  );
+  const { crosswordData } = useAppSelector((state) => state.createCrossword);
   const dispatch = useAppDispatch();
   const router = useRouter();
   // Form values derived from the Redux store
-  const savedGridSize = crosswordFormData?.gridSize;
-  const savedColorScheme = crosswordFormData?.colorScheme;
-  const savedGridData = crosswordFormData?.gridData;
+  const savedGridSize = crosswordData?.gridSize;
+  const savedColorScheme = crosswordData?.colorScheme;
+  const savedGridData = crosswordData?.gridData;
+  const isPopulatedGrid = !!(
+    savedGridData?.across?.length && savedGridData?.down?.length
+  );
 
   // Initialise the form with default values from the store
-  const { register, handleSubmit, watch, getValues, setValue } =
-    useForm<FormData>({
-      defaultValues: {
-        gridSize: savedGridSize,
-        colorScheme: savedColorScheme,
-        across: savedGridData?.across || [],
-        down: savedGridData?.down || [],
-      },
-    });
+  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
+    defaultValues: {
+      gridSize: savedGridSize,
+      colorScheme: savedColorScheme,
+      across: savedGridData?.across || [],
+      down: savedGridData?.down || [],
+    },
+  });
 
   // Active form values, watched for changes
   const currentGridSize = watch('gridSize');
@@ -47,13 +53,37 @@ export default function CreateCrosswordForm() {
   const currentDownWords = watch('down');
 
   // Grid planner state management
-  const { gridValues, gridRefs, handleCellKeyPress } =
+  const { gridValues, setGridValues, gridRefs, handleCellKeyPress } =
     useGridPlannerState(currentGridSize);
 
   // Grid planner validation management
   const { gridErrorMessage, validateGrid } = useGridValidation(currentGridSize);
 
-  const [cluesUnlocked, setCluesUnlocked] = useState(false);
+  // Show/hide clue inputs based on whether the grid has valid words
+  const [cluesUnlocked, setCluesUnlocked] = useState<boolean>(isPopulatedGrid);
+
+  // Handle changes to the grid size input - this will reset the grid values and lock clues until the new grid is validated
+  const handleGridSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCluesUnlocked(false); // Lock clues until grid is revalidated
+    const newSize = +e.target.value;
+    setValue('gridSize', newSize); // Update form state with new grid size
+    const workingGridArea = newSize * newSize;
+    if (
+      workingGridArea !== gridValues.length ||
+      workingGridArea !== gridRefs.current.length
+    ) {
+      setGridValues(generateEmptyGrid(workingGridArea));
+      gridRefs.current = resetGridRefs(newSize);
+    }
+  };
+
+  // Handle cell changes in the grid planner
+  const handleGridChange = (
+    e: React.KeyboardEvent<HTMLDivElement>,
+    index: number
+  ) => {
+    handleCellKeyPress(e, index, setCluesUnlocked);
+  };
 
   // Grid planner processor - used to validate the grid and unlock clue inputs on success
   const processGrid = () => {
@@ -61,8 +91,15 @@ export default function CreateCrosswordForm() {
     const downWords = getDownWordsFromGrid(gridValues, currentGridSize);
     const isValid = validateGrid(acrossWords, downWords);
     if (isValid) {
-      setValue('across', acrossWords);
-      setValue('down', downWords);
+      setValue(
+        'across',
+        acrossWords.map((word) => ({ ...word, clue: '' }))
+      );
+      setValue(
+        'down',
+        downWords.map((word) => ({ ...word, clue: '' }))
+      );
+      dispatch(resetCrosswordGridData()); // Only reset store values if valid
       setCluesUnlocked(true);
     }
   };
@@ -76,8 +113,8 @@ export default function CreateCrosswordForm() {
         down: data.down,
       },
     };
-
-    dispatch(setCrosswordFormData(crosswordData));
+    dispatch(updateGridValues(gridValues));
+    dispatch(updateCrosswordData(crosswordData));
     router.push('/crossword-preview');
   };
 
@@ -101,6 +138,7 @@ export default function CreateCrosswordForm() {
               min: 3,
               max: 15,
             })}
+            onChange={handleGridSizeChange}
             className='mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm'
           />
         </div>
@@ -184,7 +222,7 @@ export default function CreateCrosswordForm() {
             gridRefs={gridRefs}
             gridValues={gridValues}
             colorScheme={currentColorScheme}
-            handleChange={handleCellKeyPress}
+            handleChange={handleGridChange}
           />
         </div>
         <div className='mt-4'>
@@ -205,6 +243,7 @@ export default function CreateCrosswordForm() {
                           {...register(`across.${index}.clue`)}
                           className='flex-1 rounded-md border border-gray-300 p-2 shadow-sm'
                           placeholder={`clue for ${word.word}`}
+                          required
                         />
                       </div>
                     ))}
@@ -221,6 +260,7 @@ export default function CreateCrosswordForm() {
                           {...register(`down.${index}.clue`)}
                           className='flex-1 rounded-md border border-gray-300 p-2 shadow-sm'
                           placeholder={`clue for ${word.word}`}
+                          required
                         />
                       </div>
                     ))}

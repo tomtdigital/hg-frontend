@@ -5,8 +5,7 @@
  * @param gridSize
  * @returns
  */
-export const generateEmptyGrid = (gridSize: number): string[] => {
-  const gridArea = gridSize * gridSize;
+export const generateEmptyGrid = (gridArea: number): string[] => {
   const newGrid: string[] = Array.from({ length: gridArea }, () => '');
   return newGrid;
 };

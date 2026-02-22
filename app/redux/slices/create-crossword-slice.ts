@@ -6,14 +6,14 @@ export type Key = {
 
 export type CreateCrosswordState = {
   step: number;
-  gridValues?: string[]; // used in the GridPlanner component to store individual letters. It's later processed to create the gridData for the crossword.
-  crosswordFormData: CrosswordData; // used to store the final crossword data structure, which includes colorScheme, gridSize and gridData. The latter includes word, indices and clue.
+  gridValues?: string[];
+  crosswordData: CrosswordData;
 };
 
 const initialState: CreateCrosswordState = {
   step: 0,
   gridValues: undefined,
-  crosswordFormData: {
+  crosswordData: {
     gridSize: 3,
     colorScheme: {
       empty: '#000',
@@ -33,19 +33,26 @@ const createCrossWordSlice = createSlice({
   name: 'create-crossword',
   initialState,
   reducers: {
-    setStep(state, action: PayloadAction<number>) {
+    updateStep(state, action: PayloadAction<number>) {
       state.step = action.payload;
     },
-    setGridValues(state, action: PayloadAction<string[]>) {
+    updateGridValues(state, action: PayloadAction<string[]>) {
       state.gridValues = action.payload;
     },
-    setCrosswordFormData(state, action: PayloadAction<CrosswordData>) {
-      console.log('Setting crossword form data:', action.payload);
-      state.crosswordFormData = action.payload;
+    updateCrosswordData(state, action: PayloadAction<CrosswordData>) {
+      state.crosswordData = action.payload;
+    },
+    resetCrosswordGridData(state) {
+      state.crosswordData.gridData.across = [];
+      state.crosswordData.gridData.down = [];
     },
   },
 });
 
-export const { setStep, setGridValues, setCrosswordFormData } =
-  createCrossWordSlice.actions;
+export const {
+  updateStep,
+  updateGridValues,
+  updateCrosswordData,
+  resetCrosswordGridData,
+} = createCrossWordSlice.actions;
 export default createCrossWordSlice.reducer;

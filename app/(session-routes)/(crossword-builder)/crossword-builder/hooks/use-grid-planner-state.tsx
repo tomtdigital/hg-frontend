@@ -1,32 +1,29 @@
+import { useAppSelector } from '@/app/redux/hooks';
 import { createRef, useEffect, useRef, useState } from 'react';
-import { generateEmptyGrid } from '../utils/generate-empty-grid';
 import { clearCell } from '../utils/clear-cell';
-import { updateCellWithLetter } from '../utils/update-cell-with-letter';
+import { generateEmptyGrid } from '../utils/generate-empty-grid';
 import { getNextIndex } from '../utils/get-next-index';
+import { updateCellWithLetter } from '../utils/update-cell-with-letter';
+import { resetGridRefs } from '../utils/reset-grid-refs';
 
 export function useGridPlannerState(gridSize: number) {
-  const [gridValues, setGridValues] = useState<string[]>(
-    generateEmptyGrid(gridSize)
+  const gridArea = gridSize * gridSize;
+  const emptyGrid = generateEmptyGrid(gridArea);
+  const storeGridValues = useAppSelector(
+    (state) => state.createCrossword.gridValues
   );
-  const gridRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
-  const workingGridArea = gridSize * gridSize;
+  const initialValues =
+    storeGridValues && storeGridValues.length ? storeGridValues : emptyGrid;
+  const [gridValues, setGridValues] = useState<string[]>(initialValues);
 
-  // Initialize/recalculate refs and grid when size changes
-  useEffect(() => {
-    if (
-      workingGridArea !== gridValues.length ||
-      workingGridArea !== gridRefs.current.length
-    ) {
-      setGridValues(generateEmptyGrid(gridSize));
-      gridRefs.current = Array.from({ length: workingGridArea }, () =>
-        createRef<HTMLDivElement>()
-      );
-    }
-  }, [gridSize, workingGridArea]);
+  const gridRefs = useRef<React.RefObject<HTMLDivElement>[]>(
+    resetGridRefs(gridArea)
+  );
 
   const handleCellKeyPress = (
+    e: React.KeyboardEvent<HTMLDivElement>,
     index: number,
-    e: React.KeyboardEvent<HTMLDivElement>
+    unlockClues: (unlocked: boolean) => void
   ) => {
     if (e.key === 'Tab') return;
     e.preventDefault();
@@ -34,6 +31,7 @@ export function useGridPlannerState(gridSize: number) {
 
     if (/^[A-Z]$/.test(key)) {
       setGridValues(updateCellWithLetter(index, key));
+      unlockClues(false);
       return;
     }
 
@@ -50,6 +48,8 @@ export function useGridPlannerState(gridSize: number) {
 
   return {
     gridValues,
+    setGridValues,
+    resetGridRefs,
     gridRefs,
     handleCellKeyPress,
   };
