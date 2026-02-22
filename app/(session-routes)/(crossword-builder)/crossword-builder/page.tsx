@@ -1,5 +1,5 @@
-import CreateCrosswordForm from './components/crossword-builder-form';
+import CrosswordBuilderForm from './components/crossword-builder-form';
 
-export default async function CreateCrossword() {
-  return <CreateCrosswordForm />;
+export default async function CrosswordBuilderPage() {
+  return <CrosswordBuilderForm />;
 }

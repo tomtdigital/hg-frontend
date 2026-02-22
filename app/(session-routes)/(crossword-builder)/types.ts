@@ -1,4 +1,9 @@
-type GridWord = { indices: number[]; word: string; clue?: string };
+type GridWord = {
+  indices: number[];
+  word: string;
+  clue?: string;
+  clueNumber: number;
+};
 
 type CrossWordGridData = {
   across: GridWord[];

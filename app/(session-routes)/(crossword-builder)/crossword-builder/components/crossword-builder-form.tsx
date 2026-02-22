@@ -66,15 +66,16 @@ export default function CreateCrosswordForm() {
   const handleGridSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCluesUnlocked(false); // Lock clues until grid is revalidated
     const newSize = +e.target.value;
-    setValue('gridSize', newSize); // Update form state with new grid size
-    const workingGridArea = newSize * newSize;
+    const newGridArea = newSize * newSize;
+    //  if the grid area has changed, reset the grid values and refs
     if (
-      workingGridArea !== gridValues.length ||
-      workingGridArea !== gridRefs.current.length
+      newGridArea !== gridValues.length ||
+      newGridArea !== gridRefs.current.length
     ) {
-      setGridValues(generateEmptyGrid(workingGridArea));
-      gridRefs.current = resetGridRefs(newSize);
+      setGridValues(generateEmptyGrid(newGridArea));
+      gridRefs.current = resetGridRefs(newGridArea);
     }
+    setValue('gridSize', newSize); // Update form state with new grid size
   };
 
   // Handle cell changes in the grid planner
@@ -87,8 +88,15 @@ export default function CreateCrosswordForm() {
 
   // Grid planner processor - used to validate the grid and unlock clue inputs on success
   const processGrid = () => {
-    const acrossWords = getAcrossWordsFromGrid(gridValues, currentGridSize);
-    const downWords = getDownWordsFromGrid(gridValues, currentGridSize);
+    const { acrossWords, acrossStartingCells } = getAcrossWordsFromGrid(
+      gridValues,
+      currentGridSize
+    );
+    const downWords = getDownWordsFromGrid(
+      gridValues,
+      currentGridSize,
+      acrossStartingCells
+    );
     const isValid = validateGrid(acrossWords, downWords);
     if (isValid) {
       setValue(
@@ -231,17 +239,17 @@ export default function CreateCrosswordForm() {
               <h2 className='my-4 text-2xl font-bold text-white'>
                 Crossword Clues
               </h2>
-              <div className='mb-6'>
+              <div className='mb-6 text-white'>
                 <div>
                   <h2 className='mb-4 text-lg font-medium'>Across</h2>
                   <div className='mb-4 space-y-4'>
                     {currentAcrossWords.map((word, index) => (
-                      <div key={index} className='flex items-center space-x-4'>
-                        <label className='w-12 text-right'>{word.word}</label>
+                      <div key={index} className='flex flex-col space-y-2'>
+                        <label className='text-left'>{`${word.clueNumber}. ${word.word}`}</label>
                         <input
                           type='text'
                           {...register(`across.${index}.clue`)}
-                          className='flex-1 rounded-md border border-gray-300 p-2 shadow-sm'
+                          className='rounded-md border border-gray-300 p-2 shadow-sm'
                           placeholder={`clue for ${word.word}`}
                           required
                         />
@@ -253,12 +261,12 @@ export default function CreateCrosswordForm() {
                   <h2 className='mb-4 text-lg font-medium'>Down</h2>
                   <div className='mb-4 space-y-4'>
                     {currentDownWords.map((word, index) => (
-                      <div key={index} className='flex items-center space-x-4'>
-                        <label className='w-12 text-right'>{word.word}</label>
+                      <div key={index} className='flex flex-col space-y-2'>
+                        <label className='text-left'>{`${word.clueNumber}. ${word.word}`}</label>
                         <input
                           type='text'
                           {...register(`down.${index}.clue`)}
-                          className='flex-1 rounded-md border border-gray-300 p-2 shadow-sm'
+                          className='rounded-md border border-gray-300 p-2 shadow-sm'
                           placeholder={`clue for ${word.word}`}
                           required
                         />
@@ -269,7 +277,7 @@ export default function CreateCrosswordForm() {
               </div>
               <button
                 type='submit'
-                className='mt-4 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700'
+                className='mt-4 rounded-md border border-white bg-[#000] px-4 py-2 text-white hover:bg-gray-800'
               >
                 Submit Crossword
               </button>
@@ -278,7 +286,7 @@ export default function CreateCrosswordForm() {
             <>
               <button
                 type='button'
-                className='rounded-md bg-blue-600 px-4 py-2 text-white'
+                className='rounded-md border border-white bg-[#000] px-4 py-2 text-white hover:bg-gray-800'
                 onClick={processGrid}
               >
                 Calculate Clues
