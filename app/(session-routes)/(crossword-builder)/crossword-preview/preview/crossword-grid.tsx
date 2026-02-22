@@ -18,6 +18,9 @@ export default function CrosswordGrid({
   const [toggledWord, setToggledWord] = useState<GridWord | null>(null);
   const [toggledCell, setToggledCell] = useState<number | null>(null);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
+  const [currentDirection, setCurrentDirection] = useState<'across' | 'down'>(
+    'across'
+  );
   const lastClickedCellRef = useRef<number | null>(null);
   const gridCellsRef = useRef<Map<number, HTMLDivElement>>(new Map());
   const completedRef = useRef(false);
@@ -28,6 +31,7 @@ export default function CrosswordGrid({
       const firstWord = gridData.across[0];
       setToggledWord(firstWord);
       setToggledCell(firstWord.indices[0]);
+      setCurrentDirection('across');
     }
   }, [gridData]);
 
@@ -91,6 +95,10 @@ export default function CrosswordGrid({
     // If only one word, set it
     if (possibleWords.length === 1) {
       setToggledWord(possibleWords[0]);
+      const isAcross = gridData.across.some(
+        (word) => word.clueNumber === possibleWords[0].clueNumber
+      );
+      setCurrentDirection(isAcross ? 'across' : 'down');
       lastClickedCellRef.current = cell;
       return;
     }
@@ -106,8 +114,17 @@ export default function CrosswordGrid({
         currentWordIndex === possibleWords.length - 1
       ) {
         setToggledWord(possibleWords[0]);
+        const isAcross = gridData.across.some(
+          (word) => word.clueNumber === possibleWords[0].clueNumber
+        );
+        setCurrentDirection(isAcross ? 'across' : 'down');
       } else {
         setToggledWord(possibleWords[currentWordIndex + 1]);
+        const isAcross = gridData.across.some(
+          (word) =>
+            word.clueNumber === possibleWords[currentWordIndex + 1].clueNumber
+        );
+        setCurrentDirection(isAcross ? 'across' : 'down');
       }
     } else {
       // New cell clicked
@@ -117,6 +134,10 @@ export default function CrosswordGrid({
         )
       ) {
         setToggledWord(possibleWords[0]);
+        const isAcross = gridData.across.some(
+          (word) => word.clueNumber === possibleWords[0].clueNumber
+        );
+        setCurrentDirection(isAcross ? 'across' : 'down');
       }
     }
 
@@ -174,25 +195,43 @@ export default function CrosswordGrid({
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       e.preventDefault();
 
-      // Find current word in ordered list
-      const currentWordIndex = orderedWords.findIndex(
+      const relevantWords =
+        currentDirection === 'across' ? gridData.across : gridData.down;
+
+      // Find current word in relevant list
+      const currentWordIndex = relevantWords.findIndex(
         (word) => word.clueNumber === toggledWord?.clueNumber
       );
 
-      let nextWordIndex;
+      let nextWord;
       if (e.key === 'ArrowLeft') {
-        nextWordIndex =
-          currentWordIndex === 0
-            ? orderedWords.length - 1
-            : currentWordIndex - 1;
+        if (currentWordIndex === 0) {
+          // Switch to other direction at end
+          const otherDirection =
+            currentDirection === 'across' ? gridData.down : gridData.across;
+          if (otherDirection.length === 0) return;
+          nextWord = otherDirection[otherDirection.length - 1];
+          setCurrentDirection(
+            currentDirection === 'across' ? 'down' : 'across'
+          );
+        } else {
+          nextWord = relevantWords[currentWordIndex - 1];
+        }
       } else {
-        nextWordIndex =
-          currentWordIndex === orderedWords.length - 1
-            ? 0
-            : currentWordIndex + 1;
+        if (currentWordIndex === relevantWords.length - 1) {
+          // Switch to other direction at end
+          const otherDirection =
+            currentDirection === 'across' ? gridData.down : gridData.across;
+          if (otherDirection.length === 0) return;
+          nextWord = otherDirection[0];
+          setCurrentDirection(
+            currentDirection === 'across' ? 'down' : 'across'
+          );
+        } else {
+          nextWord = relevantWords[currentWordIndex + 1];
+        }
       }
 
-      const nextWord = orderedWords[nextWordIndex];
       setToggledWord(nextWord);
       setToggledCell(nextWord.indices[0]);
       lastClickedCellRef.current = nextWord.indices[0];
@@ -244,22 +283,36 @@ export default function CrosswordGrid({
 
     if (!isWordComplete) return;
 
-    // Find current word index in ordered words
-    const currentWordIndex = orderedWords.findIndex(
+    const relevantWords =
+      currentDirection === 'across' ? gridData.across : gridData.down;
+
+    // Find current word index in relevant direction
+    const currentWordIndex = relevantWords.findIndex(
       (word) => word.clueNumber === toggledWord.clueNumber
     );
 
     if (currentWordIndex === -1) return;
 
-    // Move to next word
-    const nextWordIndex =
-      currentWordIndex === orderedWords.length - 1 ? 0 : currentWordIndex + 1;
+    let nextWord;
+    let nextDirection: 'across' | 'down' = currentDirection;
 
-    const nextWord = orderedWords[nextWordIndex];
+    if (currentWordIndex === relevantWords.length - 1) {
+      // Switch to other direction
+      const otherDirection =
+        currentDirection === 'across' ? gridData.down : gridData.across;
+      if (otherDirection.length === 0) return;
+      nextWord = otherDirection[0];
+      nextDirection = currentDirection === 'across' ? 'down' : 'across';
+    } else {
+      // Move to next word in same direction
+      nextWord = relevantWords[currentWordIndex + 1];
+    }
+
+    setCurrentDirection(nextDirection);
     setToggledWord(nextWord);
     setToggledCell(nextWord.indices[0]);
     lastClickedCellRef.current = nextWord.indices[0];
-  }, [userAnswers, toggledWord, orderedWords, cellAnswers]);
+  }, [userAnswers, currentDirection, gridData, cellAnswers, toggledWord]);
 
   // ...existing code...
 
