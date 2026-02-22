@@ -390,14 +390,28 @@ export default function CrosswordGrid({
         <div>
           <h3 className='mb-4 text-lg font-bold'>Across</h3>
           <div className='space-y-3'>
-            {gridData.across.map((word) => (
-              <div key={word.clueNumber}>
-                <p className='text-sm'>
-                  <span className='font-bold'>{word.clueNumber}.</span>{' '}
-                  {word.clue}
-                </p>
-              </div>
-            ))}
+            {gridData.across.map((word) => {
+              const isSelected =
+                toggledWord?.clueNumber === word.clueNumber &&
+                currentDirection === 'across';
+              return (
+                <div
+                  key={word.clueNumber}
+                  style={{
+                    backgroundColor: isSelected
+                      ? colorScheme.selected
+                      : undefined,
+                    color: isSelected ? colorScheme.selectedText : undefined,
+                    borderRadius: isSelected ? '0.375rem' : undefined,
+                  }}
+                >
+                  <p className='text-sm'>
+                    <span className='font-bold'>{word.clueNumber}.</span>{' '}
+                    {word.clue}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -406,7 +420,26 @@ export default function CrosswordGrid({
           <h3 className='mb-4 text-lg font-bold'>Down</h3>
           <div className='space-y-3'>
             {gridData.down.map((word) => (
-              <div key={word.clueNumber}>
+              <div
+                key={word.clueNumber}
+                style={{
+                  backgroundColor:
+                    toggledWord?.clueNumber === word.clueNumber &&
+                    currentDirection === 'down'
+                      ? colorScheme.selected
+                      : undefined,
+                  color:
+                    toggledWord?.clueNumber === word.clueNumber &&
+                    currentDirection === 'down'
+                      ? colorScheme.selectedText
+                      : undefined,
+                  borderRadius:
+                    toggledWord?.clueNumber === word.clueNumber &&
+                    currentDirection === 'down'
+                      ? '0.375rem'
+                      : undefined,
+                }}
+              >
                 <p className='text-sm'>
                   <span className='font-bold'>{word.clueNumber}.</span>{' '}
                   {word.clue}
