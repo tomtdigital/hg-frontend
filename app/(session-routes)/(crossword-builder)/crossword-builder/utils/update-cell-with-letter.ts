@@ -8,7 +8,6 @@ export const updateCellWithLetter =
   (index: number, letter: string) => (prev: string[]) => {
     // Create a shallow copy to avoid mutating the original array
     const updated = [...prev];
-    console.log(`Updating cell at index ${index} with letter '${letter}'`);
     // Update the cell at the specified index with the new letter
     updated[index] = letter;
     return updated;
